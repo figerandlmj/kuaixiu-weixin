@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>预约详情页</title>
+    <link rel="stylesheet" type="text/css" href="css/kuaixiu.css">
+</head>
+<body>
+    <div class="kx-container">
+    <!-- 头部 -->
+        <div class="kx-head">
+            <a href="order-free.html"><div class="kx-img go-back-img"></div><span class="go-back-font">返回</span></a>
+            <div class="kx-head-center-font">免费预约</div>
+            <!-- <div class="kx-head-right-font"><span class="kx-img collection-img"></span><span>收藏</span></div> -->
+        </div>
+    <!-- 头部结束 -->
+    <!-- 正文 -->
+        <div class="kx-body font-heiti padding-b-0 color-light-gray">
+            <div class="order-group bg-color-white">
+                <div class="order-list height-auto" >
+                    <span class="kx-img order-house"></span>
+                    <p class="margin-left-30 margin-top-5">格力家电维修服务中心(二店)</p>
+                </div>
+                <div class="horizontal-line"></div>
+                <div class="repair-wrap ">
+                    <div class="repair-font padding-15-1 complain-theme">
+                        <span>服务方式</span>
+                        <span class="position-ab right-30 complain-txt">到店服务</span>
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                    <div class="complain-theme-content">
+                        <ul>
+                            <li>到店服务</li>
+                            <li>在线服务</li>
+                        </ul>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1 complain-theme">
+                        <span>维修品牌</span>
+                        <span class="position-ab right-30 complain-txt">格力</span>
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                     <div class="complain-theme-content">
+                        <ul>
+                            <li>美的</li>
+                            <li>海尔</li>
+                            <li>美的</li>
+                            <li>海尔</li>
+                        </ul>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1 complain-theme">
+                        <span>维修产品</span>
+                        <span class="position-ab right-30 complain-txt">空调</span>
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                     <div class="complain-theme-content">
+                        <ul>
+                            <li>电视机</li>
+                            <li>电脑</li>
+                        </ul>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1 color-light-gray">
+                        <span>地址选择</span>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1">
+                        <div>
+                            <span>大海</span><span class="margin-left-30">18130301234</span>
+                            <p class="margin-top-10 font-color-light-gray">安徽省芜湖市弋江区</p>
+                            <p class="font-color-light-gray">安徽省芜湖市弋江区芜湖服务外包产业园4号楼20层</p>
+                        </div>
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                </div>
+                <div class="horizontal-line"></div>
+            </div>
+            <br>
+            <div class="assess-btn-wrap">
+                <button class="btn assess-btn">确认订单</button>
+            </div>
+            <br>
+            <br>
+        </div>
+    <!-- 正文结束-->
+    </div>
+    <div class="mask"></div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var flag=0;
+        $('.collection-img').click(function(){
+            flag++;
+            if(flag==1){
+                $('.collection-img').addClass('already-collected');
+                $('.collection-img').next().text("已收藏");
+            }
+            if(flag==2){
+                $('.collection-img').removeClass('already-collected');
+                $('.collection-img').next().text("收藏");
+                flag=0;
+            }
+        });
+        $('.complain-theme').click(function(){
+            $(this).next().fadeIn();
+            $('.mask').show();
+        });
+        $('.complain-theme-content li').click(function(){
+            var txt=$(this).text();
+            // $(".complain-txt").text(txt);
+            $(this).parent().parent().prev().find(".complain-txt").text(txt);
+            $('.complain-theme-content').fadeOut();
+            $('.mask').hide();
+        });
+
+    })
+</script>
+</html>

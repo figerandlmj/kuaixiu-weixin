@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>免费预约</title>
+	<link rel="stylesheet" type="text/css" href="css/kuaixiu.css">
+</head>
+<body>
+	<div class="kx-container">
+	<!-- 头部 -->
+		<div class="kx-head">
+			<a href="index.html"><div class="kx-img go-back-img"></div><span class="go-back-font">返回</span></a>
+			<div class="kx-head-right-font"><span class="kx-img collection-img"></span><span>收藏</span></div>
+		</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+		<div class="kx-body font-heiti color-light-gray padding-b-100">
+			<div class="order-group bg-color-white">
+    			<div class="order-list">
+    				<span class="head-portrait"></span>
+    				<span class="order-detail-wrap">
+    					<span class="kx-img order-house"></span>
+    					<p class="margin-left-30">格力冰箱特约维修服务中心</p>
+    					<p>店铺等级：<span class="color-orange">3级</span></p>
+    					<span>累计被预约756次</span>
+    				</span>	
+    			</div>
+    			<div class="horizontal-line"></div>
+    			<div class="repair-font">
+    				<span>营业时间：am 10:00 - pm 20:00</span>
+    			</div>
+    			<div class="gray-block"></div>
+    			<div class="repair-wrap">
+    				<div class="repair-font">
+    					<span>维修分类：冰箱 洗衣机 空调</span>
+    				</div>
+    				<div class="horizontal-line"></div>
+    				<div class="repair-font">
+    					<span>特约维修品牌：海尔 格力 LG 格力</span>
+    				</div>
+    			</div>
+    			<div class="gray-block"></div>
+    			<div class="repair-wrap">
+    				<div class="repair-font">
+    					<a href="assess-list.html"><span class="font-color-balck">相关评价(168)</span>
+    					<span class="shop-ratings">店铺评分:4.5</span>
+    					<span class="kx-img arrow-right pull-right"></span></a>
+    				</div>
+    				<div class="repair-font">
+    					<div class="rating-content mar-top-12">师傅速度很快，服务特别好，很给力</div>
+    					<span class="shop-ratings mar-top-12">2015/05/25</span>
+    				</div>
+    			</div>
+    			<div class="horizontal-line"></div>
+    		</div>
+    		<br>
+    		<div class="assess-btn-wrap">
+				<button class="btn assess-btn">免费预约</button>
+			</div>
+			<br>
+		</div>
+	<!-- 正文结束-->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var flag=0;
+		$('.collection-img').click(function(){
+			flag++;
+			if(flag==1){
+				$('.collection-img').addClass('already-collected');
+				$('.collection-img').next().text("已收藏");
+			}
+			if(flag==2){
+				$('.collection-img').removeClass('already-collected');
+				$('.collection-img').next().text("收藏");
+				flag=0;
+			}
+		});
+		$('.assess-btn').click(function(){
+			location.href="order-detail.html";
+		});
+	})
+</script>
+</html>

@@ -1,0 +1,43 @@
+* {
+	margin: 0;
+	padding: 0;
+
+	-webkit-font-smoothing: antialiased;
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+::selection {
+	background: #bfa57c;
+	color: #fff;
+}
+.banner {
+	position: relative;
+	width: 100%;
+	overflow: auto;
+	font-size: 18px;
+	line-height: 24px;
+	text-align: center;
+	color: rgba(255,255,255,.6);
+	text-shadow: 0 0 1px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.3);
+
+	background: #5b4d3d;
+	box-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+	.banner ul {
+		list-style: none;
+		width: 100%;
+	}
+	.banner ul li {
+		display: block;
+		float: left;
+		width: 100%;
+		min-height: 120px;
+		-o-background-size: 100% 100%;
+		-ms-background-size: 100% 100%;
+		-moz-background-size: 100% 100%;
+		-webkit-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>我的等级</title>
+	<link rel="stylesheet" type="text/css" href="css/kx-basic.css">
+</head>
+<body>
+	<div class="kx-container ">
+	<!-- 正文开始 -->
+		<div class="kx-body" style="min-height:340px">
+			<div class="level-show-wrap">
+				<div class="level-font">
+					<span>当前等级</span>
+					<span class="color-orange-red">7星</span>
+				</div>
+				<div class="star-wrap">
+					<ul class="star-show">
+						<li class="kx-img level-star"></li>
+						<li class="kx-img level-star"></li>
+						<li class="kx-img level-star"></li>
+						<li class="kx-img level-star"></li>
+						<li class="kx-img level-star"></li>
+						<li class="kx-img level-star"></li>
+						<li class="kx-img level-star"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="gray-block border-0"></div>
+			<div class="level-content">
+				<p>会员等级明细:</p>
+				<p>一星: 200元／年。会费分为一季度，60元。半年，105元。</p>
+				<p>二星：500元／年的。</p>
+				<p>三星：缴纳保证金800元／年。</p>
+				<p>四星：缴纳保证金1100元／年。</p>
+				<p>五星：缴纳保证金1400元／年。</p>
+				<p>六星：缴纳保证金1700元／年。</p>
+				<p>七星：缴纳保证金2000元／年。</p>
+			</div>
+
+		</div>
+	<!-- 正文结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var w=$('.star-show').width();
+		// console.log(w);
+		var width=w/2*(-1);
+		// console.log(width);
+		$(".star-show").css({"margin-left":width});
+	})
+</script>
+</html>

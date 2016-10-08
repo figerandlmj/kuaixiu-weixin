@@ -1,0 +1,186 @@
+#######################################################################
+
+zm_member_getPhoneSalt:
+    path:     /default/getPhoneSalt
+    defaults: { _controller: ZMMemberBundle:Default:getPhoneSalt }
+
+zm_member_getCityAjax:
+    path:     /default/getCityAjax/{id}
+    defaults: { _controller: ZMMemberBundle:Default:getCityAjax }
+
+zm_member_getDistrictAjax:
+    path:     /default/getDistrictAjax/{id}
+    defaults: { _controller: ZMMemberBundle:Default:getDistrictAjax }
+
+zm_member_getAddressAjax:
+    path:     /default/getAddressAjax
+    defaults: { _controller: ZMMemberBundle:Default:getAddressAjax }
+
+zm_member_getManufacturerAjax:
+    path:     /default/getManufacturerAjax
+    defaults: { _controller: ZMMemberBundle:Default:getManufacturerAjax }
+
+zm_member_setLocationAjax:
+    path:     /default/setLocationAjax
+    defaults: { _controller: ZMMemberBundle:Default:setLocationAjax }
+
+#######################################################################
+
+zm_member_login:
+    path:     /login
+    defaults: { _controller: ZMMemberBundle:Login:login }
+
+zm_member_login_salt:
+    path:     /loginSalt
+    defaults: { _controller: ZMMemberBundle:Login:loginSalt }
+
+zm_member_register_one:
+    path:     /register/one
+    defaults: { _controller: ZMMemberBundle:Login:registerOne }
+
+zm_member_register_two:
+    path:     /register/two
+    defaults: { _controller: ZMMemberBundle:Login:registerTwo }
+
+zm_member_forget_one:
+    path:     /forget/one
+    defaults: { _controller: ZMMemberBundle:Login:forgetOne }
+
+zm_member_forget_two:
+    path:     /forget/two
+    defaults: { _controller: ZMMemberBundle:Login:forgetTwo }
+
+zm_member_logout:
+    path:     /logout
+    defaults: { _controller: ZMMemberBundle:Login:logout }
+
+################################ 主页信息 ################################
+
+zm_member_index:
+    path:     /
+    defaults: { _controller: ZMMemberBundle:Index:index }
+
+zm_member_index_personal:
+    path:     /personal
+    defaults: { _controller: ZMMemberBundle:Index:personal }
+
+zm_member_index_star:
+    path:     /star
+    defaults: { _controller: ZMMemberBundle:Index:star }
+
+zm_member_index_search:
+    path:     /search
+    defaults: { _controller: ZMMemberBundle:Index:search }
+
+################################ 商铺信息 ################################
+
+zm_member_store_info:
+    path:     /store/info/{id}
+    defaults: { _controller: ZMMemberBundle:Store:info }
+
+zm_member_store_review:
+    path:     /store/review/{store_id}
+    defaults: { _controller: ZMMemberBundle:Store:review }
+
+################################ 收藏信息 ################################
+
+zm_member_favorites:
+    path:     /favorites
+    defaults: { _controller: ZMMemberBundle:Favorites:index }
+
+zm_member_favorites_actionajax:
+    path:     /favorites/actionAjax/{id}/{type}
+    defaults: { _controller: ZMMemberBundle:Favorites:actionAjax }
+
+################################ 用户信息 ################################
+
+zm_member_member:
+    path:     /member
+    defaults: { _controller: ZMMemberBundle:Member:index }
+
+zm_member_member_info:
+    path:     /member/info
+    defaults: { _controller: ZMMemberBundle:Member:info }
+
+zm_member_member_points:
+    path:     /member/points
+    defaults: { _controller: ZMMemberBundle:Member:points }
+
+zm_member_member_password:
+    path:     /member/password
+    defaults: { _controller: ZMMemberBundle:Member:password }
+
+################################ 地址信息 ################################
+
+zm_member_address:
+    path:     /address
+    defaults: { _controller: ZMMemberBundle:Address:index }
+
+zm_member_address_info:
+    path:     /address/info/{id}
+    defaults: { _controller: ZMMemberBundle:Address:info }
+
+################################ 维修记录 ################################
+
+zm_member_maintenance:
+    path:     /maintenance
+    defaults: { _controller: ZMMemberBundle:Maintenance:index }
+
+################################ 订单信息 ################################
+## 订单列表
+zm_member_order:
+    path:     /order/{status}
+    defaults: { _controller: ZMMemberBundle:Order:index }
+
+## 下单
+zm_member_order_action:
+    path:     /order/action/{store_id}
+    defaults: { _controller: ZMMemberBundle:Order:action }
+
+## 评价
+zm_member_order_review:
+    path:     /order/review/{id}
+    defaults: { _controller: ZMMemberBundle:Order:review }
+
+## 晒单
+zm_member_order_show:
+    path:     /order/show/{review_id}
+    defaults: { _controller: ZMMemberBundle:Order:show }
+
+## 取消
+zm_member_order_cancel:
+    path:     /order/cancel/{id}
+    defaults: { _controller: ZMMemberBundle:Order:cancel }
+
+## 确认
+zm_member_order_complete:
+    path:     /order/complete/{id}
+    defaults: { _controller: ZMMemberBundle:Order:complete }
+
+################################ 投诉信息 ################################
+
+zm_member_complain:
+    path:     /complain
+    defaults: { _controller: ZMMemberBundle:Complain:index }
+
+zm_member_complain_action:
+    path:     /complain/action/{maintenance_id}
+    defaults: { _controller: ZMMemberBundle:Complain:action }
+
+################################ 咨询信息 ################################
+
+zm_member_consult:
+    path:     /consult
+    defaults: { _controller: ZMMemberBundle:Consult:index }
+
+zm_member_consult_info:
+    path:     /consult/info/{id}/{type}
+    defaults: { _controller: ZMMemberBundle:Consult:info }
+
+zm_member_consult_type:
+    path:     /consult/type
+    defaults: { _controller: ZMMemberBundle:Consult:type }
+
+zm_member_consult_delete_ajax:
+    path:     /consult/deleteAjax
+    defaults: { _controller: ZMMemberBundle:Consult:deleteAjax }

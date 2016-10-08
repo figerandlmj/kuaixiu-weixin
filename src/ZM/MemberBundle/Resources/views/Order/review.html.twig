@@ -1,0 +1,416 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-评价{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}   
+<div class="kx-container">
+	<form id="review-form" action="{{ path('zm_member_order_review',{'id':maintenance_info.maintenance_id}) }}" method="post" enctype="multipart/form-data">
+		<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">评价</div>
+		</div>
+		<!-- 头部结束 -->
+		<!-- 正文 -->
+		<div class="kx-body padding-bottom-20 over-flow">
+			<div class="assess-order-title-wrap">
+				<span class="assess-order-title">我的订单</span>
+			</div>
+			<div class="order-group">
+			<div class="horizontal-line"></div>
+				<div class="order-list">
+					<img src="{{ webIp }}image/store/{{ maintenance_info.image }}" class="head-portrait" />
+					<span class="order-detail-wrap" style="display:inline-block;">
+						<p>{{ maintenance_info.store_name }}</p>
+						<p>订单号：{{ maintenance_info.order_sn }}</p>
+						<span>维修品牌：{{ maintenance_info.manufacturer_name }}</span>&nbsp;&nbsp;<span>维修产品：{{ maintenance_info.appliance_name }}</span>
+					</span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="order-info">
+					<span class="pull-left">服务方式：{% if maintenance_info.fix_way == 0 %}上门服务{% elseif maintenance_info.fix_way == 1 %}到店维修{% endif %}</span>
+					<span class="pull-right">预约时间：{{ maintenance_info.date_added |date('Y-m-d') }}</span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="assess-star">
+					<div class="assess-list">
+						<span class="pull-left">维修速度：</span>
+						<div id="rating-star" class="com-stars-list pull-right rating-star">
+							<a href="javascript:;" >0</a>
+		 		 			<a href="javascript:;" >1</a>
+		 		 			<a href="javascript:;" >2</a>
+		 		 			<a href="javascript:;" >3</a>
+		 		 			<a href="javascript:;">4</a>
+		 		 			<input name="evaluation_velocity" value="" type="hidden" id="goodLevel1" />
+						</div>
+					</div>
+					<div class="assess-list">
+						<span class="pull-left">服务态度：</span>
+						<div id="rating-star2" class="com-stars-list pull-right rating-star">
+							<a href="javascript:;" >0</a>
+							<a href="javascript:;" >1</a>
+							<a href="javascript:;" >2</a>
+							<a href="javascript:;" >3</a>
+							<a href="javascript:;" >4</a>
+							<input name="evaluation_quality" value="" type="hidden" id="goodLevel2" />
+						</div>
+					</div>
+					<div class="assess-list">
+						<span class="pull-left">维修质量：</span>
+						<div id="rating-star3" class="com-stars-list pull-right rating-star">
+							<a href="javascript:;" >0</a>
+							<a href="javascript:;" >1</a>
+							<a href="javascript:;" >2</a>
+							<a href="javascript:;" >3</a>
+							<a href="javascript:;" >4</a>
+							<input name="evaluation_attitude" value="" type="hidden" id="goodLevel3" />
+						</div>
+					</div>
+					<div class="assess-list">
+						<span class="pull-left">服务价格：</span>
+						<div id="rating-star4" class="com-stars-list pull-right rating-star">
+							<a href="javascript:;" >0</a>
+							<a href="javascript:;" >1</a>
+							<a href="javascript:;" >2</a>
+							<a href="javascript:;" >3</a>
+							<a href="javascript:;" >4</a>
+							<input name="evaluation_price" value="" type="hidden" id="goodLevel4" />
+						</div>
+					</div>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="assess-order-title-wrap">
+					<span class="assess-order-title">相关评价</span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div id="assess-form" style="height:auto">
+					{% if review_info['content'] is empty %}<textarea class="assess-text" placeholder="请输入相关评价内容" name="content"></textarea>
+					{% else %}
+					<textarea class="assess-text" readonly="readonly">{{ review_info['content'] }}</textarea>
+					{% endif %}
+					<div style="margin-bottom:10px" class="comment-imgs-box">
+	 				{% if review_info['image'] is empty %}
+	 					<img id="comment-img1" src="" style="" alt="" title="" />
+	 				{% else %}
+		 				{% for img in review_info['image'] %}
+		 				<img src="{{ webIp }}image/member/order/{{ img }}" style="margin-left:10px;width:48px;height:48px" alt="" title="" />
+		 				{% endfor %}
+		 			{% endif %}					 				
+	 				</div>
+					<div class="upload-img">
+						<div class="horizontal"></div>
+						<div class="vertical"></div>
+					</div>
+					<input class="upload-img-file" id="file_input" type="file" name="image[]" value="" multiple="multiple"  accept="image/*" />
+					<span class="upload-img-font">手机晒图</span> 
+				</div> 
+				<div class="horizontal-line"></div>
+				{% if review_info.id == 0 %}
+				<div class="assess-btn-wrap">
+					<input type="button" class="btn assess-btn qping-assess-btn" value="我要评价" /> 
+				</div>
+				{% else %}
+				<div class="assess-btn-wrap">
+					<input type="button" class="btn assess-btn qshai-assess-btn" value="我要晒单" /> 
+				</div>
+				{% endif %}
+
+				<div class="error-tips">
+					您还没有上传图片哦
+				</div>
+			</div>
+		</div>
+		<!-- 正文结束-->
+		<input type="hidden" name="review_id" value="{{ review_info.id }}" />
+	</form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	//上传图片并预览
+	var input = document.getElementById("file_input");
+	var imageType = /image.*/;
+	var getOnloadFunc = function(aImg) {
+		return function(evt) {
+			aImg.src = evt.target.result;
+		};
+	}
+	input.addEventListener("change", function(evt) {
+	    for (var i = 0, numFiles = this.files.length; i < numFiles; i++) {
+	        var file = this.files[i];
+	        if (!file.type.match(imageType)) {
+	            continue;
+	        }
+
+		    var img = document.createElement("img");
+		    img.style.width="70px";
+		    img.style.height="70px";
+		    img.style.marginLeft="10px";
+		    img.id="upload-img-show";
+		    var _img=document.getElementById("assess-form");
+		    _img.appendChild(img);
+		     img.onclick=function(){
+		     	if (confirm("删除照片？"))  {  
+					img.style.display="none";
+					}  
+				else  { 
+					return false;
+						};
+		     	// img.style.display="none";
+		     }
+		    var reader = new FileReader();
+		    reader.onload = getOnloadFunc(img);
+		    reader.readAsDataURL(file);
+	    }
+	}, false);
+	
+  
+	//表单数据--获取评价内容-星星等级
+	$('#rating-star a').click(function(){
+		var velocitystar = $(this).text();
+		var starNum1=1+parseInt(velocitystar);
+		//alert(starNum1);
+		//console.log(velocitystar);
+		$('#rating-star').children('#goodLevel1').val(starNum1);
+	});
+	$('#rating-star2 a').click(function(){
+		var qualitystar = $(this).text();
+		var starNum2=1+parseInt(qualitystar);
+		$('#rating-star2').children('#goodLevel2').val(starNum2);
+	});
+	$('#rating-star3 a').click(function(){
+		var attitudestar = $(this).text();
+		var starNum3=1+parseInt(attitudestar);
+		$('#rating-star3').children('#goodLevel3').val(starNum3);
+	});
+	$('#rating-star4 a').click(function(){
+		var pricestar = $(this).text();
+		var starNum4=1+parseInt(pricestar);
+		$('#rating-star4').children('#goodLevel4').val(starNum4);
+	});
+
+	var review = {{ maintenance_info.is_review }};
+	//星星
+	if( review != '1'){
+		
+		$('#rating-star').on('click', 'a', function () {
+ 		$('#rating-star').data('star',this.innerHTML);
+ 		}).on('mouseenter', 'a', function () {
+ 		setStar(this);
+ 		}).on('mouseleave', 'a', function () {
+ 			var $r_star = $('#rating-star');
+ 			var level = $r_star.data('star');
+ 			var $stars = $r_star.find('a');
+	 		if (level) {
+	 			setStar($stars[level]);
+	 		} else {
+	 			$stars.css('background-position', '-253px -25px');
+	 		}
+	 	});
+
+	 	$('#rating-star2').on('click', 'a', function () {
+ 		$('#rating-star2').data('star',this.innerHTML);
+ 		}).on('mouseenter', 'a', function () {
+ 		setStar(this);
+ 		}).on('mouseleave', 'a', function () {
+ 			var $r_star = $('#rating-star2');
+ 			var level = $r_star.data('star');
+ 			var $stars = $r_star.find('a');
+	 		if (level) {
+	 			setStar($stars[level]);
+	 		} else {
+	 			$stars.css('background-position', '-253px -25px');
+	 		}
+	 	});
+
+	 	$('#rating-star3').on('click', 'a', function () {
+ 		$('#rating-star3').data('star',this.innerHTML);
+ 		}).on('mouseenter', 'a', function () {
+ 		setStar(this);
+ 		}).on('mouseleave', 'a', function () {
+ 			var $r_star = $('#rating-star3');
+ 			var level = $r_star.data('star');
+ 			var $stars = $r_star.find('a');
+	 		if (level) {
+	 			setStar($stars[level]);
+	 		} else {
+	 			$stars.css('background-position', '-253px -25px');
+	 		}
+	 	});
+
+	 	$('#rating-star4').on('click', 'a', function () {
+ 		$('#rating-star4').data('star',this.innerHTML);
+ 		}).on('mouseenter', 'a', function () {
+ 		setStar(this);
+ 		}).on('mouseleave', 'a', function () {
+ 			var $r_star = $('#rating-star4');
+ 			var level = $r_star.data('star');
+ 			var $stars = $r_star.find('a');
+	 		if (level) {
+	 			setStar($stars[level]);
+	 		} else {
+	 			$stars.css('background-position', '-253px -25px');
+	 		}
+	 	});
+
+	}	 
+			 
+	function setStar(star) {
+	 	var $this = $(star);
+	 	var level = $this.html();
+	 	var n;
+		if (level == '4') {
+		 	n = '-253px 0px';
+		} 
+		else if (level == '3') {
+		 	n = '-253px 0px';
+		} 
+		else if (level == '2') {
+		 	n = '-253px 0px';
+		} 
+		else if (level == '1') {
+		 	n = '-253px 0px';
+		} 
+		else {
+		 	n = '-253px 0px';
+		}
+		$this.prevAll().andSelf().css('background-position', n);
+		$this.nextAll().css('background-position', '-253px -25px');
+		 
+	}
+
+	function check(){
+		var goodLevel=$("#goodLevel1").val();
+		var goodLeve2=$("#goodLevel2").val();
+		var goodLeve3=$("#goodLevel3").val();
+		var goodLeve4=$("#goodLevel4").val();
+		var comment_text_words=$(".assess-text").val();
+		 
+		if(comment_text_words ==''){
+			alert("请填写评论信息！");
+			return false;
+		}
+	}
+
+
+	//评论（可以不传图片） review == 0 待评价
+	if(review == '0'){
+		$('.qping-assess-btn').click(function(){
+			
+			 
+				$('#review-form').submit();
+				 
+			 
+
+		});
+	}
+
+
+
+	//晒单（传图片）review == 1 评价完成
+	if(review == '1'){
+		$('.qshai-assess-btn').click(function(){
+			var val=$("#file_input").val();
+			if(val==""){
+				$('.error-tips').fadeIn().delay(1000).fadeOut();
+				return false;
+			}
+			if(val!=""){
+				$('#review-form').submit();
+				 
+			}
+
+		});
+	}
+	
+</script>
+<script type="text/javascript">
+$(function(){
+	var stars01={{ review_info.evaluation_velocity }};
+	var stars02={{ review_info.evaluation_quality }};
+	var stars03={{ review_info.evaluation_attitude }};
+	var stars04={{ review_info.evaluation_price}};
+	if(stars01!=0&& stars01!=5){
+		$("#rating-star").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_velocity) %}
+			$("#rating-star").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    {% for  i in range(1, 5-review_info.evaluation_velocity) %}
+			$("#rating-star").append("<a href='javascript:;' style='background-position:-253px -25px;'>0</a>");
+		{% endfor %}
+		}
+	if(stars02!=0&& stars02!=5){
+		$("#rating-star2").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_quality) %}
+			$("#rating-star2").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    {% for  i in range(1, 5-review_info.evaluation_quality) %}
+			$("#rating-star2").append("<a href='javascript:;' style='background-position:-253px -25px;'>0</a>");
+		{% endfor %}
+		}
+	if(stars03!=0&& stars03!=5){
+		$("#rating-star3").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_attitude) %}
+			$("#rating-star3").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    {% for  i in range(1, 5-review_info.evaluation_attitude) %}
+			$("#rating-star3").append("<a href='javascript:;' style='background-position:-253px -25px;'>0</a>");
+		{% endfor %}
+		}
+	if(stars04!=0 && stars04!=5){
+		$("#rating-star4").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_price) %}
+			$("#rating-star4").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    {% for  i in range(1, 5-review_info.evaluation_price) %}
+			$("#rating-star4").append("<a href='javascript:;' style='background-position:-253px -25px;'>0</a>");
+		{% endfor %}
+		}
+
+	if(stars01!=0&& stars01==5){
+		$("#rating-star").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_velocity) %}
+			$("#rating-star").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    
+		}
+	if(stars02!=0&& stars02==5){
+		$("#rating-star2").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_quality) %}
+			$("#rating-star2").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    
+		}
+	if(stars03!=0&& stars03==5){
+		$("#rating-star3").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_attitude) %}
+			$("#rating-star3").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	    
+		}	
+	if(stars04!=0 && stars04==5){
+		$("#rating-star4").find("a").remove();
+		{% for  i in range(1, review_info.evaluation_price) %}
+			$("#rating-star4").append("<a href='javascript:;' style='background-position:-253px 0px;'>0</a>");				
+	    {% endfor %}
+	}
+
+	{% if error is not empty %}
+	alert("评价信息不能全部为空！");
+	{% endif %}
+
+})
+</script>
+{% endblock %}

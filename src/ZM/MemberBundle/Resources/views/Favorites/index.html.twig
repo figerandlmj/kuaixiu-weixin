@@ -1,0 +1,88 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-我的收藏{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+		<div class="kx-head-center-font">收藏</div>
+		<!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body padding-b-0 over-flow">
+		<div class="order-group">
+			{% for item in favorites_list %}
+			<a href="{{ path('zm_member_store_info',{'id':item.id}) }}" class="order-list">
+				<img src="{{ webIp }}image/store/{{ item.image }}" class="head-portrait" />
+				<span>
+					<span class="font-size-16 mar-top-5" style="margin-left:90px;">{{ item.store_name }}</span>
+					<div class="shop-collection-wrap font-color-light-gray" style="margin-left:90px;">
+						<span>店铺星级 {% if item.level == 1 %}一{% elseif item.level == 2 %}二{% elseif item.level == 3 %}三{% elseif item.level == 4 %}四{% elseif item.level == 5 %}五{% elseif item.level == 6 %}六{% elseif item.level == 7 %}七{% endif %}星</span><br/>
+						<span>好评度 {{ item.grade }}</span><br/>
+						<span>累计完成订单 {{ item.order_num }}次</span>
+					</div>
+				</span>
+                <div data-id="{{ item.id }}" class="collect-btn">
+                    <div class="btn  order-btn">取消收藏</div>
+                </div>
+			</a>
+			<div class="horizontal-line"></div>
+			{% endfor %}
+		</div>
+		<!-- 分页 -->
+		{% autoescape false %}  
+		<div class="pages-container">
+			{{ render|raw }}	
+		</div>
+		{% endautoescape %}  
+		<!--END 分页 -->
+
+	</div>
+	<!-- 正文结束-->
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	//取消收藏
+	$(".collect-btn").click(function(){
+		var storeid = $(this).data('id');
+		var parent = $(this).parent('.order-list');
+		var url = "{{path('zm_member_favorites_actionajax',{'id':'storeId','type':'ajaxtype'})}}";
+		url = url.replace("storeId",storeid);
+		url = url.replace("ajaxtype",2);
+		
+		if( confirm("是否确认取消收藏？") ){
+			$.ajax({
+		        type: 'get',
+		        url: url,
+		        dataType: 'json',
+		        success: function(result) {
+		            if ( result.flag == 3) {
+		             	confirm(result.content);
+		             	parent.remove();
+		            } else{
+	  
+		                confirm(result.content);
+		            }
+		        }
+		    })
+		}
+
+	})
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-地址{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %} 
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+		<div class="kx-head-center-font">我的地址</div>
+		<div class="kx-head-right-font"><a href="{{ path('zm_member_address_info',{'id':0}) }}">新建</a></div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body">
+        {% for item in data %}
+		<div class="repair-font padding-15-1">
+    		<div class="font-size-14">
+    			<span >{{ item.name }}</span>
+    			<span class="margin-left-30">{{ item.phone }}</span>
+    			<p class="margin-top-10 font-color-light-gray font-size-12">{{ item.res_province_name }}{{ item.res_city_name }}{{ item.res_district_name }}</p>
+    			<p class="font-color-light-gray font-size-12">{{ item.address }}</p>
+    		</div>
+    		<a href="{{ path('zm_member_address_info',{'id':item.id}) }}"><span class="kx-img address-edit"></span></a>
+		</div>
+		<div class="horizontal-line margin-left-10 width-auto"></div>
+	    {% endfor %}
+	</div>
+	<!-- 正文结束-->
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+
+</script>
+{% endblock %}

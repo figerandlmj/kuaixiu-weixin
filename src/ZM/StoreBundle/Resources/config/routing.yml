@@ -1,0 +1,144 @@
+
+zm_store_default_get_phone_salt:
+    path:     /default/getPhoneSalt
+    defaults: { _controller: ZMStoreBundle:Default:getPhoneSalt }
+
+## 获取家电维修类型
+zm_store_default_get_maintenance_type:
+    path:     /default/getMaintenanceType
+    defaults: { _controller: ZMStoreBundle:Default:getMaintenanceType }
+
+## 获取家电维修原因
+zm_store_default_get_maintenance_reasons:
+    path:     /default/getMaintenanceReasons/{id}
+    defaults: { _controller: ZMStoreBundle:Default:getMaintenanceReasons }
+
+############################### 注册登录 ###############################
+
+zm_store_login:
+    path:     /login
+    defaults: { _controller: ZMStoreBundle:Login:login }
+
+zm_store_register_one:
+    path:     /register/one
+    defaults: { _controller: ZMStoreBundle:Login:registerOne }
+
+zm_store_register_two:
+    path:     /register/two
+    defaults: { _controller: ZMStoreBundle:Login:registerTwo }
+
+## 等待审核
+zm_store_checking:
+    path:     /checking/{status}/{type}
+    defaults: { _controller: ZMStoreBundle:Login:checking }
+
+zm_store_forget:
+    path:     /forget
+    defaults: { _controller: ZMStoreBundle:Login:forget }
+
+zm_store_logout:
+    path:     /logout
+    defaults: { _controller: ZMStoreBundle:Login:logout }
+
+## 注册协议
+zm_store_agreement:
+    path:     /agreement
+    defaults: { _controller: ZMStoreBundle:Login:agreement }
+
+############################### 主页订单 ###############################
+## 订单列表
+zm_store_index:
+    path:     /index/order/{status}
+    defaults: { _controller: ZMStoreBundle:Index:index }
+    requirements:
+        status: \d+
+
+## 订单详情
+zm_store_index_info:
+    path:     /index/order/info/{id}
+    defaults: { _controller: ZMStoreBundle:Index:info }
+
+## 确认订单
+zm_store_index_action_ajax:
+    path:     /order/order/actionAjax
+    defaults: { _controller: ZMStoreBundle:Index:actionAjax }
+
+############################### 投诉管理 ###############################
+
+zm_store_complain:
+    path:     /complain
+    defaults: { _controller: ZMStoreBundle:Complain:index }
+
+zm_store_complain_actionAjax:
+    path:     /complain/actionAjax
+    defaults: { _controller: ZMStoreBundle:Complain:actionAjax }
+
+############################### 商铺管理 ###############################
+
+zm_store_store:
+    path:     /store
+    defaults: { _controller: ZMStoreBundle:Store:index }
+
+zm_store_store_info:
+    path:     /store/info
+    defaults: { _controller: ZMStoreBundle:Store:info }
+
+zm_store_store_update:
+    path:     /store/update/{param}
+    defaults: { _controller: ZMStoreBundle:Store:update }
+
+zm_store_store_level:
+    path:     /store/level
+    defaults: { _controller: ZMStoreBundle:Store:level }
+
+zm_store_store_score:
+    path:     /store/score/{type}
+    defaults: { _controller: ZMStoreBundle:Store:score }
+
+## 如何获取积分
+zm_store_store_how_get_score:
+    path:     /store/howGetScore
+    defaults: { _controller: ZMStoreBundle:Store:howGetScore }
+
+zm_store_store_help:
+    path:     /store/help
+    defaults: { _controller: ZMStoreBundle:Store:help }
+
+zm_store_store_feedback:
+    path:     /store/feedBack
+    defaults: { _controller: ZMStoreBundle:Store:feedBack }
+
+zm_store_store_aboutus:
+    path:     /store/aboutus
+    defaults: { _controller: ZMStoreBundle:Store:aboutus }
+
+zm_store_store_sign:
+    path:     /store/sign
+    defaults: { _controller: ZMStoreBundle:Store:sign }
+
+############################### 招聘管理 ###############################
+
+zm_store_employ:
+    path:     /employ
+    defaults: { _controller: ZMStoreBundle:Employ:index }
+
+zm_store_employ_info:
+    path:     /employ/info/{id}
+    defaults: { _controller: ZMStoreBundle:Employ:info }
+
+zm_store_employ_action_ajax:
+    path:     /employ/actionAjax
+    defaults: { _controller: ZMStoreBundle:Employ:actionAjax }
+
+############################### 店员管理 ###############################
+zm_store_staff:
+    path:     /staff
+    defaults: { _controller: ZMStoreBundle:Staff:index }
+
+zm_store_staff_info:
+    path:     /staff/info/{id}
+    defaults: { _controller: ZMStoreBundle:Staff:info }
+
+zm_store_staff_delete_ajax:
+    path:     /staff/deleteAjax
+    defaults: { _controller: ZMStoreBundle:Staff:deleteAjax }

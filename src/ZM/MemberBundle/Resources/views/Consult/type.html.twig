@@ -1,0 +1,62 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-咨询类型{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+
+{% endblock %}
+
+
+{% block body %} 
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+		<div class="qkx-head-center-font">咨询类型</div>
+		<!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="qkx-body over-flow" style="padding-bottom:342px;">
+		<form id="qtypeform" action="" method="post">
+			<div class="qcontainer">
+				<div class="qtitle">
+					<i></i>
+					<span>咨询类型</span>
+				</div>
+				{% for key,item in data %}
+				<div data-id="{{key}}" class="qlist">
+					<span class="qlistname">{{ item }}</span>
+					<span style="display:none" class="kx-img qyesbtn"></span>
+				</div>
+				{% endfor %}
+			</div>
+			<input class="qtypeinput" type="hidden" name="type" value="" />
+		</form>
+	</div>
+	<!-- 正文结束-->
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('bundles/zmmember/js/jquery-2.1.4.min.js') }}"></script>
+<script>
+	$('.qlist').click(function(){
+		$(this).children('.qyesbtn').show();
+		var other = $(this).siblings('.qlist').children('.qyesbtn');
+		other.hide();
+		var type = $(this).data("id");
+		// console.log(type);
+		$('.qtypeinput').val(type);
+		$('#qtypeform').submit();
+	}) 
+
+</script>
+{% endblock %}

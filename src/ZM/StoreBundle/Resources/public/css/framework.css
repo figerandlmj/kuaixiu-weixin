@@ -1,0 +1,26 @@
+.framework{
+	max-width: 720px;
+	width: 100%;
+	min-height: 180px;
+	background-color: #ccc;
+	border-radius: 5px;
+	top: 10%;
+	/*bottom:10%;*/
+	/*left: 50%;*/
+	/*z-index: 9999;*/
+	position: absolute;
+	/*padding: 10px 10px;*/
+	display: none;
+	z-index: 99999;
+}
+.framework li{
+	line-height: 40px;
+	padding-left: 30px;
+	border-bottom: 1px solid #dbdbdb;
+}
+.framework li span{
+	cursor: pointer;
+}
+.framework li:last-child{
+	border: 0;
+}

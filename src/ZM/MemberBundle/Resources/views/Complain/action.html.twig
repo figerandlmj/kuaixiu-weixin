@@ -1,0 +1,88 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-投诉{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container ">
+	<form action="" method="post" onSubmit="return check()">
+	<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">投诉商家</div>
+		</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+		<div class="kx-body padding-bottom-20">
+			<div class="assess-order-title-wrap padding-10-10">
+				<span class="assess-order-title">投诉商家</span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="group-list">
+				<span>订单号：</span><span class="margin-left-30">{{ maintenance.order_sn }}</span>
+			</div>
+			<div class="group-list cursor-pointer complain-theme">
+				<span>投诉主题：</span><span class="margin-left-10 complain-theme-color complain-txt">服务态度</span>
+				<span class="kx-i
+				mg arrow-right"></span>
+			</div>
+			<div class="complain-theme-content">
+				<ul>
+					<li data-type="1">服务态度</li>
+					<li data-type="2">服务质量</li>
+					<li data-type="3">服务水平</li>
+					<li data-type="4">技术水平</li>
+				</ul>
+				<input class="comtypes" type="hidden" name="type" value="1" />
+			</div>
+			<div class="padding-15-20">
+				<span>投诉内容</span>
+				<textarea class="assess-text border margin-top-10" name="description" value=""></textarea>
+				<input type="hidden" name="maintenance_id" value="" />
+			</div>
+			<div class="assess-btn-wrap">
+				<input type="submit" value="提交" class="btn assess-btn" />
+			</div>
+		</div>
+	</form>
+	<!-- 正文结束-->
+</div>
+<div class="mask"></div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	function check(){
+		var description=$(".assess-text").val();
+		if(description==''){
+			alert("请填写投诉内容！");
+			return false;
+		}
+	}
+	$(function(){
+		$('.complain-theme').click(function(){
+			$('.complain-theme-content').fadeIn();
+			$('.mask').show();
+		});
+		$('.complain-theme-content li').click(function(){
+			var txt=$(this).text();
+			var type=$(this).data("type");
+			$(".complain-txt").text(txt);
+			$(".comtypes").val(type);
+			$('.complain-theme-content').fadeOut();
+			$('.mask').hide();
+		});
+
+})
+</script>
+{% endblock %}

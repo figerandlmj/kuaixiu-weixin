@@ -1,0 +1,532 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-订单详细{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmstore/css/framework.css') }}">
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white" id="kx-body">
+			<!-- <div class="gray-block"></div> -->
+			<br>
+			<div class="order-wrap">
+				<div class="detail-list">
+					<span class="kx-img user-img-green"></span>
+					<span class="detail-font font-12">用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户：{{ maintenance.phone }}</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green order-number-green"></span>
+					<span class="detail-font font-12">订&nbsp;&nbsp;单&nbsp;&nbsp;号：{{ maintenance.order_sn }}</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green order-date-green"></span>
+					<span class="detail-font font-12">下单日期：{{ maintenance.date_added }}</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green service-ways-green"></span>
+					<span class="detail-font font-12">服务方式：{% if maintenance.fix_way == 0 %}上门服务{% elseif maintenance.fix_way == 1  %}到店铺维修{% endif %}</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green brand-green"></span>
+					<span class="detail-font font-12">品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌：{{ maintenance.manufacturer_name }}</span>
+				</div>
+
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-wrap" style="height:35px">
+				<a href="tel:{{ maintenance.phone }}"><div class="kx-img phone-img fl"></div></a>
+				<p class="font-12 font-weight font-black">{{ maintenance.name }}  {{ maintenance.phone }}</p>
+				<p class="font-12 mt-18">{{ maintenance.address }}</p>
+			</div>
+
+			{% if record.date_completed is empty %}
+			<div class="horizontal-line"></div>
+			<form action="" method="post" enctype="multipart/form-data" class="submit-form">
+				<div class="order-title font-12 font-gray">1 请选择电器分类</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group font-12 select-classification" style="cursor:pointer;">
+					<span class="classification_text" style="display:block;"></span>
+					请选择电器分类					
+					<span class="fr mr-50 font-gray"></span>
+					<span class="kx-img arrow-right"></span>
+				</div>
+				<div class="horizontal-line"></div>
+
+				<div class="order-title font-12 font-gray">2 请选择维修原因</div>
+				<div class="horizontal-line input-content"></div>
+				
+				<div class="horizontal-line"></div>
+				<div class="year-group font-12 select-reason" style="cursor:pointer;">
+					<span class="reason_text" style="display:block;"></span>
+					添加新的维修原因		
+					<span class="kx-img arrow-right"></span>
+				</div>
+				<!-- 维修原因 -->
+				<div class="framework product-framework reason-box">
+					<ul class="reason-box-ul">
+						{% if maintenance_reasons_list is not empty %}
+							{% for item in maintenance_reasons_list %}
+							<li><span class="reason-choose" data-id="{{ item.id }}">{{ item.name }}</span></li>
+							{% endfor %}
+						{% else %}
+						<li>暂无数据</li>
+						{% endif %}							
+					</ul>
+					<div class="window-btn-wrap margin-10-20p">
+						<div class="btn primary-btn width-full box-btn">确定</div>
+					</div>
+				</div>
+			    <!-- 维修原因 end-->
+				<div class="horizontal-line"></div>
+
+				<div class="order-title font-12 font-gray">3 请输入维修原因</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group font-12">
+					维修原因
+					<input  placeholder="请输入维修原因" name="description" class="description">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="order-title font-12 font-gray">4 请选择产品的年份</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group font-12 select-year" style="cursor:pointer;">
+					<span class="year_text" style="display:block;"></span>
+					请选择产品的年份
+					<span class="fr mr-50 font-gray"></span>
+					<span class="kx-img arrow-right"></span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="order-title font-12 font-gray">5 请输入型号</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group font-12">
+					型号
+					<input  placeholder="请输入电器的型号" name="manufacturer_model" class="manufacturer_model">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="order-title font-12 font-gray">6  若处于保修期，请填写机号，并上传机号照片</div>
+				<div class="horizontal-line"></div>
+				{% if maintenance.appliance_name == "空调" %}
+				<div class="year-group font-12">					
+					内机号<input  placeholder="请输入电器的内机号"  name="product_sn" class="product_sn"><br/>
+					外机号<input  placeholder="请输入电器的外机号"  name="machine_sn" class="machine_sn">
+				</div>
+				{% else %}
+				<div class="year-group font-12">
+					维修机号<input  placeholder="请输入电器的机号"  name="product_sn" class="product_sn">
+				</div>
+				{% endif %}
+				<div class="horizontal-line"></div>
+				<div class="upload-img-wrap">
+					<div class="upload-wrap font-gray">
+						<div class="kx-img upload"></div>
+						<span class="upload-font">上传照片</span>
+						<span class="upload-font-more font-12">(最多八张)</span>
+						<input class="upload-img-file" id="file_input" type="file" name="image[]">
+					</div>
+					<div class="pic-wrap" id="pic-wrap"></div>
+				</div>
+				<div class="pic-wrap1" id="pic-wrap1"></div>
+				<div class="padding-10-10">
+					<div class="btn cancel fl cancel-order" data-id="{{ maintenance.maintenance_id }}">取消订单</div>
+					<div class="btn fr primary-btn submit-btn">
+					<div class="kx-img correct"></div>维修完成</div>
+				</div>
+				<!-- 电器分类 -->
+				<div class="framework product-framework classification-box">
+					<ul>
+						{% if maintenance_type_list is not empty %}
+							{% for item in maintenance_type_list %}    
+							<li><input type="radio" name="maintenance_type_id" value="{{ item.id }}" /><span class="maintenance_radio">{{ item.name }}</span></li>
+							{% endfor %}
+						{% else %}
+						<li>暂无数据</li>
+						{% endif %}							
+					</ul>
+					<div class="window-btn-wrap margin-10-20p">
+						<div class="btn primary-btn width-full box-btn01">确定</div>
+					</div>
+				</div>
+				<!-- 电器分类 end-->
+				<!-- 维修机子年份 -->
+				<div class="framework product-framework year-box">
+					<ul>
+						{% for key,item in main_year %}
+						<li><input type="radio" name="maintenance_year" value="{{key}}" /><span class="year_radio">{{item}}</span></li>
+						{% endfor %}							
+					</ul>
+					<div class="window-btn-wrap margin-10-20p">
+						<div class="btn primary-btn width-full box-btn02">确定</div>
+					</div>
+				</div>
+				
+				<!-- 维修机子年份 end-->
+		    </form>
+			{% endif %}
+			
+			{% if record.date_completed is not empty %}
+			<div class="gray-block"></div>
+			<div class="year-group font-12">
+				<span>电器分类</span>
+				<span class=" ml-30 font-light-gray">{{ record.maintenance_type }}</span>	
+			</div>
+			<div class="gray-block"></div>
+			<div class="year-group font-12">
+				<span>维修原因</span>
+				{% for item in record.maintenance_reasons_id %}
+				<p class=" ml-80  mt-5">{{ item.name }}</p>
+				{% endfor %}
+				<p class=" ml-80  mt-5">{{ record.description}}</p>
+
+			</div>
+			<div class="gray-block"></div>
+			<div class="year-group font-12">
+				<span>产品年份</span>
+				<span class=" ml-30 font-light-gray">{{ record.maintenance_year }}</span>
+			</div>
+			<div class="gray-block"></div>
+			<div class="year-group font-12">
+				<span>型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</span>
+				<span class=" ml-30 font-light-gray">{{ record.manufacturer_model }}</span>
+			</div>
+			<div class="gray-block"></div>
+			<div class="year-group font-12">
+				{% if maintenance.appliance_name == "空调" %}
+				<span>内&nbsp;机&nbsp;号</span>
+				<span class=" ml-30 font-light-gray">{{ record.product_sn }}</span><br/>
+				<span>外&nbsp;机&nbsp;号</span>
+				<span class=" ml-30 font-light-gray">{{ record.machine_sn }}</span>
+				{% else %}
+				<span>机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</span>
+				<span class=" ml-30 font-light-gray">{{ record.product_sn }}</span>
+				{% endif %}
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="uncomment-img">
+				{% for img in record.image %}                  
+                <img src="{{ webIp }}image/comment/{{ img }}" width="85" height="80"/>
+                {% endfor %}
+			</div>
+			<div class="year-group font-14" style="background-color:#eff1f2;">
+				<span>客户给您的评价：</span>
+			</div>
+			{% if review.date_added is defined %}
+			<div class="assess-level-list font-14 star01">
+				<div class="commtent-font fl">维修速度</div>
+				<div style="float:right;">
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+			    </div>
+			</div>
+			<div class="assess-level-list font-14 star02">
+				<div class="commtent-font fl">维修态度</div>
+				
+				<div style="float:right;">
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+			    </div>
+			</div>
+			<div class="assess-level-list font-14 star03">
+				<div class="commtent-font fl">维修质量</div>
+				
+				<div style="float:right;">
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+			    </div>
+			</div>
+			<div class="assess-level-list font-14 star04">
+				<div class="commtent-font fl">维修价格</div>
+				
+				<div style="float:right;">
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+					<div class="kx-img level-star unselected-star fl ml-10"></div>
+			    </div>
+			</div>
+			<div class="note service-jf font-14">
+				<span>本次服务积分是</span>
+				<span style="font-size:24px;color:#0aaf34;" class="score">{{ score }}</span>
+				<span>分</span>
+			</div>
+			<div class="list-with-imgs">
+				<ul>
+					<li>
+						<span class="kx-img personal-info service-assess"></span>
+						<span class="my-data-font font-14">服务评语</span>
+					</li>
+				</ul>
+			</div>
+			<div class="year-group font-14">
+				{{ review.content }}
+			</div>
+			<div class="uncomment-img bg-color-white">
+				{% for img in review.image %}                  
+                <img src="{{ webIp }}image/store/order/{{ img }}" width="85" height="80"/>
+                {% endfor %}
+			</div>
+			{% else %}
+			<div class="year-group font-12 padding-bottom-40">
+				<p class="font-14">顾客暂时还没有评价，请耐心等待...</p>
+				<p class="font-light-gray font-12 mt-10">顾客如果7天未评价，系统默认评价</p>
+			</div>
+						
+			{% endif %}
+		{% endif %}
+		</div>
+
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+$(function(){
+	// 点击提交维修记录
+	$(".submit-btn").on("click",function(){
+		var classification_text=$(".classification_text").text();
+		var reason_text=$(".reason_text").text();
+		var year_text=$(".year_text").text();
+		var manufacturer_model=$(".manufacturer_model").val();
+		var product_sn=$(".product_sn").val();
+		var description=$(".description").val();
+		var machine_sn=$(".machine_sn").val();
+		if(classification_text =='' && reason_text =='' && year_text =='' && manufacturer_model =='' && 
+			product_sn =='' && description ==''){
+			alert("请选择或输入维修记录内容！")
+			
+		}else{
+			$(".submit-form").submit();
+		}		
+		
+	})
+	// 取消订单
+    $(".cancel-order").click(function(){
+        var this_id = $(this).data("id");
+
+        if ( confirm('你确定要取消吗？') ) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('zm_store_index_action_ajax') }}",
+                dataType: 'json',
+                data:{
+                    id:this_id,
+                    type:0
+                },
+                success: function(result) {
+
+                    if ( result.flag == 3) {
+                        alert("取消成功!");
+                        location.href="{{ path('zm_store_index', {'status': 0}) }}";
+                        
+                    } else{
+                        alert('取消失败!');   
+                    }
+                }
+            })
+        }
+    });
+	// 维修原因弹框
+	$(".select-reason").on("click",function(){
+		$(".reason-box").show();
+	})
+	// 关闭弹框
+	$(".box-btn").on("click",function(){
+		$(".reason-box").hide();
+		$(".reason_text").empty();
+		$('input:checkbox:checked').each(function(){
+			var val=$(this).prev(".reason-choose").text();
+			$(".reason_text").append(val+"<br/>");
+		})
+		
+	})
+	// ==========获取下级维修原因===========
+	get_reason();
+	function get_reason(){
+		$('.reason-choose').on("click",function(){
+	    	var this_id = $(this).data("id");
+	    	var chosetext = "<input type='checkbox' style='margin-left:60px;' name='maintenance_reasons_ids[]' value='"+this_id+"'/>";
+	    	var ontime=$(this).parent();
+			$.ajax({
+	            type: 'GET',
+	            url: "{{ path('zm_store_default_get_maintenance_reasons',{ 'id' :'aid'}) }}".replace('aid',this_id),
+	            dataType: 'json',
+	            data:{
+	            },
+	            success: function (data) {           	
+	            	//console.log(data);
+	            	if(data.length == 0){
+	            		$(ontime).find("input").remove();
+	            		$(ontime).append(chosetext);
+	            	}else{
+	            		$(".reason-box-ul").empty();
+
+	            		$(data).each(function () {            			
+		                    $('.reason-box-ul').append("<li><span class='reason-choose' data-id='"+this.id+"'>"+this.name+"</span></li>");
+		                });
+		                $(".box-btn").on("click",function(){
+							$(".reason-box").hide();
+						})
+	            	}
+	            	get_reason();	               
+	            }
+			});
+		       
+	    });
+
+	}
+        
+	// 电器分类弹框
+	$(".select-classification").on("click",function(){
+		$(".classification-box").show();
+	})
+	
+	// 关闭弹框
+	$(".box-btn01").on("click",function(){
+		$(".classification-box").hide();
+		var val=$('input:radio[name="maintenance_type_id"]:checked').next(".maintenance_radio").text();
+		$(".classification_text").empty();
+		$(".classification_text").text(val);
+
+	})
+	// 维修机子年份弹框
+	$(".select-year").on("click",function(){
+		$(".year-box").show();
+	})
+	
+	// 关闭弹框
+	$(".box-btn02").on("click",function(){
+		$(".year-box").hide();
+		var val=$('input:radio[name="maintenance_year"]:checked').next(".year_radio").text();
+		$(".year_text").empty();
+		$(".year_text").text(val);
+
+	})
+	// 显示星星
+	{% if review is not empty %}
+    var stars01="{{ review.evaluation_velocity }}";//速度
+    var stars02="{{ review.evaluation_attitude }}";//态度
+	var stars03="{{ review.evaluation_quality }}";//质量
+	var stars04="{{ review.evaluation_price}}";//价格
+	{% endif %}
+	// 积分
+	// var score01=parseInt(stars01);
+	// var score02=parseInt(stars02);
+	// var score03=parseInt(stars03);
+	// var score04=parseInt(stars04);
+	// var score=(score01+score02+score03+score04)/4;
+	// $(".score").text(score);
+	
+    $(".star01 .level-star").each(function(){
+		
+		if(stars01>0){
+			$(this).removeClass('unselected-star');
+			stars01--;
+		}
+	});
+	$(".star02 .level-star").each(function(){
+		
+		if(stars02>0){
+			$(this).removeClass('unselected-star');
+			stars02--;
+		}
+	});
+	$(".star03 .level-star").each(function(){
+		
+		if(stars03>0){
+			$(this).removeClass('unselected-star');
+			stars03--;
+		}
+	});
+	$(".star04 .level-star").each(function(){
+		
+		if(stars04>0){
+			$(this).removeClass('unselected-star');
+			stars04--;
+		}
+	});
+
+	// $(".star01 .level-star").eq(0).css('margin-left', '470px');
+	// $(".star02 .level-star").eq(0).css('margin-left', '470px');
+	// $(".star03 .level-star").eq(0).css('margin-left', '470px');
+	// $(".star04 .level-star").eq(0).css('margin-left', '470px');
+
+	// <div class="upload-img-wrap">
+	// 	<div class="upload-wrap font-gray">
+	// 		<div class="kx-img upload"></div>
+	// 		<span class="upload-font">上传照片</span>
+	// 		<span class="upload-font-more font-12">(最多八张)</span>
+	// 		<input class="upload-img-file" id="file_input" type="file" name="image[]">
+	// 	</div>
+	// 	<div class="pic-wrap" id="pic-wrap"></div>
+	// </div>
+	// <div class="pic-wrap1" id="pic-wrap1"></div>
+
+	//上传图片并预览
+	var flag=0;
+	var input = document.getElementById("file_input");
+	var imageType = /image.*/;
+	var getOnloadFunc = function(aImg) {
+		return function(evt) {
+			aImg.src = evt.target.result;
+		};
+	}
+	input.addEventListener("change", function(evt) {
+	    for (var i = 0, numFiles = this.files.length; i < numFiles; i++) {
+	        var file = this.files[i];
+	        if (!file.type.match(imageType)) {
+	            continue;
+	        }
+		    var img = document.createElement("img");
+		    img.style.width="100px";
+		    img.style.height="100px";
+		    img.style.marginLeft="10px";
+		    img.id="upload-img-show";
+		    flag++;
+		    if(flag<=1){
+		    var _img=document.getElementById("pic-wrap");
+		    _img.appendChild(img);
+		    }
+		    if(flag>1&&flag<=8){
+		     var _img=document.getElementById("pic-wrap1");
+		    _img.appendChild(img);
+		    }
+		    if(flag>8){
+		    	alert("最多上传8张照片");
+		    	// return false;
+		    }
+		     img.onclick=function(){
+		     	if (confirm("删除照片？"))  {  
+					//img.style.display="none";
+					img.remove();
+					}  
+				else  { 
+					return false;
+						};
+		     	// img.style.display="none";
+		     }
+		    var reader = new FileReader();
+		    reader.onload = getOnloadFunc(img);
+		    reader.readAsDataURL(file);
+	    }
+	}, false);
+
+
+})
+</script>
+{% endblock %}
+

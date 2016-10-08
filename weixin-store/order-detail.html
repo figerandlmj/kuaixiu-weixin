@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>订单详细</title>
+	<link rel="stylesheet" type="text/css" href="css/kx-basic.css">
+</head>
+<body>
+	<div class="kx-container">
+	<!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white" id="kx-body">
+			<!-- <div class="gray-block"></div> -->
+			<br>
+			<div class="order-wrap">
+				<div class="detail-list">
+					<span class="kx-img user-img-green"></span>
+					<span class="detail-font font-12">用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户：18130303030</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green order-number-green"></span>
+					<span class="detail-font font-12">订&nbsp;&nbsp;单&nbsp;&nbsp;号：700000000000234241</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green order-date-green"></span>
+					<span class="detail-font font-12">下单日期：2015-05-23</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green service-ways-green"></span>
+					<span class="detail-font font-12">服务方式：上门服务</span>
+				</div>
+				<div class="detail-list">
+					<span class="kx-img user-img-green brand-green"></span>
+					<span class="detail-font font-12">品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌：海尔</span>
+				</div>
+
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-wrap" style="height:35px">
+				<div class="kx-img phone-img fl"></div>
+				<p class="font-12 font-weight font-black">曹雪  187 2929 2323</p>
+				<p class="font-12 mt-18">芜湖弋江区柏庄春暖花开小区</p>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-title font-12 font-gray">1 请选择分类</div>
+			<div class="horizontal-line"></div>
+			<div class="year-group font-12">
+				请选择电器分类
+				<span class="fr mr-50 font-gray">中央空调</span>
+				<span class="kx-img arrow-right"></span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-title font-12 font-gray">2 请选择维修原因</div>
+			<div class="horizontal-line"></div>
+			<div class="year-group font-12">
+				箱体漏发泡液未修好-修理
+				<span class="fr mr-30 font-red">删除</span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="year-group font-12">
+				添加新的维修原因
+				<span class="kx-img arrow-right"></span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-title font-12 font-gray">3 请选择产品的年份</div>
+			<div class="horizontal-line"></div>
+			<div class="year-group font-12">
+				请选择产品的年份
+				<span class="fr mr-50 font-gray">3年</span>
+				<span class="kx-img arrow-right"></span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-title font-12 font-gray">4 请输入型号</div>
+			<div class="horizontal-line"></div>
+			<div class="year-group font-12">
+				型号
+				<input  placeholder="请输入电器的型号">
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="order-title font-12 font-gray">5  若处于保修期，请填写机号，并上传机号照片</div>
+			<div class="horizontal-line"></div>
+			<div class="year-group font-12">
+				维修机号
+				<input  placeholder="请输入电器的机号">
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="upload-img-wrap">
+				<div class="upload-wrap font-gray">
+					<div class="kx-img upload"></div>
+					<span class="upload-font">上传照片</span>
+					<span class="upload-font-more font-12">(最多八张)</span>
+					<input class="upload-img-file" id="file_input" type="file">
+				</div>
+				<div class="pic-wrap" id="pic-wrap"></div>
+			</div>
+			<div class="pic-wrap1" id="pic-wrap1"></div>
+			<div class="padding-10-10">
+				<div class="btn cancel fl">取消订单</div>
+				<div class="btn fr primary-btn">
+				<div class="kx-img correct"></div>维修完成</div>
+			</div>
+		</div>
+
+	<!-- 正文结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">		
+//上传图片并预览
+ 	var flag=0;
+	var input = document.getElementById("file_input");
+	var imageType = /image.*/;
+	var getOnloadFunc = function(aImg) {
+	return function(evt) {
+		aImg.src = evt.target.result;
+	};
+}
+	input.addEventListener("change", function(evt) {
+    for (var i = 0, numFiles = this.files.length; i < numFiles; i++) {
+        var file = this.files[i];
+        if (!file.type.match(imageType)) {
+            continue;
+        }
+	    var img = document.createElement("img");
+	    img.style.width="100px";
+	    img.style.height="100px";
+	    img.style.marginLeft="10px";
+	    img.id="upload-img-show";
+	    flag++;
+	    if(flag<=1){
+	    var _img=document.getElementById("pic-wrap");
+	    _img.appendChild(img);
+	    }
+	    if(flag>1&&flag<=8){
+	     var _img=document.getElementById("pic-wrap1");
+	    _img.appendChild(img);
+	    }
+	    if(flag>8){
+	    	alert("最多上传8张照片");
+	    	// return false;
+	    }
+	     img.onclick=function(){
+	     	if (confirm("删除照片？"))  {  
+				img.style.display="none";
+				}  
+			else  { 
+				return false;
+					};
+	     	// img.style.display="none";
+	     }
+	    var reader = new FileReader();
+	    reader.onload = getOnloadFunc(img);
+	    reader.readAsDataURL(file);
+    }
+}, false);
+</script>
+</html>

@@ -1,0 +1,128 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-评价列表{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container">
+    <!-- 头部 -->
+        <div class="kx-head">
+            <a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+            <div class="kx-head-center-font">评价</div>
+            <!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+        </div>
+    <!-- 头部结束 -->
+    <!-- 正文 -->
+        <div class="kx-body padding-b-0">
+            {% for item in review %}
+            <div class="complain-wrap">
+                <div class="complain-title">
+                    <img src="{{ webIp }}image/member/avatar/{{ item.avatar }}" class="complain-title-img pull-left" />
+                    <span class="margin-left-10 font-size-14">{{ item.phone }}</span>
+                </div>
+                <div class="padding-10-10 line-height-10 padding-bottom-20 complain-record-content-color">
+                    <div class="shop-stars">
+                        <span class="mar-left-25">评分：</span>
+                        {% if item.evaluation == 0 %}
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation > 0 and item.evaluation < 1 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation == 1 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation > 1 and item.evaluation < 2 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation == 2 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation > 2 and item.evaluation < 3 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation == 3 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation > 3 and item.evaluation < 4 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation == 4 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img assess-rating-star"></span>
+                        {% elseif item.evaluation > 4 and item.evaluation < 5 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        {% elseif item.evaluation == 5 %}
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        <span class="kx-img shop-rating-star-selected"></span>
+                        {% endif %}
+                        <span class="pull-right font-size-12">{{ item.date_added }}</span>
+                    </div>
+                    <span class="complain-record-content-color font-size-14">{{ item.content }}</span> 
+                    <br>
+                    <br>
+                    {% if item.image %}
+                    {% for item1 in item.image %}
+                    <img src="{{ webIp }}image/store/{{ item1 }}" class="assess-list-img" />
+                    {% endfor %}
+                    {% endif %}
+                    <!--  <span class="font-color-balck">[追加评价]:</span><span>空调维修后,以前的噪音都没有了，大赞！</span> -->
+                    <br>
+                </div>
+                <div class="horizontal-line"></div>
+            </div>
+            {% endfor %}
+        </div>
+    <!-- 正文结束-->   
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	
+</script>
+{% endblock %}

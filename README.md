@@ -1,2 +1,4 @@
-# kuaixiu-weixin
-A WeChat based on the end of the maintenance of the site
+kuaixiu-wx
+==========
+
+A Symfony project created on September 7, 2015, 12:02 pm.

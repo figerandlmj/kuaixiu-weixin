@@ -1,0 +1,513 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-免费预约{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+    <style>
+        .J-ui-dialog {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 4%;
+            overflow: hidden;
+            z-index: 9999;
+            width: 92%;
+            margin: 0 auto;
+            /*pointer-events: none;*/
+            background: #fff;
+            box-shadow: 0 0 5px 2px #757575;
+            -webkit-box-shadow: 0 0 5px 2px #757575;
+            border-radius: 5px;
+            top: 20%;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .J-mask {
+            display: none;;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            z-index: 9998;
+            top: 0px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .ui-dialog-button {
+            float: left;
+            width: 50%;
+            padding: 0;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        .ui-dialog-button {
+            border-top: 1px solid lightgrey;
+        }
+        .ui-dialog-button a.J-ui-sure {
+            border-right: 1px solid lightgrey;
+        }
+        .ui-dialog-button button,
+        .ui-dialog-button a{
+            outline: 0;
+            border: 0;
+            /*background: #ccc;*/
+            height: 50px;
+            float: left;
+            padding: 0;
+            border-bottom-left-radius: 3px;
+            color: #0b1a37;
+            width: 100%;
+            font-size: 1.2em;
+            line-height: 50px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <!-- 弹窗 Start -->
+    <div class="J-ui-dialog">
+        <div class="J-ui-dialog-plugs">
+
+            <div class="ui-dialog-content" style="text-align: center; line-height: 30px;"><br /><span style="color:red;">为及时维修, 请及时拨打电话</span><br />{{ store.store_tel }}<br />&nbsp;</div>
+            <div class="ui-dialog-button"><a href="tel:{% if store.store_tel is not empty %}{{ store.store_tel }}{% else %}{{ store.phone }}{% endif %}" class="J-ui-sure">拨号</a></div>
+            <div class="ui-dialog-button"><a href="javascript:;" class="J-ui-cancel">取消</a></div>
+        </div>
+    </div>
+    <div class="J-mask"></div>
+
+<div class="kx-container" data-type="layout">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_store_info',{'id':store.id}) }}"><div class="kx-img go-back-img"></div><span class="go-back-font">返回</span></a>
+		<div class="kx-head-center-font">免费预约</div>
+		<!-- <div class="kx-head-right-font"><span class="kx-img collection-img"></span><span>收藏</span></div> -->
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body font-heiti padding-b-0 color-light-gray">
+        <form id="bigform" action="" method="post">
+            <div class="order-group bg-color-white">
+                <div class="order-list height-auto" >
+                    <span class="kx-img order-house"></span>
+                    <p class="margin-left-30 margin-top-5">{{ store.store_name }}</p>
+                </div>
+                <div class="horizontal-line"></div>
+                <div class="repair-wrap ">
+                    <div class="repair-font padding-15-1 complain-theme complain-theme1">
+                        <span>服务方式</span>
+                        <span class="position-ab right-30 complain-txt">请选择服务方式</span>
+                        <input class="fixedwayBtn" name="fix_way" type="hidden" value="" />
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                    <div class="complain-theme-content qfixway">
+                        <ul>
+                            <li data-fix="0">上门服务</li>
+                            <li data-fix="1">到店维修</li>
+                        </ul>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1 complain-theme complain-theme1">
+                        <span>维修产品</span>
+                        <span class="position-ab right-30 complain-txt">请选择维修产品</span>
+                        <input class="applianceBtn" type="hidden" name="appliance_id" value="" />
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                    <div class="complain-theme-content">
+                        <ul>
+                            {% for item in appliance_list %}
+                            <li data-aid="{{ item.id  }}">{{ item.appliance_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1 complain-theme brandlistcontainer">
+                        <span>维修品牌</span>
+                        <span class="position-ab right-30 complain-txt">请选择维修品牌</span>
+                        <input class="manufacturerBtn" type="hidden" name="manufacturer_id" value="" />
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                     <div class="brandlistcontainer-content complain-theme-content">
+                        <ul class="brandlist"></ul>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="repair-font padding-15-1 color-light-gray">
+                        <span>地址填写</span>
+                    </div>
+                    <div class="horizontal-line"></div>
+                    <div class="input-form font-size-14">
+                        <span>报修人</span>
+                        <input class="checkname" type="text" placeholder="请输入您的姓名" name="member_name" />
+                    </div>
+                    <div class="horizontal-line margin-0-10 width-auto"></div>
+                    <div class="input-form font-size-14">
+                        <span>联系方式</span>
+                        <input class="checkphone" type="text" placeholder="请输入您的联系方式" name="phone" />
+                    </div>
+                    <div class="horizontal-line margin-0-10 width-auto"></div>
+                    <div id="zoneBTN" class="input-form font-size-14">
+                        <span>所在地区</span>
+                        <input readonly="readonly"  style="color:#5a5a5a" class="address newChooseCity font-size-11 margin-left-10" placeholder="请选择区域" value="" />
+                        <input class="pro-id" type="hidden" name="res_province_id" value=" " />
+                        <input class="city-id" type="hidden" name="res_city_id" value=" " />
+                        <input class="district-id" type="hidden" name="res_district_id" value="" />
+                        <span class="kx-img arrow-right"></span>
+                    </div>
+                    <div class="horizontal-line margin-0-10 width-auto"></div>
+                    <div class="input-form font-size-14">
+                        <span>详细地址</span>
+                        <input class="checkaddress" type="text" placeholder="请输入您的详细地址" name="address" />
+                    </div>
+                    <div class="horizontal-line margin-0-10 width-auto"></div>
+                    <!-- <div class="repair-font padding-15-1">
+                        <div>
+                            <span>大海</span><span class="margin-left-30">18130301234</span>
+                            <p class="margin-top-10 font-color-light-gray">安徽省芜湖市弋江区</p>
+                            <p class="font-color-light-gray">安徽省芜湖市弋江区芜湖服务外包产业园4号楼20层</p>
+                        </div>
+                        <span class="kx-img arrow-right"></span>
+                    </div> -->
+                </div>
+                <div class="horizontal-line err"></div>
+            </div>
+            <br>
+            <div class="assess-btn-wrap">
+                <input type="button" class="btn assess-btn" value="确认订单" />
+            </div>
+            <br>
+            <br>
+        </form>
+    </div>
+	<!-- 正文结束-->
+</div>
+<div class="mask"></div>
+<!-- 弹框-显示省市区 -->
+<div style="display:none" class="cityAlertBOX">
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="pro-name f28 col333">
+        <input  type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="city-name f28 col333">
+        <input class="city-id" type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="district-name f28 col333">
+        <input class="district-id" type="hidden" value="" />
+    </div>
+    <ul class="provinceContain">
+        {% for item in province_list %}
+        <li data-id="{{ item.id }}" class="provinceBOX">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    <ul class="cityContain"></ul>
+    <ul class="districtContain"></ul>
+</div>
+
+<!-- 弹窗 End-->
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $(function(){
+        //弹框效果
+        $('.complain-theme1').click(function(){
+            $(this).next().fadeIn();
+            $('.mask').show();
+        });
+        $(document).on('click','.complain-theme-content li',function(){
+            var txt=$(this).text();
+            var fix = $(this).data('fix'); //服务方式
+            var app_id = $(this).data('aid'); //产品id 
+            var ma_id = $(this).data('mid'); //品牌id 
+            
+            //传值
+            $(this).parent().parent().prev().find(".complain-txt").text(txt);
+            $(this).parent().parent().prev().find(".fixedwayBtn").val(fix);
+            $(this).parent().parent().prev().find(".applianceBtn").val(app_id);
+            $(this).parent().parent().prev().find(".manufacturerBtn").val(ma_id);
+
+            $('.complain-theme-content').fadeOut();
+            $('.mask').hide();
+        });
+
+
+        //品牌ajax-获取
+        $('.brandlistcontainer').click(function(){
+            var app_id = $(".applianceBtn").val();;
+            if(app_id == ""){
+                alert("请先选择产品");
+                $('.brandlistcontainer-content').hide();
+            }else{
+                $(this).next().fadeIn();
+                $('.mask').show();
+            }
+            $.ajax({
+                type: 'post',
+                url: "{{ path('zm_member_getManufacturerAjax') }}",
+                data: {
+                    appliance_id:app_id
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var length = data.length;console.log(data);
+                    for(var i=0;i<length;i++){
+                        var li = '<li data-mid="'+ data[i].id +'">'+ data[i].name+'</li>';
+                        $(".brandlist").append(li);
+                    }
+                    
+                }
+            })
+
+        })
+        //检查电话号码格式checkphone
+        //var mobilephone = /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/;
+        var mobilephone =/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+        $(".checkphone").blur(function(event) {
+            var phone = $(this).val();
+            
+            var errorMsg = '联系方式不正确，固话格式为0553-4393735';
+            $(".form-tips").remove();
+            if(!mobilephone.exec(phone)){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg+'</p>');            
+            }
+        });
+         
+
+        //最后传值-提交
+        $('.assess-btn-wrap').click(function(){
+            var errorMsg1 = '请选择所在地区';
+            var errorMsg2 = '联系方式不正确，固话格式为0553-4393735';
+            var errorMsg3 = '请填写维修人姓名';
+            var errorMsg4 = '请填写详细地址';
+            var errorMsg5 = '请选择服务方式';
+            var errorMsg6 = '请选择产品';
+            var errorMsg7 = '请选择维修品牌';
+            
+
+            $(".form-tips").remove();
+            
+            //手机号
+            var phone = $('.checkphone').val();  
+            if(!mobilephone.exec(phone)){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg2+'</p>');            
+            }
+            //姓名
+            var name = $('.checkname').val(); 
+            if(name == ""){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg3+'</p>');            
+            }
+            //详细地址
+            var address = $('.checkaddress').val();
+            if(address == ""){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg4+'</p>');            
+            }
+            //地区
+            var p = $('.pro-id').val();
+            var c = $('.city-id').val();
+            var d = $('.district-id').val();
+            if(p == "" &&c =="" &&d==""){
+                var flag = 0;
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg1+'</p>'); 
+            }
+            
+            var fix_way = $(".fixedwayBtn").val();
+            var appliance_id = $(".applianceBtn").val();
+            var manufacturer_id = $(".manufacturerBtn").val();
+             
+            if(fix_way == ""){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg5+'</p>');            
+            }
+            
+            if(appliance_id == ""){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg6+'</p>');            
+            }
+           
+            if(manufacturer_id == ""){
+                $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg7+'</p>');            
+            }
+
+            //提交
+            {#if(mobilephone.exec(phone) && flag != 0 && name != "" && address != "" &&fix_way != "" &&appliance_id != "" && manufacturer_id != ""){
+                $(".J-ui-dialog").show();
+                $(".J-mask").show();
+                $('#bigform').submit();
+
+            }#}
+
+            var this_id={{ store.id }};
+            if(mobilephone.exec(phone) && flag != 0 && name != "" && address != "" &&fix_way != "" &&appliance_id != "" && manufacturer_id != ""){
+
+                $.ajax({
+                    type:"post",
+                    url:'{{ path('zm_member_order_action',{ 'store_id' :'aid'}) }}'.replace('aid',this_id),
+                    dataType:"json",
+                    data:{
+                        fix_way:fix_way,
+                        appliance_id:appliance_id,
+                        manufacturer_id:manufacturer_id,
+                        res_province_id:p,
+                        res_city_id:c,
+                        res_district_id:d,
+                        address:address,
+                        phone:phone,
+                        name:name
+                    },
+                    success:function(data){
+                        //console.log(data);
+                        if(data.code==1){
+                            $(".J-ui-dialog").show();
+                            $(".J-mask").show();
+                            $(".J-ui-cancel").on("click", function(){
+                                location.href=data.to_url;
+                            });
+
+                        }
+                        if(data.code==2){
+                            alert("预约失败!");
+                        }
+
+                    }
+                })
+            }
+
+
+        })
+
+    })
+</script>
+<script type="text/javascript">
+window.R = {};
+ // 取窗口可视范围的高度
+R.getClientHeight = function () {
+    return Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+};
+
+// 取文档内容实际高度
+R.getScrollHeight = function () {
+    return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+};
+
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+    $(".J-ui-dialog").height(170);
+    var width = $("div[data-type=layout]").width();
+    var height = R.getScrollHeight();
+
+    // $(".J-ui-cancel").on("click", function(){
+    //     $(".J-ui-dialog").hide();
+    //     $(".J-mask").hide();
+    // });
+
+//    $(".J-mask")
+});
+    //点击-省弹框出现
+    $('#zoneBTN').click(function(){
+        $('.cityAlertBOX').show();
+        //重新初始化
+        $('.provinceContain').show();
+        $('.cityContain').empty();
+        $('.districtContain').empty();
+        $('.pro-name').empty();
+        $('.city-name').empty();
+        $('.district-name').empty();
+        $('.pro-name').hide();
+        $('.city-name').hide();
+        $('.district-name').hide();
+    })
+
+    //省点击后，动态获取市的数据
+    $('.provinceContain li').click(function(){
+        
+        var pid = $(this).data("id");
+        var pname = $(this).text();
+        var url= "{{ path('zm_member_getCityAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", pid);
+
+        $('.pro-name').show();
+        $('.pro-name').text(pname);
+        $('.pro-id').val(pid);
+        
+        $('.provinceContain').hide();
+        $('.cityContain').empty();
+        $('.cityContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var city_option = "<li id='origin_city_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".cityContain").append(city_option);
+                }
+
+            }
+        })
+
+    })
+    //市点击后，动态获取区的数据
+    $('.cityContain').on("click","li",function(){
+        
+        var cid = $(this).data("id");
+        var cname = $(this).text();
+        var url= "{{ path('zm_member_getDistrictAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", cid);
+
+        $('.city-name').show();
+        $('.city-name').text(cname);
+        $('.city-id').val(cid);
+        
+        $('.cityContain').hide();
+        $('.districtContain').empty();
+        $('.districtContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var district_option = "<li id='origin_district_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".districtContain").append(district_option);
+                }
+                
+            }
+        })
+
+    })
+    //区点击后，显示省市区的的数据和id
+    $('.districtContain').on("click","li",function(){
+        
+        var did = $(this).data("id");
+        var dname = $(this).text();
+         
+        $('.district-name').show();
+        $('.district-name').text(dname);
+        $('.district-id').val(did);
+        
+        $('.districtContain').hide();
+        //弹框消失
+        $('.cityAlertBOX').hide();
+        var p = $('.pro-name').text();
+        var c = $('.city-name').text();
+        var d = $('.district-name').text();
+        var allname = p+c+d;
+        $('.newChooseCity').val(allname);
+
+    }) 
+</script>
+{% endblock %}

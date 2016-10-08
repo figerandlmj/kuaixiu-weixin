@@ -1,0 +1,120 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-注册1{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+		<div class="kx-head-center-font">注册</div>
+		<div class="kx-head-right-font"><a href="{{ path('zm_member_login') }}">登录</a></div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body">
+		<form class="register-form first" action="" method="post">
+			<div class="input-group">
+				<input class="classinput regphone" type="text" placeholder="请输入手机号" name="phone" value="" />
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="input-group">
+				<input class="classinput codeInput" type="text" placeholder="请输入验证码" name="sms_salt" value="" />
+				<input type="button" id="codebtn" class="btn get-identify-code" value="获取验证码" /> 
+			</div>
+			<div class="horizontal-line err"></div>
+			{% if error['content'] != '' %}
+				<p style="margin-top:10px;text-align:center;font-size:24px;color: #f00;" class="for-err-tip">{{ error['content'] }}</p>
+			{% endif %}
+		<div style="margin-top:40px;" class="register-next "><input type="submit" class="btn register-next-btn" value="下一步"></div>
+		</form>
+	</div>
+	<!-- 正文结束-->
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	$(".register-next-btn").click(function(){
+		location.href="{{ path('zm_member_register_two') }}";
+	});
+</script>
+<script type="text/javascript">
+	//手机格式判断
+    var mobilephone = /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/;
+	$(".regphone").blur(function(event) {
+        var phone = $(this).val();
+        
+        var errorMsg = '联系方式格式不正确';
+        $(".for-err-tip").remove();
+        if(!mobilephone.exec(phone)){
+            $('.err').after('<p style="margin-top:10px;text-align:center;font-size:24px;color: #f00;" class="for-err-tip">'+errorMsg+'</p>');            
+        }
+   	});
+	//倒计时60秒
+	var wait=60; 
+	function time(o) { 
+
+		if (wait == 0) { 
+
+			o.removeAttribute("disabled"); 
+
+			o.value="获取动态码"; 
+
+			wait = 60; 
+
+		} else { 
+
+			o.setAttribute("disabled", true); 
+
+			o.value="重发(" + wait + ")"; 
+
+			wait--; 
+
+			setTimeout(function() { 
+
+				time(o) 
+
+			}, 1000) 
+
+		} 
+
+	} 
+
+	$('.get-identify-code').click(function() {
+		var phone = $('.regphone').val();
+		 
+		$.ajax({
+			type: 'post',
+			url: "{{ path('zm_member_getPhoneSalt') }}",
+			data: {
+				phone: phone,
+				type: 1
+			},
+			dataType: 'json',
+			success: function (result) {
+				if (result.code == 1) {
+					//alert('成功');
+					time(codebtn);
+				} else {
+					alert(result.message);
+				}
+			}
+		});
+	});
+
+	
+			
+</script>
+{% endblock %}

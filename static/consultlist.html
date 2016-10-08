@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>q2</title>
+	<link rel="stylesheet" type="text/css" href="css/kuaixiu.css">
+</head>
+<body style="font-family: "微软雅黑";">
+	<div class="kx-container">
+		<form action="" method="post">
+			<!-- 头部 -->
+			<div class="kx-head">
+				<a href="index.html"><div class="kx-img kx-head-home-img"></div></a>
+				<div class="qkx-head-center-font">快修咨询</div>
+				<a href="">
+					<span class="qspan">我要咨询</span>
+					<div class="kx-img qicon"></div>
+				</a>
+			</div>
+			<!-- 头部结束 -->
+			<!-- 正文 -->
+			<div class="kx-body over-flow" style="padding-bottom:342px;">
+				<a style="height:117px !important" href="" class="qlist">
+ 					<ul>
+ 						<li class="li1">2015-09-16 11:44</li>
+ 						<li class="li2">服务态度</li>
+ 					</ul>
+ 					<div class="qdel"></div>
+ 					<span class="qstatus qcolblue">待回复</span>
+				</a>
+				<a style="height:117px !important" href="" class="qlist">
+ 					<ul>
+ 						<li class="li1">2015-09-16 11:44</li>
+ 						<li class="li2">服务态度</li>
+ 					</ul>
+ 					<div class="qdel"></div>
+ 					<span class="qstatus qcolblack">已回复</span>
+				</a>
+			</div>
+			<!-- 正文结束-->
+		</form>
+	</div>
+</body>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript">
+	$('.qlist').swipeLeft(function(){
+  		$(this).children(".qdel").show();
+
+	})
+	$('.qlist').swipeRight(function(){
+  		$(this).children(".qdel").hide();
+  		
+	})
+</script>
+</html>

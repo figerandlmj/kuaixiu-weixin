@@ -1,0 +1,52 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-忘记密码2{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+		<div class="kx-head-center-font">忘记密码</div>
+		<div class="kx-head-right-font"><a href="{{ path('zm_member_login') }}">登录</a></div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body">
+		<form class="register-form first" action="" method="post">
+			<span class="user-num">{{ phone }}</span>
+			<div class="horizontal-line"></div>
+			<div class="input-group">
+				<input class="classinput" type="password" placeholder="请设置密码" name="password" value="" />
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="input-group">
+				<input class="classinput" type="password" placeholder="请再次输入" name="confirm_password" value="" />
+			</div>
+			<div class="horizontal-line err"></div>
+			{% if error['content'] != '' %}
+				<p style="margin-top:10px;text-align:center;font-size:24px;color: #f00;" class="for-err-tip">{{ error['content'] }}</p>
+			{% endif %}
+			<div style="margin-top:40px;" class="register-next "><input type="submit" class="btn register-next-btn" value="提交"></div>
+		</form>
+	</div>
+	<!-- 正文结束-->
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-明星产品{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmmember/css/swiper.css') }}" />
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container">
+    <!-- 头部 -->
+        <div class="kx-head">
+            <a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+            <div class="kx-head-center-font">明星产品</div>
+            <!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+        </div>
+    <!-- 头部结束 -->
+    <!-- 正文 -->
+        <div class="kx-body padding-b-0 over-flow">
+            <div class="tab-star">
+                <div class="tab-star-title swiper-container">
+                    <ul class="swiper-wrapper">
+                        {% for key,item in star_product %}
+                        <li class="swiper-slide">{{ item.name }}</li>
+                        {% endfor %}
+                	</ul>
+                </div>
+                <div class="star-content">
+                    {% for key,item in star_product %}
+                    <div class="tab-star-content">
+                        <div class="gray-block"></div>
+                        {% for proitem in item.product %}
+                        <div class="order-group">
+                            <div class="order-list ">
+                                <!-- <span class="head-portrait "></span> -->
+                                <img style="position: absolute;left: 10px;width:70px;height:70px" src="{{ webIp }}image/starproduct/{{ proitem.image }}" />
+                                <span class="order-detail-wrap ">
+                                    <p class="font-size-16 margin-top-5">{{ proitem.name }}{{ proitem.model }}</p>
+                                    <div class="shop-collection-wrap font-color-light-gray line-height-10">
+                                        <p>{{ proitem.title }}</p>
+                                        <p>{{ proitem.content }}</p>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="horizontal-line"></div> 
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+    <!-- 正文结束-->
+    </div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/zmmember/js/swiper.min.js') }}"></script>
+<script >
+ var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        paginationClickable: true,
+        spaceBetween: 30,
+        freeMode: true
+    });
+$('.tab-star-title li').eq(0).addClass('star-li-border-bottom').siblings().removeClass('star-li-border-bottom');
+$('.star-content .tab-star-content').eq(0).show().siblings().hide();
+    $(function(){
+        $('.tab-star-title li').click(function(){
+            $(this).addClass('star-li-border-bottom').siblings().removeClass('star-li-border-bottom');
+            var index=$(this).index();
+            console.log(index);
+            $('.star-content .tab-star-content').eq(index).show().siblings().hide();
+        });
+    })
+</script>
+{% endblock %}

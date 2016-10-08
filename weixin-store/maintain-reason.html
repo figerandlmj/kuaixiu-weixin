@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>维修原因</title>
+	<link rel="stylesheet" type="text/css" href="css/kx-basic.css">
+</head>
+<body>
+	<div class="kx-container">
+	<!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white">
+			<div class="gray-block border-0"></div>
+		
+			<div class="horizontal-line"></div>
+			<div class="year-group reason-choose">
+				<span class="kx-img slide-arrow-right" data="1"></span>
+				<span class="ml-20">门体类</span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="maintain-detail-list font-14">
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+			</div>
+			<div class="year-group reason-choose">
+				<span class="kx-img slide-arrow-right" data="1"></span>
+				<span class="ml-20">箱体外表类</span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="maintain-detail-list font-14">
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+			</div>
+			<div class="maintain-detail-list font-14">
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+			</div>
+			<div class="year-group reason-choose">
+				<span class="kx-img slide-arrow-right" data="1"></span>
+				<span class="ml-20">箱体内部类</span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="maintain-detail-list font-14">
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+			</div>
+			<div class="year-group reason-choose">
+				<span class="kx-img slide-arrow-right" data="1"></span>
+				<span class="ml-20">制冷系统</span>
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="maintain-detail-list font-14">
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<a href="maintain-reason-box.html">
+					<div class="year-group">
+						<span class="ml-40">箱体</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+			</div>
+		</div>
+	<!-- 正文结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">	
+	$(function(){
+		$('.reason-choose').click(function(){
+			$(this).next().next().toggle();
+			var data=$(this).find(".slide-arrow-right").attr('data');
+			console.log(data);
+			if (data == 1) //执行关闭声音播放操作
+            {
+                $(this).find(".slide-arrow-right").attr('data', 0);
+                $(this).find(".slide-arrow-right").addClass('slide-arrow-top');
+            }
+            else {
+                $(this).find(".slide-arrow-right").attr('data', 1);
+                $(this).find(".slide-arrow-right").removeClass('slide-arrow-top');
+            }
+		});
+	})	
+</script>
+</html>

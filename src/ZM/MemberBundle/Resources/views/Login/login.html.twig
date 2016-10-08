@@ -1,0 +1,181 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-登录{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+    <div class="kx-container">
+        <!-- 头部 -->
+        <div class="kx-head">
+            <a href="{{ path('zm_member_index') }}">
+                <div class="kx-img kx-head-home-img"></div>
+            </a>
+            <div class="kx-head-center-font">登录</div>
+        </div>
+        <!-- 头部结束 -->
+        <!-- 正文 -->
+        <div class="kx-body">
+            <img class="login-bg" src="{{ asset('bundles/zmmember/images/login_top.png') }}">
+
+            <div class="kx-img login-bg-logo"></div>
+            <div style="float:right;margin-right:20px;"><a href="{{ path('zm_member_login_salt') }}?from_url={{ from_url }}" style="color:#000;">验证码登陆</a></div>
+            <form class="login-form" action="" method="post">
+                <div class="input-group">
+                    <span class="kx-img login-phone"></span>
+                    <input class="classinput regphone" type="text" name="phone" value="" placeholder="手机号"/>
+                </div>
+                <div class="horizontal-line"></div>
+                <div class="input-group">
+                    <span class="kx-img login-key"></span>
+                    <input class="classinput" id="psw" style="width:40%" type="text" name="password" value="" placeholder="密码"/>
+
+                    <div class="switch-btn">
+                        <span class="kx-img switch-img-off"></span>
+                        <span class="point-slide"></span>
+                        <span class="kx-img switch-img-on"></span>
+                    </div>
+                </div>
+                <input type="hidden" value="{{ from_url }}" name="from_url"/>
+                <div class="horizontal-line err"></div>
+                {% if error['content'] != '' %}
+                    <p style="margin-top:10px;text-align:center;font-size:24px;color: #f00;" class="for-err-tip">{{ error['content'] }}</p>
+                {% endif %}
+                <div style="margin-top:40px;" class="register-next"><input type="submit" value="登 录" class="btn login-btn"/></div>
+            </form>
+        </div>
+        <div class="link-wrap">
+            <a class="pull-left" href="{{ path('zm_member_forget_one') }}">忘记密码</a>
+            <a class="pull-right" href="{{ path('zm_member_register_one') }}?from_url={{ from_url }}">注册新用户</a>
+        </div>
+        <!-- 正文结束-->
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="{{ asset('bundles/zmmember/js/position.js') }}"></script>#}
+    <script>
+        var time = 0;
+        $(".register-next-btn").click(function () {
+            location.href = 'register-next.html';
+        });
+        $('.switch-btn').click(function () {
+            time++;
+            if (time == 1) {
+                $(this).css({"background-color": "#d2d2d2"});
+                $('.point-slide').animate({"left": "44px"});
+                $('.switch-img-on').hide();
+                $('.switch-img-off').show();
+                $('#psw').attr('type', 'password');
+            }
+            if (time == 2) {
+                $('.point-slide').animate({"left": "0px"});
+                $(this).css({"background-color": "#f68484"});
+                $('.switch-img-on').show();
+                $('.switch-img-off').hide();
+                $('#psw').attr('type', 'text');
+                time = 0;
+            }
+
+        });
+
+        //手机格式判断
+    var mobilephone = /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/;
+	$(".regphone").blur(function(event) {
+        var phone = $(this).val();
+
+        var errorMsg = '联系方式格式不正确';
+        $(".for-err-tip").remove();
+        if(!mobilephone.exec(phone)){
+            $('.err').after('<p style="margin-top:10px;text-align:center;font-size:24px;color: #f00;" class="for-err-tip">'+errorMsg+'</p>');
+        }
+   	});
+    
+    //定位
+    var storage = window.localStorage;
+    if (!storage.getItem("is_location")) {
+        storage.setItem("is_location",0);
+    }
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("浏览器不支持地理定位。");
+        }
+    }
+    function showPosition(position) {
+        var latlon = position.coords.latitude+','+position.coords.longitude;
+        var latitude = position.coords.latitude;
+        var longitude= position.coords.longitude;
+        //google
+        var url = 'http://maps.google.cn/maps/api/geocode/json?latlng=' + latlon + '&language=CN';
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (json) {
+                if (json.status == 'OK') {
+                    var result = json.results;
+                    // console.log(result);
+                    $.ajax({
+                        type: "post",
+                        url: "{{ path('zm_member_setLocationAjax') }}",
+                        data: {
+                            latitude: latitude,
+                            longitude: longitude,
+                            location_json:result
+                        },
+                        success: function (result) {
+
+                            confirm(result.content);
+                            storage.setItem("is_location",1);
+
+                        }
+                    });
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("地址位置获取失败");
+                //$("#google_geo").html(latlon + "地址位置获取失败");
+            }
+        });
+    }
+
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("定位失败,用户拒绝请求地理定位");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("定位失败,位置信息是不可用");
+                break;
+            case error.TIMEOUT:
+                alert("定位失败,请求获取用户位置超时");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("定位失败,定位系统失效");
+                break;
+        }
+    }
+
+    $(function(){
+        if(storage.is_location == 0){
+            getLocation();
+        }
+        // $(window).unload(function(){ 
+        //     storage.removeItem("is_location");
+        // });
+    })
+    
+    </script>
+    
+
+{% endblock %}

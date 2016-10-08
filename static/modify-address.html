@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>我的地址</title>
+	<link rel="stylesheet" type="text/css" href="css/kuaixiu.css">
+	<link rel="stylesheet" type="text/css" href="css/mobile-select-area.css">
+</head>
+<body>
+	<div class="kx-container">
+	<!-- 头部 -->
+		<div class="kx-head">
+			<a href="index.html"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">编辑地址</div>
+			<div class="kx-head-right-font"><a href="#">保存</a></div>
+		</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+		<div class="kx-body">
+			<div class="input-form font-size-14">
+				<span>维修人</span>
+				<input type="text" placeholder="请输入您的姓名">
+			</div>
+			<div class="horizontal-line margin-0-10 width-auto"></div>
+			<div class="input-form font-size-14">
+				<span>联系方式</span>
+				<input type="text" placeholder="请输入您的姓名">
+			</div>
+			<div class="horizontal-line margin-0-10 width-auto"></div>
+			<div class="input-form font-size-14">
+				<span>所在地区</span>
+				<input style="color:#5a5a5a" class="address font-size-11 margin-left-10" id="txt_area" placeholder="安徽省芜湖市弋江区">
+				<input type="hidden" id="hd_area" value="1,1,1"/>
+				<span class="kx-img arrow-right"></span>
+			</div>
+			<div class="horizontal-line margin-0-10 width-auto"></div>
+			<div class="input-form font-size-14">
+				<span>详细地址</span>
+				<input type="text" placeholder="请输入您的详细地址">
+			</div>
+			<div class="horizontal-line margin-0-10 width-auto"></div>
+		</div>
+	<!-- 正文结束-->
+	<!-- 脚部 -->
+		<div class="kx-foot">
+			<div class="kx-foot-content">
+				<ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="personal-center.html">个人中心</a></li>
+					<li><a href="my-order.html">我的订单</a></li>
+				</ul>
+				<div>@2015 家电快修网</div>
+			</div>
+		</div>
+	<!-- 脚部结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/dialog.js"></script>
+<script type="text/javascript" src="js/mobile-select-area.js"></script>
+<script>
+    $(function () {
+		var selectArea = new MobileSelectArea();
+		selectArea.init({trigger:'#txt_area',value:$('#hd_area').val(),data:'data.json'});
+
+});
+</script>
+</html>

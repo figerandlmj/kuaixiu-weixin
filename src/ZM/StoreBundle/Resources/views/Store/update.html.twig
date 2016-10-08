@@ -1,0 +1,418 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-店铺信息编辑{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmstore/css/jquery-ui.css') }}" />
+{% endblock %}
+
+    {% block body %}
+    <style>
+	.ui-timepicker-div .ui-widget-header { margin-bottom: 8px;}
+	.ui-timepicker-div dl { text-align: left; }
+	.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+	.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+	.ui-timepicker-div td { font-size: 90%; }
+	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label,.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px}
+	</style>
+    <!-- 正文开始 -->
+    <form action="" method="post" class="submit-form" enctype="multipart/form-data">
+	{% if param == "logo" %}
+	<div class="gray-block" style="height:30px;"></div>
+	<div class="kx-body bg-color-light-white" style="min-height:440px">
+		<div class="list-with-imgs">
+			<div class="year-group font-12">
+			店铺logo<br>
+			<img src ="{{ webIp }}image/store/{{ store.image }}"  style="width:90px;height:50px;padding:10px;" id="ImgPh01" /><br/>
+			<input  type="file" name="image" id="inputstyle01" style=""/>
+			</div>
+			<div class="horizontal-line"></div>
+		</div>
+		<div class="window-btn-wrap margin-10-20p">
+			<div class="btn primary-btn width-full">保存</div>
+		</div>
+	</div>
+	{% endif %}
+    {% if param == "store_name" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				店铺名称
+				<input placeholder="请输入店铺名称" type="text" name="store_name" value="{{ store.store_name }}">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "link_man" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				店铺负责人
+				<input placeholder="请输入负责人名称" type="text" name="link_man" value="{{ store.link_man }}">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "address" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				地址
+				<input placeholder="请输入地址" type="text" name="address" value="{{ store.address }}">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "appliance" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12 appliances-checkbox">
+				维修范围<br><br>
+				{% for item in appliance_list %}
+				<input type="checkbox" name="appliances[]" value="{{ item.id }}"/>{{ item.appliance_name }}<br/><br/>
+				{% endfor %}
+				
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "range" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+					服务区域<br><br>
+					<select style="margin-left: 10px; width:100px;height:32px;" class="address-openregion" name="res_province_id" value="">
+	                    <option value="0">-请选择-</option>
+	                    {% for item in province_list %}
+	                    <option value="{{ item.id }}" {% if item.id == store.res_province_id %}selected{% endif %}>{{ item.name }}</option>
+	                    {% endfor %} 
+	                </select>
+				
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "time" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				营业时间<br><br>
+				<select class="start_week" name="start_week" value="" style="margin-left: 10px; width:100px;height:32px;">
+                    <option value="0">-请选择-</option>
+                    <option value="星期日" {% if store.start_week == "星期日" %}selected{% endif %}>星期日</option>
+                    <option value="星期一" {% if store.start_week == "星期一" %}selected{% endif %}>星期一</option> 
+                    <option value="星期二" {% if store.start_week == "星期二" %}selected{% endif %}>星期二</option> 
+                    <option value="星期三" {% if store.start_week == "星期三" %}selected{% endif %}>星期三</option>
+                    <option value="星期四" {% if store.start_week == "星期四" %}selected{% endif %}>星期四</option>
+                    <option value="星期五" {% if store.start_week == "星期五" %}selected{% endif %}>星期五</option> 
+                    <option value="星期六" {% if store.start_week == "星期六" %}selected{% endif %}>星期六</option> 
+                </select>
+                <span>&nbsp;&nbsp;—</span>
+                <select class="end_week" name="end_week" value="" style="margin-left: 10px; width:100px;height:32px;">
+                    <option value="0">-请选择-</option>
+                    <option value="星期日" {% if store.end_week == "星期日" %}selected{% endif %}>星期日</option>
+                    <option value="星期一" {% if store.end_week == "星期一" %}selected{% endif %}>星期一</option> 
+                    <option value="星期二" {% if store.end_week == "星期二" %}selected{% endif %}>星期二</option> 
+                    <option value="星期三" {% if store.end_week == "星期三" %}selected{% endif %}>星期三</option>
+                    <option value="星期四" {% if store.end_week == "星期四" %}selected{% endif %}>星期四</option>
+                    <option value="星期五" {% if store.end_week == "星期五" %}selected{% endif %}>星期五</option> 
+                    <option value="星期六" {% if store.end_week == "星期六" %}selected{% endif %}>星期六</option>
+                </select><br/><br/>
+                <input type="text" name="start_time" value="{{ store.start_time }}" id="example_1" style="width:94px; height:26px; line-height:20px; padding:2px; border:1px solid #d3d3d3;margin-left:10px;"/>
+                <span>&nbsp;&nbsp;&nbsp;—&nbsp;&nbsp;</span>
+                <input type="text" name="end_time" value="{{ store.end_time }}" id="example_2" style="width:94px; height:26px; line-height:20px; padding:2px; border:1px solid #d3d3d3"/>
+
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "manufacturer" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				特约维修品牌<br><br>
+				<ul>
+					{% if special is not empty %}
+						{% for item in special %}
+						<li><label>{{ item.appliance_name }}:</label>{{ item.manufacturer_name }}</li>
+						{% endfor %}
+					{% else %}
+					<li>暂无特约维修品牌</li>
+					{% endif %}
+				</ul>
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">返回</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "qq" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				QQ
+				<input placeholder="请输入qq" type="text" name="qq" value="{{ store.qq }}">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "weixin" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				微信
+				<input placeholder="请输入微信" type="text" name="weixin" value="{{ store.weixin }}">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+	{% if param == "weibo" %}
+		<div class="gray-block" style="height:30px;"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs">
+				<div class="year-group font-12">
+				微博
+				<input placeholder="请输入微博" type="text" name="weibo" value="{{ store.weibo }}">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full">保存</div>
+			</div>
+		</div>
+	{% endif %}
+</form>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/jquery-1.7.2.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/jquery-ui.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/jquery-ui-slide.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/jquery-ui-timepicker-addon.js') }}"></script>
+<!-- 时间选择框 -->
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/My97DatePicker/WdatePicker.js') }}"></script>
+<!-- 上传图片 -->
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/uploadPreview.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/uploadPreview.js') }}"></script>
+<script type="text/javascript">
+
+$(function(){
+	// 点击登陆
+	$(".primary-btn").on("click",function(){
+		$(".submit-form").submit();
+	})
+	// 营业时间
+	$('#example_1').timepicker({});
+    $('#example_2').timepicker({});
+    // 服务区域
+    var chosetext = "<option value='0'>-请选择-</option>";
+	var province_id = "{{ store.res_province_id }}";
+	var city_id = "{{ store.res_city_id }}";    
+	var district_id = "{{ store.res_district_id }}";
+	gGetCity();
+
+	// 判断显示已选择的市
+	function gGetCity(){   
+	    if( city_id != ""){
+	       $(".address-opencity").remove();
+	       $(".address-district").remove();
+	        var id = province_id;
+	        var url= "{{ path('zm_member_getCityAjax', { 'id': 'text' }) }}";
+	        url = url.replace("text", id);
+	        $.ajax({
+	            type:"get",
+	            url:url,
+	            data:{region:id},
+	            dataType:"json",
+	            success:function(data){
+	                var length=data.length;
+	                //console.log(data);
+	                
+	                $(".address-openregion").after("<select style='margin-left: 10px; width:100px;height:32px;' class='address-opencity' name='res_city_id'></select>");
+	                $(".address-opencity").append(chosetext);
+	                
+	                for(var i=0;i<length;i++){
+	                    var  city_option = "<option id='origin_city_id_op"+data[i].id+"'value='"+data[i].id+"' >"+data[i].name+"</option>"
+	                        $(".address-opencity").append(city_option);
+
+	                    if(city_id == data[i].id){
+	                        $("#origin_city_id_op" + data[i].id).attr("selected","selected");
+	                    }
+
+	                }	                
+	                gGetConuntry();
+	            }
+	        })
+	    }
+	}
+
+    // 判断显示已选择的区
+    function gGetConuntry(){
+        if( district_id != ""){
+            $(".address-district").remove();
+
+            var id = city_id; 
+          
+            var url = "{{ path('zm_member_getDistrictAjax', { 'id': 'text' }) }}";
+            url = url.replace("text", id);
+            $.ajax({
+                type:"get",
+                url:url,
+                data:{city:id},
+                dataType:"json",
+                success:function(data){
+                    var length=data.length;
+                    console.log(data);
+                    
+                    $(".address-opencity").after( "<select style='margin-left: 10px; width:100px;height:32px;' class='address-district' name='res_district_id' ></select>");
+                    $(".address-district").append(chosetext);
+
+                    for(var i=0;i<length;i++){
+                        var  xian_option = "<option id='origin_xian_id_op"+data[i].id+"'value='"+data[i].id+"'>"+data[i].name+"</option>"
+                        $(".address-district").append(xian_option);
+
+                        if(district_id == data[i].id){
+                            $("#origin_xian_id_op" + data[i].id).attr("selected","selected");
+                        }                    
+                    }                  
+                }
+            })
+        }   
+    }
+
+
+    // 选择-出现市
+    $(document).on('change','.address-openregion',function(){
+        $(".address-opencity").remove();
+       $(".address-district").remove();
+
+        var id = $(".address-openregion").val(); 
+        var url= "{{ path('zm_member_getCityAjax', { 'id': 'text' }) }}";
+        url = url.replace("text", id);
+        $.ajax({
+            type:"get",
+            url:url,
+            data:{region:id},
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                //console.log(data);
+                
+                $(".address-openregion").after( "<select style='margin-left: 10px; width:100px;height:32px;' class='address-opencity' name='res_city_id'></select>");
+                $(".address-opencity").append(chosetext);
+                
+                for(var i=0;i<length;i++){
+                    var  city_option = "<option id='origin_city_id_op"+data[i].id+"'value='"+data[i].id+"' >"+data[i].name+"</option>"
+                        $(".address-opencity").append(city_option);
+
+                    if(city_id == data[i].id){
+                        $("#origin_city_id_op" + data[i].id).attr("selected","selected");
+                    }
+                }
+            }            
+        })
+    });    
+
+    // 选择-出现区
+    $(document).on('change','.address-opencity',function(){
+        $(".address-district").remove();
+
+        var id = $(".address-opencity").val(); 
+      
+        var url = "{{ path('zm_member_getDistrictAjax', { 'id': 'text' }) }}";
+        url = url.replace("text", id);
+        $.ajax({
+            type:"get",
+            url:url,
+            data:{city:id},
+            dataType:"json",
+            success:function(data){
+                    var length=data.length;
+                    //console.log(data);
+                    
+                    $(".address-opencity").after("<select style='margin-left: 10px; width:100px;height:32px;' class='address-district' name='res_district_id' ></select>");
+                    $(".address-district").append(chosetext); 
+
+                    for(var i=0;i<length;i++){
+                        var  xian_option = "<option id='origin_xian_id_op"+data[i].id+"'value='"+data[i].id+"'>"+data[i].name+"</option>"
+                        $(".address-district").append(xian_option);
+
+                        if(district_id == data[i].id){
+                            $("#origin_xian_id_op" + data[i].id).attr("selected","selected");
+                        }                    
+                    }                  
+                }            
+        })             
+    });
+    //维修范围
+    var store_appliance;
+    {% for this_item in store_appliance %}
+
+    store_appliance="{{ this_item.appliance_id }}";
+    $(".appliances-checkbox input").each(function(){
+
+		if($(this).val()==store_appliance){
+			$(this).attr("checked","checked");
+		}
+	});
+    
+    {% endfor %}
+    // 店铺logo
+    $("#inputstyle01").uploadPreview({Img: "ImgPh01",Height:30, Width:30});
+   
+
+
+})
+</script>
+{% endblock %}
+

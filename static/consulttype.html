@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>q1</title>
+	<link rel="stylesheet" type="text/css" href="css/kuaixiu.css">
+</head>
+<body style="font-family: "微软雅黑";">
+	<div class="kx-container">
+		<!-- 头部 -->
+		<div class="kx-head">
+			<a href="index.html"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="qkx-head-center-font">咨询类型</div>
+			<!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+		</div>
+		<!-- 头部结束 -->
+		<!-- 正文 -->
+		<div class="qkx-body over-flow" style="padding-bottom:342px;">
+			<div class="qcontainer">
+				<div class="qtitle">
+					<i></i>
+					<span>咨询类型</span>
+				</div>
+				<div data-id="1" class="qlist">
+					<span class="qlistname">维修咨询</span>
+					<span style="display:none" class="kx-img qyesbtn"></span>
+				</div>
+				<div data-id="2" class="qlist">
+					<span class="qlistname">维修咨询2</span>
+					<span style="display:none" class="kx-img qyesbtn"></span>
+				</div>
+				<div data-id="3" class="qlist">
+					<span class="qlistname">维修咨询3</span>
+					<span style="display:none" class="kx-img qyesbtn"></span>
+				</div>
+				<div data-id="4" class="qlist">
+					<span class="qlistname">维修咨询4</span>
+					<span style="display:none" class="kx-img qyesbtn"></span>
+				</div>
+			</div>
+		</div>
+		<!-- 正文结束-->
+		 
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+	$('.qlist').click(function(){
+		$(this).children('.qyesbtn').show();
+		var other = $(this).siblings('.qlist').children('.qyesbtn');
+		other.hide();
+		var id = $(this).data("id");
+		console.log(id);
+	})
+</script>
+</html>

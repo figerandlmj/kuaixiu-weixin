@@ -1,0 +1,51 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-评价成功{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+<div class="kx-container">
+	<form action="{{ path('zm_member_order_show',{'review_id':review_id}) }}" method="post">
+		<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_order_review',{'id':maintenance_id}) }}"><div class="kx-img go-back-img"></div><span class="go-back-font">返回</span></a>
+			<div class="kx-head-center-font">评价成功</div>
+		</div>
+		<!-- 头部结束 -->
+		<!-- 正文 -->
+		<div class="kx-body">
+			<div class="bask-order-wrap">
+				<div class="bask-order">
+					<span class="kx-img bask-order-img"></span>
+					<span class="margin-left-30 font-size-25">感谢您的评价</span>
+					<span class="pull-left margin-top-10">评价就可以获得更多积分</span>
+				</div>
+			</div>
+			<div class="assess-btn-wrap">
+				<button class="btn assess-btn">我要去晒单</button>
+			</div>
+			
+			<div {% if error.content != "" %}style="display:block"{% endif %} class="error-tips">
+				{{ error.content }}
+			</div>
+			
+			<input type="hidden" name="show" value="1" />
+		</div>
+		<!-- 正文结束-->
+	</form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+{% endblock %}

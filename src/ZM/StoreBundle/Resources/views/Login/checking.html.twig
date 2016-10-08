@@ -1,0 +1,38 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-等待审核{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="kx-body" style="min-height:300px">
+			<div class="kx-img-big audit-img"></div>
+			<span class="audit-font">
+				{% if status == 0 %}
+				正在审核中...
+				{% elseif status == 2 %}
+				审核未通过...
+				{% endif %}
+				
+			</span>
+
+		</div>
+		<div class="contact-wrap font-song">
+			<p>平台联系方式</p>
+			<p>邮箱：{{ email }}</p>
+			<p>QQ：3302160866</p>
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+

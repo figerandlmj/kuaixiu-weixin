@@ -1,0 +1,96 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-招聘信息编辑{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="gray-block"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<form class="list-with-imgs submit-form" action="" method="post" onSubmit="return check()">
+				<div class="input-group">
+					<div class="input-name">职位名称</div>
+					<textarea name="position" class="position">{% if employ is not empty %}{{ employ.position }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="input-group">
+					<div class="input-name">招聘人数</div>
+					<textarea name="employ_num" class="employ_num">{% if employ is not empty %}{{ employ.employ_num }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="input-group">
+					<div class="input-name">招聘要求</div>
+					<textarea name="requirement" class="requirement">{% if employ is not empty %}{{ employ.requirement }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="input-group">
+					<div class="input-name">待&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;遇</div>
+					<textarea name="treatment" class="treatment">{% if employ is not empty %}{{ employ.treatment }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="input-group">
+					<div class="input-name">联系地址</div>
+					<textarea name="address" class="address">{% if employ is not empty %}{{ employ.address }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="input-group">
+					<div class="input-name">联&nbsp;&nbsp;系&nbsp;&nbsp;人</div>
+					<textarea name="link_man" class="link_man">{% if employ is not empty %}{{ employ.link_man }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="input-group">
+					<div class="input-name" class="">联系电话</div>
+					<textarea name="telephone" class="telephone">{% if employ is not empty %}{{ employ.telephone }}{% endif %}</textarea>
+				</div>
+				<div class="horizontal-line"></div>
+			
+			<div class="window-btn-wrap margin-10-20p submit-btn">
+				<button class="btn primary-btn width-full">保存</button>
+			</div>
+		</form>
+	</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+//textarea自动换行
+autosize(document.querySelectorAll('textarea'));
+// 验证函数
+function check(){
+    var position=$(".position").val();
+    var employ_num=$(".employ_num").val();
+    var requirement=$(".requirement").val();
+    var treatment=$(".treatment").val();
+    var link_man=$(".link_man").val();
+    var address=$(".address").val();
+    var telephone=$(".telephone").val();
+    var regTelephone =/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+    var regemployNum=/^\+?[1-9][0-9]*$/;
+    
+    if(position==''||employ_num==''||requirement==''||treatment==''||link_man==''||address==''||telephone==''){
+        alert("请完善信息！");
+        return false;
+    }else if(!regemployNum.test(employ_num)){
+        alert('请正确填写招聘人数！');
+        return false;
+    }else if(!regTelephone.test(telephone)){
+        alert('无效号码！');
+        return false;
+    }
+}
+// 点击保存
+$(function(){
+	$(".submit-btn").on("click",function(){
+		$(".submit-form").submit();
+	})
+})
+</script>
+{% endblock %}

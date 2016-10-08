@@ -1,0 +1,142 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-我的店铺信息{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="gray-block"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:340px">
+			<div class="list-with-imgs">
+				<a>
+					<div class="year-group font-12">
+					店铺资质
+						<span class="fr mr-50 font-gray">{% if store.type == 1 %}个人{% elseif store.type == 2 %}普通店铺{% elseif store.type == 3 %}特约维修点{% endif %}</span>
+						<!-- <span class="kx-img arrow-right"></span> -->
+					
+					</div>
+				</a>
+				<div class="gray-block"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "logo"}) }}">
+					<div class="year-group font-12" style="height:50px;line-height:50px;">
+					店铺logo
+						<span class="fr mr-50 font-gray">
+							<div class="shop-head">
+								{% if store.image is empty %}
+								<img class="" src="{{ asset('bundles/zmstore/images/person_img.png') }}" width="50px" height="50px">
+								{% else %}
+								<img class="" src="{{ webIp }}image/store/{{ store.image }}" width="50px" height="50px">
+								{% endif %}
+							</div>
+						</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "store_name"}) }}">
+					<div class="year-group font-12" style="padding:10px 0px 20px 20px">
+					店铺名称
+						<span class="fr mr-50 font-gray">{{ store.store_name }}</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "link_man"}) }}">
+					<div class="year-group font-12">
+					店铺负责人
+						<span class="fr mr-50 font-gray">{{ store.link_man }}</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "address"}) }}">
+					<div class="year-group font-12">
+					地址
+						<span class="fr mr-50 font-gray">{{ store.address }}</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="gray-block"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "appliance"}) }}">
+					<div class="year-group font-12">
+					维修范围
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "range"}) }}">
+					<div class="year-group font-12">
+					服务区域
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "time"}) }}">
+					<div class="year-group font-12">
+					营业时间
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "manufacturer"}) }}">
+					<div class="year-group font-12">
+					查看特约维修品牌
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="gray-block"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "qq"}) }}">
+					<div class="year-group font-12">
+					QQ
+						<span class="fr mr-50 font-gray">{{ store.qq }}</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "weixin"}) }}">
+					<div class="year-group font-12">
+					微信
+						<span class="fr mr-50 font-gray">{{ store.weixin }}</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_store_update', {'param': "weibo"}) }}">
+					<div class="year-group font-12">
+					微博
+						<span class="fr mr-50 font-gray">{{ store.weibo }}</span>
+						<span class="kx-img arrow-right"></span>
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a>
+					<div class="year-group font-12">
+					联系手机
+						<span class="fr mr-50 font-gray">{{ store.phone }}</span>
+						<!-- <span class="kx-img arrow-right"></span> -->
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+				<a>
+					<div class="year-group font-12">
+					联系电话
+						<span class="fr mr-50 font-gray">{{ store.store_tel }}</span>
+						<!-- <span class="kx-img arrow-right"></span> -->
+					</div>
+				</a>
+				<div class="horizontal-line"></div>
+			</div>
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>注册个人</title>
+	<link rel="stylesheet" type="text/css" href="css/kx-basic.css">
+</head>
+<body>
+	<div class="kx-container font-14 ">
+	<!-- 正文开始 -->
+		<div class="must-order">
+			必填项
+		</div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<div class="list-with-imgs font-12 ">
+				<div class="year-group">
+					技师昵称：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group ">
+					联系人：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+				联系方式：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					个人详细地址：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					身份证号：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					技师昵称：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					服务区域
+					<span class="kx-img arrow-right"></span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					请上传手持身份证照片
+					<span class="kx-img arrow-right"></span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					请上传技师证书
+					<span class="kx-img arrow-right"></span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="order-title font-gray">选填项</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					邮箱：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="year-group">
+					技术专长：
+					<input  type="text">
+				</div>
+				<div class="horizontal-line"></div>
+			</div>
+			<div class="window-btn-wrap margin-10-20p">
+				<div class="btn primary-btn width-full submit-btn">提交审核</div>
+			</div>
+		</div>
+	<!-- 正文结束 -->
+	</div>
+<!-- 提交弹窗 -->
+		<div class="sign-window">
+			<div class="sign-window-content-wrap padding-10-10">
+				<span class="kx-img window-img1"></span>
+				<span class="font-14 color-green submit-success">提交成功</span>
+				<p class="font-12 font-gray submit-info">
+				请保存好您注册的账号信息。
+我们的工作人员会在3个工作日内审核并电话通知您审核结果。</p>
+			</div>
+			<div class="window-btn-wrap">
+				<div class="btn primary-btn width-full close-window">确&nbsp;定</div>
+			</div>
+		</div>
+	<!-- 提交弹窗 end -->
+	</div>
+	<!-- 遮罩层 -->
+	<div class="mask" style="height:130%;"></div>
+	<!-- 遮罩层 end -->
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script src='js/autosize.min.js'></script>
+<script type="text/javascript">
+	//提交响应事件
+		$('.submit-btn').click(function(){
+			$('.sign-window').fadeIn();
+			$('.mask').show();
+		});
+		$('.close-window').click(function(){
+			$('.sign-window').fadeOut();
+			$('.mask').hide();
+		});
+		//textarea自动换行
+		autosize(document.querySelectorAll('textarea'));
+</script>
+</html>

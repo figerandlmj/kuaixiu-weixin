@@ -1,0 +1,85 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-投诉管理{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			{% for item in data %}
+			<div class="complain-list font-14">
+				<div class="gray-block border-0"></div>
+				<div class="horizontal-line"></div>
+				<a href="{{ path('zm_store_index_info', {'id': item.maintenance_id }) }}">
+					<div class="complain-title">
+						<span>订单编号：{{ item.order_sn }}</span>
+					</div>
+			   
+				<div class="horizontal-line"></div>
+				<div class="complain-title">
+					<span>{{ item.date_added }}</span>
+				</div>
+				<div class="complain-content" style="float:left;">					
+					{{ item.description }}
+				</div>
+				 </a>
+				<a href="tel:{{ item.phone }}">
+					<div class="kx-img phone-img complain" data-id="{{ item.id }}" data-status="{{ item.status }}" style="float:right;margin-right:50px;"></div>
+			    </a>
+				<div class="horizontal-line" style="clear:both;"></div>
+				<div class="complain-status">
+					<span >{{ item.manufacturer_name }}{{ item.appliance_name }}维修</span>
+					{% if item.status == 1 %}
+					<div class="fr complain-btn" style="background:#bababa">已处理</div>
+					{% elseif item.status == 0 %}
+					<div class="fr complain-btn">待处理</div>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+			<div style="text-align:center;">{{ render|raw }}</div>			
+
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+$(function(){
+ 
+    // 处理
+    $(".complain").click(function(){
+        var this_id = $(this).data("id");
+        var this_status = $(this).data("status");
+
+        if (this_status == 0 ) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('zm_store_complain_actionAjax') }}",
+                dataType: 'json',
+                data:{
+                    id:this_id
+                },
+                success: function(result) {
+
+                    if ( result.flag == 1) {
+                        alert("处理成功!");
+                        location.href=window.location.href;
+                        
+                    } else{
+                             alert('处理失败!');   
+                    }
+                }
+            })
+        }
+    });
+})
+</script>
+{% endblock %}

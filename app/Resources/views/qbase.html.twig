@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <!-- 告诉设备忽略将页面中的数字识别为电话号码-->
+        <meta content="telephone=no" name="format-detection" />
+        <title>{% block title %}快修微信{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmmember/css/kuaixiu.css?v=') }}{{ 'NOW'|date('Y-m-d H:i:s') }}">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body style="overflow-x:hidden;">
+        {% block body %}{% endblock %}
+        {% block footer %}
+        <!-- 脚部 -->
+        <div class="kx-foot" style="overflow-x:hidden">
+            <div class="kx-foot-content">
+                <ul>
+                    <li><a href="{{ path('zm_member_index') }}">首页</a></li>
+                    <li><a href="{{ path('zm_member_member') }}">个人中心</a></li>
+                    <li><a href="{{ path('zm_member_order',{'status':3}) }}">我的订单</a></li>
+                </ul>
+                <div>@2015 家电快修网</div>
+            </div>
+        </div>
+        <!-- 脚部结束 -->
+        {% endblock %}
+
+        {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('bundles/zmmember/js/jquery-2.1.4.min.js') }}"></script>
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?f393063e51cddbc22a052e082444aa4f";
+              var s = document.getElementsByTagName("script")[0];
+              s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        {% endblock %}
+    </body>
+</html>
+

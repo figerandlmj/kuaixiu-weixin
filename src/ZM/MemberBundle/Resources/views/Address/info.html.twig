@@ -1,0 +1,233 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-地址编辑{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container">
+    <form id="addressform" action="" method="post">
+    <!-- 头部 -->
+        <div class="kx-head">
+            <a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+            <div class="kx-head-center-font">{% if id == 0 %}新建地址{% elseif id != 0 %}编辑地址{% endif %}</div>
+            <div class="kx-head-right-font"><input type="button" value="保存" /></div>
+        </div>
+    <!-- 头部结束 -->
+    <!-- 正文 -->
+        <div class="kx-body">
+            <div class="input-form font-size-14">
+                <span>维修人</span>
+                <input class="checkname" type="text" placeholder="请输入您的姓名" name="name" {% if id == 0 %}{% elseif id != 0 %}value="{{ address.name }}"{% endif %} />
+            </div>
+            <div class="horizontal-line margin-0-10 width-auto"></div>
+            <div class="input-form font-size-14">
+                <span>联系方式</span>
+                <input class="checkphone" type="text" placeholder="请输入您的联系方式" name="phone" {% if id == 0 %}{% elseif id != 0 %}value="{{ address.phone }}"{% endif %} />
+            </div>
+            <div class="horizontal-line margin-0-10 width-auto"></div>
+            <div id="zoneBTN" class="input-form font-size-14">
+                <span>所在地区</span>
+                <input readonly="readonly" style="color:#5a5a5a" class="address newChooseCity font-size-11 margin-left-10"placeholder="请选择区域" {% if id == 0 %}{% elseif id != 0 %}value="{{ address.province_name }}{{ address.city_name }}{{ address.district_name }}"{% endif %} />
+                <input class="pro-id" type="hidden" name="res_province_id" value=" " />
+                <input class="city-id" type="hidden" name="res_city_id" value=" " />
+                <input class="district-id" type="hidden" name="res_district_id" value="" />
+                <span class="kx-img arrow-right"></span>
+            </div>
+            <div class="horizontal-line margin-0-10 width-auto"></div>
+            <div class="input-form font-size-14">
+                <span>详细地址</span>
+                <input class="checkaddress" type="text" placeholder="请输入您的详细地址" name="address" {% if id == 0 %}{% elseif id != 0 %}value="{{ address.address }}"{% endif %} />
+            </div>
+            <div class="horizontal-line err margin-0-10 width-auto"></div>
+            
+        </div>
+    <!-- 正文结束-->
+    </form>
+</div>
+<!-- 弹框-显示省市区 -->
+<div style="display:none" class="cityAlertBOX">
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="pro-name f28 col333">
+        <input  type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="city-name f28 col333">
+        <input class="city-id" type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="district-name f28 col333">
+        <input class="district-id" type="hidden" value="" />
+    </div>
+    <ul class="provinceContain">
+        {% for item in province_list %}
+        <li data-id="{{ item.id }}" class="provinceBOX">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    <ul class="cityContain"></ul>
+    <ul class="districtContain"></ul>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    //检查电话号码格式checkphone
+    var mobilephone = /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/;
+    $(".checkphone").blur(function(event) {
+        var phone = $(this).val();
+        
+        var errorMsg = '手机号格式不正确';
+        $(".form-tips").remove();
+        if(!mobilephone.exec(phone)){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg+'</p>');            
+        }
+    });
+
+    $('.kx-head-right-font input').click(function(){
+        
+        var errorMsg1 = '请选择所在地区';
+        var errorMsg2 = '手机号格式不正确';
+        var errorMsg3 = '请填写维修人姓名';
+        var errorMsg4 = '请填写详细地址';
+        
+
+        $(".form-tips").remove();
+        
+        //手机号
+        var phone = $('.checkphone').val();
+        if(!mobilephone.exec(phone)){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg2+'</p>');            
+        }
+        //姓名
+        var name = $('.checkname').val();
+        if(name == ""){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg3+'</p>');            
+        }
+        //详细地址
+        var address = $('.checkaddress').val();
+        if(address == ""){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg4+'</p>');            
+        }
+        //地区
+        var p = $('.pro-id').val();
+        var c = $('.city-id').val();
+        var d = $('.district-id').val();
+        if(p == "" &&c =="" &&d==""){
+            var flag = 0;
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg1+'</p>'); 
+        }
+        //提交
+        if(mobilephone.exec(phone) && flag != 0 && name != "" && address != ""){
+            $('#addressform').submit();
+        }
+
+    })
+ 
+
+    //点击-省弹框出现
+    $('#zoneBTN').click(function(){
+        $('.cityAlertBOX').show();
+        //重新初始化
+        $('.provinceContain').show();
+        $('.cityContain').empty();
+        $('.districtContain').empty();
+        $('.pro-name').empty();
+        $('.city-name').empty();
+        $('.district-name').empty();
+        $('.pro-name').hide();
+        $('.city-name').hide();
+        $('.district-name').hide();
+    })
+
+    //省点击后，动态获取市的数据
+    $('.provinceContain li').click(function(){
+        
+        var pid = $(this).data("id");
+        var pname = $(this).text();
+        var url= "{{ path('zm_member_getCityAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", pid);
+
+        $('.pro-name').show();
+        $('.pro-name').text(pname);
+        $('.pro-id').val(pid);
+        
+        $('.provinceContain').hide();
+        $('.cityContain').empty();
+        $('.cityContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var city_option = "<li id='origin_city_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".cityContain").append(city_option);
+                }
+
+            }
+        })
+
+    })
+    //市点击后，动态获取区的数据
+    $('.cityContain').on("click","li",function(){
+        
+        var cid = $(this).data("id");
+        var cname = $(this).text();
+        var url= "{{ path('zm_member_getDistrictAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", cid);
+
+        $('.city-name').show();
+        $('.city-name').text(cname);
+        $('.city-id').val(cid);
+        
+        $('.cityContain').hide();
+        $('.districtContain').empty();
+        $('.districtContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                //alert(data);
+                for(var i=0;i<length;i++){
+                    var district_option = "<li id='origin_district_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".districtContain").append(district_option);
+                }
+                
+            }
+        })
+
+    })
+    //区点击后，显示省市区的的数据和id
+    $('.districtContain').on("click","li",function(){
+        
+        var did = $(this).data("id");
+        var dname = $(this).text();
+         
+        $('.district-name').show();
+        $('.district-name').text(dname);
+        $('.district-id').val(did);
+        
+        $('.districtContain').hide();
+        //弹框消失
+        $('.cityAlertBOX').hide();
+        var p = $('.pro-name').text();
+        var c = $('.city-name').text();
+        var d = $('.district-name').text();
+        var allname = p+c+d;
+        $('.newChooseCity').val(allname);
+
+    }) 
+</script>
+{% endblock %}

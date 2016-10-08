@@ -1,0 +1,61 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-投诉记录{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}   
+<div class="kx-container">
+	<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">投诉记录</div>
+			<!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+		</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+		<div class="kx-body padding-b-0">
+            {% for item in data %}
+			<div class="complain-wrap">
+                <div class="complain-title">
+                    <div class="complain-title-img pull-left"><img style="width:50px;height:50px" src="{{ webIp }}image/store/{{ item.image }}" /></div>
+                    <span class="margin-left-10 font-size-14">{{ item.store_name }}</span>
+                    <span class="pull-right font-color-pink font-size-12">{% if item.status ==0 %}待处理{% elseif item.status ==1 %}已处理{% endif %}</span>
+                </div>
+                <div class="horizontal-line"></div>
+                <div class="padding-10-10 line-height-10">
+                    <span class="font-size-14">{% if item.type ==1 %}服务态度{% elseif item.type ==2 %}服务质量{% elseif item.type ==3 %}服务水平{% elseif item.type ==4 %}技术水平{% endif %}</span>
+                    <span class="pull-right complain-record-date-color font-size-12">{{ item.date_added }}</span>
+                    <br>
+                    <p class="complain-record-content-color font-size-14" style="word-break:break-all;">{{ item.description }}</p> 
+                </div> 
+                <div class="gray-block"></div>
+            </div>
+            {% endfor %}
+
+            <!-- 分页 -->
+            {% autoescape false %}  
+            <div class="pages-container">
+                {{ render|raw }}    
+            </div>
+            {% endautoescape %}  
+            <!--END 分页 -->
+		</div>
+	<!-- 正文结束-->
+	</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	
+</script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-咨询列表{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container">
+	<form id="qform" action="" method="post">
+		<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="qkx-head-center-font">快修咨询</div>
+			<!-- <div class="kx-head-right-font"><a href="login.html">登录</a></div> -->
+		</div>
+		<!-- 头部结束 -->
+		<!-- 正文 -->
+		<div class="qkx-body over-flow" style="padding-bottom:342px;">
+			<div class="qcontainer">
+				<div class="qtitle">
+					<i></i>
+					<span>咨询类型</span>
+					<input class="qtype" type="hidden" name="type" value="{{ type }}" />
+				</div>
+				 
+				{% if consult == false and type ==0 %}
+				<a href="{{ path('zm_member_consult_type') }}" class="qlist">
+					<span class="qlistname">请选择咨询类型</span>
+					<span class="kx-img arrow-right"></span>
+				</a>
+				{% elseif consult == false and type !=0  %}
+				<a href="{{ path('zm_member_consult_type') }}" class="qlist">
+					<span class="qlistname">{% if type %}{% if type ==1 %}维修咨询{% elseif type ==2 %}保养咨询{% elseif type ==3 %}安装咨询{% elseif type ==4 %}家电价格{% endif %}{% endif %}</span>
+					<span class="kx-img arrow-right"></span>
+				</a>
+				{% elseif consult != false and type !=0  %}
+				<div class="qlist">
+					<span class="qlistname">{% if type %}{% if type ==1 %}维修咨询{% elseif type ==2 %}保养咨询{% elseif type ==3 %}安装咨询{% elseif type ==4 %}家电价格{% endif %}{% endif %}</span>
+				</div>
+				{% endif %}
+				<div class="middle-box">
+					<div style="border:none" class="qtitle">
+						<i></i>
+						<span>咨询内容</span>
+					</div>
+					<textarea {% if consult %}{% if consult.content != "" %}readonly="readonly"{% endif %}{% endif %} class="qtextarea" name="content">{% if consult %}{{ consult.content }}{% endif %}</textarea>
+					{% if consult == false %}
+					<div style="width:auto;position:relative" class="boxx">
+						<a href="{{ path('zm_member_consult') }}" class="qbtn2" >取消并返回</a>
+						<input class="qbtn1" type="button" value="确认提交" />
+					</div>
+					{% else %}
+					<span class="qtime">咨询时间：{{ consult.date_added |date('Y-m-d') }}</span>
+					{% endif %}
+				</div>
+			</div>
+			{% if consult == false %}
+			<div class="qtips">
+				<p class="">提示：</p>
+				<p class="">
+				1.如果您对家电维修、安装、保养、价格等有疑问，可以发起咨询，会得到及时专业的回复；
+			    2.举报时依次选择咨询类型，填写违规描述（必填，不超过200字）。请尽量详细填写您要咨询的内容，以方便我们用最短的时间解决您的疑问。
+				</p>
+			</div>
+			{% elseif consult.reply != "" %}
+			<div style="{% if consult.reply == null %}display:none;{% endif %}margin-top:25px;height:auto !important" class="middle-box">
+				<div style="border-bottom:1px dotted #eee" class="qtitle">
+					<i></i>
+					<span>回复内容</span>
+					<span class="frspan">已回复</span>
+				</div>
+				<div class="qtexts">{{ consult.reply }}</div>
+			</div>
+			<a href="{{ path('zm_member_consult') }}" style="margin-top:60px" class="qbackbtn">返回列表</a>
+			{% else %}
+			<a href="{{ path('zm_member_consult') }}" style="margin-top:60px" class="qbackbtn">返回列表</a>
+			{% endif %}
+
+		</div>
+		<!-- 正文结束-->
+	</form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('bundles/zmmember/js/jquery-2.1.4.min.js') }}"></script>
+<script>
+	
+	$('.qbtn1').click(function(){
+		var type  = $('.qtype').val(); console.log(type);
+		var content = $('.qtextarea').val(); console.log(content);
+		if(type == ""){
+			alert("请选择咨询类型");
+		}
+		if(content == ""){
+			alert("请填写咨询内容");
+		}
+
+		if(type != "" &&content != "" ){
+			$('#qform').submit();
+		}
+
+	})
+	
+
+
+</script>
+{% endblock %}

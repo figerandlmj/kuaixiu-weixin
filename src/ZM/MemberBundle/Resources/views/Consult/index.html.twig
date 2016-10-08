@@ -1,0 +1,93 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-咨询列表{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+
+{% endblock %}
+
+
+{% block body %}   
+<div class="kx-container">
+	<form action="" method="post">
+		<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div style="margin-left: -130px !important;" class="qkx-head-center-font">快修咨询</div>
+			<a href="{{ path('zm_member_consult_info',{'id':0,type:0}) }}">
+				<span class="qspan">我要咨询</span>
+				<div class="kx-img qicon"></div>
+			</a>
+		</div>
+		<!-- 头部结束 -->
+		<!-- 正文 -->
+		<div class="kx-body over-flow" style="padding-bottom:342px;">
+			{% for item in data %}
+			<div style="height:117px !important" class="qlist">
+				<a href="{{ path('zm_member_consult_info',{'id':item.id,'type':item.type}) }}">
+					<ul>
+						<li class="li1">{{ item.date_added |date('Y-m-d') }} {{ item.date_added |date('H:i') }}</li>
+						<li class="li2">{% if item.type ==1 %}维修咨询{% elseif item.type ==2 %}保养咨询{% elseif item.type ==3 %}安装咨询{% elseif item.type ==4 %}家电价格{% endif %}</li>
+					</ul>
+					<span class="qstatus {% if item.status ==1 %}qcolblue{% elseif item.status ==2 %}{% endif %}">{% if item.status ==1 %}待回复{% elseif item.status ==2 %}已回复{% endif %}</span>
+				</a>
+				<div data-id="{{ item.id }}" class="qdel"></div>
+			</div>
+			{% endfor %}
+			<!-- 分页 -->
+            {% autoescape false %}  
+            <div class="pages-container">
+                {{ render|raw }}    
+            </div>
+            {% endautoescape %}  
+            <!--END 分页 -->
+		</div>
+		<!-- 正文结束-->
+	</form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/zmmember/js/zepto.min.js') }}"></script>
+<script>
+	$('.qlist').swipeLeft(function(){
+  		$(this).children(".qdel").show();
+
+	})
+	$('.qlist').swipeRight(function(){
+  		$(this).children(".qdel").hide();
+  		
+	})
+	$('.qdel').tap(function(){
+		var list = $(this).parent();
+		var id = $(this).data('id');
+		var url = "{{ path('zm_member_consult_delete_ajax') }}";
+		if(confirm("是否确认删除？")){
+			$.ajax({
+	            type:"post",
+	            url:url,
+	            dataType:"json",
+	            data:{
+	            	id:id
+	            },
+	            success:function(result){
+	            	if(result.flag ==1){
+	            		confirm(result.content);
+	            		list.remove();
+	            	}else{
+	            		confirm(result.content);
+	            	}
+
+	            }
+	        })
+		}
+		
+	})
+</script>
+{% endblock %}

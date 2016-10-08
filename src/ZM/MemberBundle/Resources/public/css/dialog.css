@@ -1,0 +1,67 @@
+.ui-dialog { 
+	display: none; 
+	height: 220px;
+	border-top: 1px solid #ccc; 
+	background-color: #f6f6f6;
+	position: fixed;
+	width: auto;
+	z-index: 999;
+	margin-top: 45%;
+}
+@-webkit-keyframes zoomIn {
+	0% { opacity: 0; -webkit-transform: scale3d(.3, .3, .3); -moz-transform: scale3d(.3, .3, .3); -ms-transform: scale3d(.3, .3, .3); transform: scale3d(.3, .3, .3); }
+	50% { opacity: 1; }
+}
+@-moz-keyframes zoomIn {
+	0% { opacity: 0; -webkit-transform: scale3d(.3, .3, .3); -moz-transform: scale3d(.3, .3, .3); -ms-transform: scale3d(.3, .3, .3); transform: scale3d(.3, .3, .3); }
+	50% { opacity: 1; }
+}
+@keyframes zoomIn {
+	0% { opacity: 0; transform: scale3d(0, 0, 0);  }
+	100% { opacity: 1; transform: scale3d(1, 1., 1); }
+}
+@keyframes zoomOut {
+	0% { opacity: 1;  transform: scale3d(1, 1., 1); }
+	100% { opacity: 0;transform: scale3d(0, 0, 0); }
+}
+@-webkit-keyframes zoomOut {
+	0% { opacity: 1;  transform: scale3d(1, 1., 1); }
+	100% { opacity: 0;transform: scale3d(0, 0, 0); }
+}
+.zoomIn { -webkit-animation-name: zoomIn; -moz-animation-name: zoomIn; -ms-animation-name: zoomIn; animation-name: zoomIn; }
+.zoomOut { -webkit-animation-name: zoomOut; -moz-animation-name: zoomOut; -ms-animation-name: zoomOut; animation-name: zoomOut; }
+.animated { -webkit-animation-duration: .5s; -ms-animation-duration: .5s; -moz-animation-duration: .5s; animation-duration: .5s; -webkit-animation-fill-mode: both; -ms-animation-fill-mode: both; -moz-animation-fill-mode: both; animation-fill-mode: both; }
+.ui-confirm-title{
+	height: 100px;
+	margin-top: 20px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 40px;
+	padding-top: 30px;
+}
+.ui-dialog-action td{
+	position: absolute;
+	text-align: right;
+	height: 30px;
+	padding-right: 10px;
+	margin-top: -170px;
+	right: 0;
+	width: 100%;
+	border-bottom:1px solid #a5a5a5;
+}
+.ui-dialog-action button{
+	border-style:none;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.ui-alert{
+	padding:30px;
+	overflow: hidden;
+}
+button{
+	background-color: #f6f6f6;
+	margin-right: 55px;
+}

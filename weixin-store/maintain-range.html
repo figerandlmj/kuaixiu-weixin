@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>维修范围</title>
+	<link rel="stylesheet" type="text/css" href="css/kx-basic.css">
+</head>
+<body>
+	<div class="kx-container">
+	<!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white">
+			<div class="gray-block border-0"></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">空调<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">电视<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">冰箱<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">洗衣机<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">热水器<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">厨卫<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">小家电<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<div class="year-group">电脑<div class="kx-img choose-type"></div></div>
+			<div class="horizontal-line"></div>
+			<a href="#">
+				<div class="btn-wrap">
+					<div class=" btn save-btn">保存</div>
+				</div>
+			</a>
+			
+		</div>
+	<!-- 正文结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var flag=0;
+		$(".year-group").click(function(){
+			var index=$(this).index()/2-1;
+			console.log(index);
+			$(".choose-type").eq(index).toggle();	
+	});
+	})
+		
+</script>
+</html>

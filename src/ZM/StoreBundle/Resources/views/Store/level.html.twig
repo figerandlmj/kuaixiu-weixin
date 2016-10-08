@@ -1,0 +1,59 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-我的等级{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="kx-body" style="min-height:340px">
+			<div class="level-show-wrap">
+				<div class="level-font">
+					<span>当前等级</span>
+					<span class="color-orange-red">{{ data.level }}星</span>
+				</div>
+				<div class="star-wrap">
+					<ul class="star-show">
+						
+					</ul>
+				</div>
+			</div>
+			<div class="gray-block border-0"></div>
+			<div class="level-content">
+				<p>会员等级明细:</p>
+				<p>一星: 200元／年。会费分为一季度，60元。半年，105元。</p>
+				<p>二星：500元／年的。</p>
+				<p>三星：缴纳保证金800元／年。</p>
+				<p>四星：缴纳保证金1100元／年。</p>
+				<p>五星：缴纳保证金1400元／年。</p>
+				<p>六星：缴纳保证金1700元／年。</p>
+				<p>七星：缴纳保证金2000元／年。</p>
+			</div>
+
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+	$(function(){
+		var w=$('.star-show').width();
+		// console.log(w);
+		var width=w/2*(-1);
+		// console.log(width);
+		$(".star-show").css({"margin-left":width});
+		// 显示星星
+		var star_num="{{ data.level }}";
+		for(var i=0;i<star_num;i++){
+			$(".star-show").append("<li class='kx-img level-star'></li>");
+		}
+	})
+</script>
+{% endblock %}
+

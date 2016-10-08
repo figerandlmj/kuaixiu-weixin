@@ -1,0 +1,201 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-招聘{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+   <!-- header 固定 我的招聘 -->
+		<div class="top-navigation-fixed-recruit font-12">
+			<ul>
+				<a href="{{ path('zm_store_employ') }}?status=1&display=1" ><li {% if filter.status == 1 %}class="border-bottom" style="color:#fff;"{% endif %}>正在显示</li></a>
+				<a href="{{ path('zm_store_employ') }}?status=0&display=1" ><li {% if filter.status == 0 and filter.display == 1 %}class="border-bottom" style="color:#fff;"{% endif %}>正在审核</li></a>
+				<a href="{{ path('zm_store_employ') }}?display=0" ><li {% if filter.display == 0 %}class="border-bottom" style="color:#fff;"{% endif %}>已删除</li></a>
+				<a href="{{ path('zm_store_employ_info', {'id': 0}) }}">
+					<div class="release-recruit fr" style="width:90px">
+						<span class="kx-img sign-img"></span>
+						<span class="sign-font">发布招聘</span>
+					</div>
+			    </a>
+			</ul>
+			
+		</div>
+	<!-- header导航结束 -->
+	<!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white mt-50" style="min-height:300px">
+		<!-- 招聘页面-->
+		<div class="bottom-navigation-content">
+		
+			<div class="top-navigation-content-recruit">
+				<div class="gray-block border-0"></div>
+				{% for item in data %}
+				<div class="recruit-wrap font-14">
+					<div class="recruit-group">
+					{{ item.position }} （招{{ item.employ_num }}人）
+					</div>
+					<div class="year-group font-12">
+						<span class="font-light-gray">要&nbsp;&nbsp;&nbsp;&nbsp;求:</span>
+						<span class=" ml-10">{{ item.requirement }}</span>
+					</div>
+					<div class="year-group font-12">
+						<span class="font-light-gray">待&nbsp;&nbsp;&nbsp;&nbsp;遇:</span>
+						<span class=" ml-10">{{ item.treatment }}</span>
+					</div>
+					<div class="year-group font-12">
+						<span class="font-light-gray">联系人:</span>
+						<span class=" ml-10">{{ item.link_man }}</span>
+					</div>
+					<div class="year-group font-12">
+						<span class="font-light-gray">电&nbsp;&nbsp;&nbsp;&nbsp;话:</span>
+						<span class=" ml-10">{{ item.telephone }}</span>
+					</div>
+					<div class="year-group font-12">
+						<span class="font-light-gray">地&nbsp;&nbsp;&nbsp;&nbsp;址:</span>
+						<span class=" ml-10">{{ item.address }}</span>
+					</div>
+					<div class="year-group font-12">
+						<span class="font-light-gray">更新时间:</span>
+						<span class=" ml-10">{{ item.date_added }}</span>
+					</div>
+					<!-- 正在显示 -->
+		            {% if filter.status == 1 %}
+					<div class="recruit-btn">
+						<div class="horizontal-line"></div>
+						<div class="recruit-btn-wrap cursor-btn del" data-id="{{ item.id }}">
+							<div class="kx-img del-img fl"></div>
+							<span class="fr">删除</span>
+						</div>
+						<a href="{{ path('zm_store_employ_info', {'id': item.id}) }}">
+							<div class="recruit-btn-wrap">
+								<div class="kx-img modify-img fl"></div>
+								<span class="fr">修改</span>
+							</div> 
+						</a>
+						<a href="{{ path('zm_store_employ') }}?status=1&display=1">
+							<div class="recruit-btn-wrap" style="border:0">
+								<div class="kx-img refresh-img fl"></div>
+								<span class="fr">刷新</span>
+							</div>
+						</a> 
+					</div>
+					{% endif %}
+					<!-- 正在审核 -->
+			        {% if filter.status == 0 and filter.display == 1 %}
+					<div class="recruit-btn">
+						<div class="horizontal-line"></div>
+						<div class="recruit-btn-wrap cursor-btn del" style="width:19.5%;padding: 5px 13%;" data-id="{{ item.id }}">
+							<div class="kx-img del-img fl"></div>
+							<span class="fr">删除</span>
+						</div>
+						<a href="{{ path('zm_store_employ_info', {'id': item.id}) }}">
+							<div class="recruit-btn-wrap" style="width:19.5%;padding: 5px 13%; border:0px">
+								<div class="kx-img modify-img fl"></div>
+								<span class="fr">修改</span>
+							</div> 
+						</a>
+					</div>
+					{% endif %}
+					<!-- 已删除 -->
+			        {% if filter.display == 0 %}
+					<div class="recruit-btn">
+						<div class="horizontal-line"></div>
+						<div class="recruit-btn-wrap cursor-btn recovery" style="width:19.5%;padding: 5px 13%;" data-id="{{ item.id }}">
+							<div class="kx-img recover-img fl"></div>
+							<span class="fr">恢复</span>
+						</div>
+						<a href="{{ path('zm_store_employ_info', {'id': item.id}) }}">
+							<div class="recruit-btn-wrap" style="width:19.5%;padding: 5px 13%; border:0px;">
+								<div class="kx-img modify-img fl"></div>
+								<span class="fr">修改</span>
+							</div> 
+						</a>
+					</div>
+					{% endif %}
+
+				</div>
+				{% endfor %}
+				<div style="text-align:center;">{{ render|raw }}</div>
+				
+			</div>
+			
+		</div>
+		<!-- 招聘页面结束 -->
+		
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+$(function(){
+	//导航高亮
+    var flag = 2;
+    $(".banner_li a").each(function(){
+        if ($(this).data("flag")== flag) {          
+            $(this).find("li").addClass("blue-my-recruit");
+        }
+    })
+	// 删除
+	$(".del").click(function(){
+        var this_id = $(this).data("id");
+
+        if ( confirm('你确定要删除吗？') ) {
+            $.ajax({
+            	type: "POST",
+                url: "{{ path('zm_store_employ_action_ajax') }}",
+                dataType: 'json',
+                data:{
+                	id:this_id,
+                	status:0
+                },
+                success: function(result) {
+
+                    if ( result.flag == 1) {
+                    	alert("删除成功!");
+                        location.href=window.location.href;
+                        
+                    } else{
+                             alert('删除失败!');   
+                    }
+                }
+            })
+        }
+    });
+    // 恢复
+	$(".recovery").click(function(){
+        var this_id = $(this).data("id");
+
+        if ( confirm('你确定要恢复吗？') ) {
+            $.ajax({
+            	type: "POST",
+                url: "{{ path('zm_store_employ_action_ajax') }}",
+                dataType: 'json',
+                data:{
+                	id:this_id,
+                	status:1
+                },
+                success: function(result) {
+
+                    if ( result.flag == 3) {
+                    	alert("恢复成功!");
+                        location.href=window.location.href;
+                        
+                    } else{
+                             alert('恢复失败!');   
+                    }
+                }
+            })
+        }
+    });
+
+
+})
+</script>
+{% endblock %}

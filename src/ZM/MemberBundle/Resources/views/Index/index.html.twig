@@ -1,0 +1,408 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-首页{% endblock %}
+
+{% block stylesheets %}
+{{parent()}}
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmmember/css/unslide.css') }}" />
+{% endblock %}
+
+
+{% block body %}   
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_member') }}"><div class="kx-img kx-head-index-img"></div></a>
+		<div id="zoneBTN" class="kx-head-right-font"><span class="kx-img location-img"></span><span id="position" class="pull-right">{{ app.session.get('member_city_name')  }}</span></div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body over-flow" style="padding-bottom:30px;">
+	<!-- banner -->
+	<div class="index-banner">
+		<div class="banner">
+			<ul>
+				{% for item in banner %}
+				<li>
+					<a href="{{ item.to_url }}" target="_blank"><img style="width:100%;height:120px" src="{{ webIp }}image/banner/{{ item.image }}" /></a>
+				</li>
+	            {% endfor %}			
+			</ul>
+		</div>
+	</div>
+	<!-- banner-end-->
+	<div class="function-wrap1">
+		<a href="{{ path('zm_member_index_search') }}">
+			<div class="function-wrap" style="left:8%" >
+				<div class="kx-img maintain-img"></div>
+				<p class="maintain">我要维修</p>
+			</div>
+		</a>
+		<a href="{{ path('zm_member_index_search') }}">
+			<div class="function-wrap function-wrap-center">
+				<div class="kx-img install-img"></div>
+				<p class="install">我要安装</p>
+			</div>
+		</a>
+		<a href="{{ path('zm_member_index_search') }}">
+			<div class="function-wrap" style="right:8%">
+				<div class="kx-img keep-img"></div>
+				<p class="keep">我要保养</p>
+			</div>
+		</a>
+	</div>
+	<div class="gray-block"></div>  
+	<!-- 逛逛商铺 -->
+	<div class="product-wrap">
+		<div class="product-title-wrap">
+			<span class="product-title">逛逛商铺</span> 
+			<a href="{{ path('zm_member_index_search') }}"><span class="product-more">查看更多</span><span class="kx-img arrow-right"></span></a>
+		</div>
+		<div class="horizontal-line"></div>
+		<div class="product-list-wrap">
+			<div id="marquee">
+				<ul>
+					{% for item in store %}
+					<li>
+						<a href="{{ path('zm_member_store_info',{'id':item.id}) }}">
+							{% if item.img != null %}
+							<div style="background:url('{{ asset('image/store/default_store_image.png') }}') no-repeat;width:111px;height:111px;">
+								<img class="product-imgs" src="{{ webIp }}image/store/{{ item.img }}" style="width: 104px;height: 104px;padding-top: 50px;padding-left: 6px;">
+							</div>
+							{% else %}
+							{#<img class="product-imgs" src="{{ webIp }}image/store/111.png">#}
+							<img class="product-imgs" src="{{ asset('image/store/default_store_image.png') }}">
+							{% endif %}
+							<span class="kx-img product-point"></span>
+							<span class="product-info">{{ item.store_name }}</span>
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- end 逛逛商铺 -->
+	<br>
+	<div class="gray-block"></div>
+	<!-- 民间高手 link div -->
+	<div class="product-wrap">
+		<div class="product-title-wrap">
+			<span class="product-title">民间高手</span> 
+			<a href="{{ path('zm_member_index_personal') }}"><span class="product-more">查看更多</span><span class="kx-img arrow-right"></span></a>
+		</div>
+		<div class="qproduct-star">
+			{#<div class="mui-flex">#}
+			{% for key,item in personal %}
+				{% if key < 6 %}
+					<a href="{{ path('zm_member_store_info',{'id':item.id}) }}">
+						<div class="qboxs" {% if key%6==0 %}style="background-color:#5aaeb3"{% elseif key%6==1 %}style="background-color:#80c269"{% elseif key%6==2 %}style="background-color:#f19149"{% elseif key%6==3 %}style="background-color:#448aca"{% elseif key%6==4 %}style="background-color:#5f52a0"{% elseif key%6==5 %}style="background-color:#ea68a2"{% endif %}>{{ item.store_name }}</div>
+					</a>
+				{% endif %}
+				{#{% if (key+1)%3 == 0 and (key + 1) != personal|length %}#}
+			{#</div><div class="mui-flex">#}
+				{#{% endif %}#}
+			{% endfor %}
+			{#</div>#}
+		</div>
+	</div> 
+	<!-- end 明星产品 link div -->
+	<!-- 明星产品 -->
+	<div class="gray-block"></div> 
+	<div class="product-wrap">
+		<div style="  border-bottom: 1px solid #d8d8d8;" class="product-title-wrap">
+			<span class="product-title">明星产品</span> 
+			<a href="{{ path('zm_member_index_star') }}"><span class="product-more">查看更多</span><span class="kx-img arrow-right"></span></a>
+		</div>
+		<div class="product-list-wrap padding-none J_star_products" style="margin-left: 0px; height: auto;">
+			<div class="list mui-flex">
+				<a class="cell" style="margin-left: 16px; margin-right: 8px; " href="{{ path('zm_member_index_star') }}"><img style="margin-left: 0px;" class="product-img-left" src="{{ webIp }}image/starproduct/{{ star_product[0].image }}"></a>
+				<a class="cell" style="margin-left: 8px; margin-right: 16px; " href="{{ path('zm_member_index_star') }}"><img style="margin-left: 0px;" class="product-img-left" src="{{ webIp }}image/starproduct/{{ star_product[1].image }}"></a>
+			</div>
+			<div class="list mui-flex">
+				<a class="cell" style="margin-left: 16px; margin-right: 8px; " href="{{ path('zm_member_index_star') }}"><img style="margin-left: 0px;" class="product-img-left" src="{{ webIp }}image/starproduct/{{ star_product[2].image }}"></a>
+				<a class="cell" style="margin-left: 8px; margin-right: 16px; " href="{{ path('zm_member_index_star') }}"><img style="margin-left: 0px;" class="product-img-left" src="{{ webIp }}image/starproduct/{{ star_product[3].image }}"></a>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:10px" class="gray-block"></div>  
+	<!-- end 明星产品 -->
+	</div>
+	<!-- 正文结束-->
+	
+</div>
+<!-- 回到顶部 按钮 -->
+<a href="#top"><div class="kx-img link-top"></div></a>
+<!-- end 回到顶部 -->
+<!-- 弹框-显示省市区 -->
+<div style="display:none" class="cityAlertBOX">
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="pro-name f28 col333">
+        <input  type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="city-name f28 col333">
+        <input class="city-id" type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="district-name f28 col333">
+        <input class="district-id" type="hidden" value="" />
+    </div>
+    <ul class="provinceContain">
+        {% for item in province_list %}
+        <li data-id="{{ item.id }}" class="provinceBOX">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    <ul class="cityContain"></ul>
+    <ul class="districtContain"></ul>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('bundles/zmmember/js/position.js') }}"></script>
+<script src="{{ asset('bundles/zmmember/js/unslider.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmmember/js/jquery.kxbdmarquee.js') }}"></script>
+<script>
+$(function(){
+	$("#marquee").kxbdMarquee({direction:"left"});
+	$("#marquee-star").kxbdMarquee({direction:"left"});
+	var width=$('.product-list-wrap').width();
+	$("#marquee").css({"width":width});
+	$("#marquee-star").css({"width":width});
+	if(window.chrome) {
+				$('.banner li').css('background-size', '100% 100%');
+			}
+
+			$('.banner').unslider({
+				arrows: false,
+				fluid: true,
+				dots: false
+			});
+})
+
+</script>
+<script type="text/javascript">
+	//城市名
+	var city = $('#position').text();
+	//console.log(city);
+	var length = city.length;
+	//console.log(length);
+	var num;
+	if(length ==3){
+		num=2;
+	}
+	if(length ==4){
+		num=3;
+	}
+	if(length ==5){
+		num=4;
+	}
+	if(length >5){
+		num=4;
+	}
+
+	city = city.slice(0,num); 
+    $('#position').text(city);     
+
+	//点击-省弹框出现
+    $('#zoneBTN').click(function(){
+        $('.cityAlertBOX').show();
+        //重新初始化
+        $('.provinceContain').show();
+        $('.cityContain').empty();
+        $('.districtContain').empty();
+        $('.pro-name').empty();
+        $('.city-name').empty();
+        $('.district-name').empty();
+        $('.pro-name').hide();
+        $('.city-name').hide();
+        $('.district-name').hide();
+    })
+
+
+    var storage = window.localStorage;
+    if (!storage.getItem("is_location")) {
+    	storage.setItem("is_location",0);
+    }
+
+    //省点击后，动态获取市的数据
+    $('.provinceContain li').click(function(){
+
+        storage.setItem("is_location",1);
+
+        var pid = $(this).data("id");
+        var pname = $(this).text();
+        var url= "{{ path('zm_member_getCityAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", pid);
+
+        $('.pro-name').show();
+        $('.pro-name').text(pname);
+        $('.pro-id').val(pid);
+        
+        $('.provinceContain').hide();
+        $('.cityContain').empty();
+        $('.cityContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var city_option = "<li id='origin_city_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".cityContain").append(city_option);
+                }
+
+            }
+        })
+
+    })
+ 
+    //市点击后，动态获取区的数据
+    $('.cityContain').on("click","li",function(){
+        
+        var cid = $(this).data("id");
+        var cname = $(this).text();
+        var url= "{{ path('zm_member_index') }}";
+        
+        $('.city-name').show();
+        $('.city-name').text(cname);
+        $('.city-id').val(cid);
+        
+        $('.cityContain').hide();
+        $('.cityAlertBOX').hide();
+        var cururl = window.location.href;
+        window:location.href = cururl;
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            data:{
+            	city_id:cid
+            },
+            success:function(data){
+                
+            }
+        })
+
+    })
+
+	//定位
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition, showError);	
+		} else {
+			alert("浏览器不支持地理定位。");
+		}
+	}
+		
+	function showPosition(position) {
+		var latlon = position.coords.latitude+','+position.coords.longitude;
+		var latitude = position.coords.latitude;
+		var longitude= position.coords.longitude;
+		//google
+		var url = 'http://maps.google.cn/maps/api/geocode/json?latlng=' + latlon + '&language=CN';
+		$.ajax({
+			type: "GET",
+			url: url,
+			success: function (json) {
+				if (json.status == 'OK') {
+					var result = json.results;
+					// console.log(result);
+					$.ajax({
+						type: "post",
+						url: "{{ path('zm_member_setLocationAjax') }}",
+						data: {
+							latitude: latitude,
+							longitude: longitude,
+							location_json:result
+						},
+						success: function (result) {
+							confirm(result.content);
+							location.href=window.location.href;
+							storage.setItem("is_location",1);
+
+						}
+					});
+				}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				alert("地址位置获取失败");
+				//$("#google_geo").html(latlon + "地址位置获取失败");
+			}
+		});
+	}
+
+	function showError(error) {
+		switch (error.code) {
+			case error.PERMISSION_DENIED:
+				alert("定位失败,用户拒绝请求地理定位");
+				break;
+			case error.POSITION_UNAVAILABLE:
+				alert("定位失败,位置信息是不可用");
+				break;
+			case error.TIMEOUT:
+				alert("定位失败,请求获取用户位置超时");
+				break;
+			case error.UNKNOWN_ERROR:
+				alert("定位失败,定位系统失效");
+				break;
+		}
+	}
+	
+	$(function(){
+		if(storage.is_location == 0){
+			getLocation();
+		}
+
+		// $(window).bind('unload',function(){
+		// 	storage.setItem("is_location",0);
+		// });
+
+
+		var SCREEN_WIDTH = $(".kx-container").width();
+		//  明星产品自适应
+		$(".J_star_products a").each(function(key, item){
+			var width = (SCREEN_WIDTH - 2 * 150)/3;
+			if ((key + 1)%2 != 0) {
+				$(this).css("margin-left", width);
+				$(this).css("margin-right", width/2);
+			} else {
+				$(this).css("margin-right", width);
+				$(this).css("margin-left", width/2);
+			}
+		});
+
+
+//		// 民间高手
+//		var count_star = $(".qproduct-star a").length;
+//		$(".qproduct-star a").each(function(key, item){
+//			if (count_star < 4) {
+//				var width = (SCREEN_WIDTH - count_star * 70)/(count_star + 1);
+//			} else {
+//				var width = (SCREEN_WIDTH - 4 * 70) / 5;
+//			}
+//
+//			if ((key + 1)%2 != 0) {
+//				$(this).css("margin-left", width);
+//				$(this).css("margin-right", width/2);
+//			} else {
+//				$(this).css("margin-right", width);
+//				$(this).css("margin-left", width/2);
+//			}
+//		});
+
+		// $(window).bind('unload',function(){
+		// 	localStorage.clear(); 
+		// });
+
+	})
+	
+		
+</script>
+{% endblock %}

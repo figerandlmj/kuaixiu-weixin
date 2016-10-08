@@ -1,0 +1,260 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-首页订单页{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}   
+    <!-- header 固定 我的订单 -->
+        <div class="top-navigation-fixed font-12">
+            <ul>
+                <a href="{{ path('zm_store_index', {'status': 1}) }}">
+                    <li {% if status == 1 %}class="border-bottom" style="color:#fff;"{% endif %}>
+                        <span>待处理</span>
+                        <div class="index-white-point" {% if status == 1 %}style="display:inline-block;"{% endif %}>{{ total }}</div>
+                    </li>
+                </a>
+                <a href="{{ path('zm_store_index', {'status': 3}) }}">
+                    <li {% if status == 3 %}class="border-bottom" style="color:#fff;"{% endif %}>
+                        <span>进行中</span>
+                        <div class="index-white-point" {% if status == 3 %}style="display:inline-block;"{% endif %}>{{ total }}</div>
+                    </li>
+                <a href="{{ path('zm_store_index', {'status': 2}) }}">
+                    <li {% if status == 2 %}class="border-bottom" style="color:#fff;"{% endif %}>
+                        <span>已完成</span>
+                        <div class="index-white-point" {% if status == 2 %}style="display:block;"{% endif %}>{{ total }}</div>
+                    </li>
+                </a>
+                <a href="{{ path('zm_store_index', {'status': 0}) }}">
+                    <li {% if status == 0 %}class="border-bottom" style="color:#fff;"{% endif %}>
+                        <span>已取消</span>
+                        <div class="index-white-point" {% if status == 0 %}style="display:block;"{% endif %}>{{ total }}</div>
+                    </li>
+                </a>
+                <div class="sign-in fr"><span class="kx-img sign-img"></span><span class="sign-font">{% if is_sign == 0 %}签到{% else %}已签到{% endif %}</span></div>
+            </ul>
+            
+        </div>
+    <!-- header导航结束 -->
+    <!-- 正文开始 -->
+        <div class="kx-body bg-color-light-white mt-50" style="min-height:300px;">
+        <!-- 订单页面 -->
+        <div class="bottom-navigation-content">
+            <div class="top-navigation-content">
+                <div class="order-num-wrap">
+                    <div class="order-num font-12">共{{ total }}单</div>
+                </div>
+                {% for item in data %}
+                <div {% if status == 0 %}class="info-show bg-color-gray font-white"{% else %}class="info-show"{% endif %}>
+                    <div class="detail-list">
+                        <span class="kx-img user-img-blue"></span>
+                        <span class="detail-font font-12 color-light-blue">用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户：<span class="font-white">{{ item.phone }}</span></span>
+                    </div>
+                    <div class="detail-list">
+                        <span class="kx-img user-img-green order-number-blue"></span>
+                        <span class="detail-font font-12 color-light-blue">订&nbsp;&nbsp;单&nbsp;&nbsp;号：<span class="font-white">{{ item.order_sn }}</span></span>
+                    </div>
+                    <div class="detail-list">
+                        <span class="kx-img user-img-green order-date-blue"></span>
+                        <span class="detail-font font-12 color-light-blue">下单日期：<span class="font-white">{{ item.date_added }}</span></span>
+                    </div>
+                    <div class="detail-list">
+                        <span class="kx-img user-img-green service-ways-blue"></span>
+                        <span class="detail-font font-12 color-light-blue">服务方式：<span class="font-white">{% if item.fix_way == 0 %}上门服务{% elseif item.fix_way == 1  %}到店铺维修{% endif %}</span></span>
+                    </div>
+                    <div class="detail-list">
+                        <span class="kx-img user-img-green brand-blue"></span>
+                        <span class="detail-font font-12 color-light-blue">品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌：<span class="font-white">{{ item.manufacturer_name }}</span></span>
+                        <span class="font-12 color-light-blue mr-30 mt-3 fr">产&nbsp;&nbsp;品：<span class="font-white ml-10">{{ item.appliance_name }}</span></span>
+                    </div>
+                </div>
+                <div class="info-show-below" style="margin-bottom:10px;">
+                    <a href="tel:10010">
+                        <div class="order-wrap" style="height:35px">
+                            <a href="tel:{{ item.phone }}"><div class="kx-img phone-img fl"></div></a>
+                            <p class="font-12 font-weight font-black">{{ item.name }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.phone }}</p>
+                            <p class="font-12 mt-18">{{ item.address }}</p>
+                        </div>
+                    </a>
+
+                     <!-- 待处理 -->
+                     {% if status == 1 %}
+                    <div class="note">
+                        <input type="text" placeholder="备注" class="remarks" value="">
+                    </div>
+                    <br>
+                    <div class="btn cancel fl cancel-order" data-id="{{ item.maintenance_id }}">取消订单</div>
+                    <div class="btn fr primary-btn completion" data-id="{{ item.maintenance_id }}">
+                        <div class="kx-img correct"></div>
+                        <span >接受订单</span>
+                    </div>
+                    {% endif %}
+                    <!-- 进行中 -->
+                    {% if status == 3 %}
+                    <div class="note">
+                        <span class="font-12">{{ item.remark }}</span>
+                    </div>
+                    <br>
+                    <a href="{{ path('zm_store_index_info', {'id': item.maintenance_id }) }}">
+                        <div class="btn fr primary-btn width-full">
+                            <span >查看详细 完成订单</span>
+                            <span class="kx-img right-instructions"></span>
+                        </div>
+                    </a>
+                    {% endif %}
+                    <!-- 已完成 -->
+                    {% if status == 2 %}
+                    <div class="note border-0 bg-color-white">
+                        <div class="horizontal-line"></div>
+                        <span class="font-12 font-black">用户给您的评价是</span>
+                        <span style="font-size:18px;color:#0aaf34;">{% if item.evaluation is not empty %}{{ item.evaluation }}{% else %}0{%  endif%}</span>
+                        <span class="font-12 font-black">分</span>
+                    </div>
+                    <br>
+                    <a href="{{ path('zm_store_index_info', {'id': item.maintenance_id }) }}">
+                        <div class="btn fr primary-btn width-full">
+                            <span >查看详细</span>
+                            <span class="kx-img right-instructions"></span>
+                        </div>
+                    </a>
+                    {% endif %}
+                    <!-- 已取消 -->
+                    {% if status == 0 %}
+                    <div class="horizontal-line"></div>
+                    <div class="note bg-color-white border-0">
+                        <span class="font-12">{{ item.remark }}</span>
+                    </div>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+                <div style="text-align:center;">{{ render|raw }}</div>
+            </div>    
+        </div>
+        <!-- 订单 页面结束 -->
+        
+        </div>
+    <!-- 正文结束 -->
+    <!-- 签到弹窗 -->
+        <div class="sign-window">
+            <div class="sign-window-content-wrap">
+                <span class="kx-img window-img"></span>
+                <p class="font-14 color-green p1">签到成功，积分+0.5</p>
+                <!-- <p class="font-12 p2">(明日签到积分+10)</p> -->
+            </div>
+            <div class="window-btn-wrap">
+                <div class="btn primary-btn width-full close-window">确&nbsp;定</div>
+            </div>
+        </div>
+    <!-- 签到弹窗 end -->
+    {% endblock %}
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+$(function(){
+    //导航高亮
+    var flag = 1;
+    $(".banner_li a").each(function(){
+        if ($(this).data("flag")== flag) {          
+            $(this).find("li").addClass("blue-my-order");
+        }
+    })
+    // 签到
+    $(".sign-in").click(function(){       
+        $.ajax({
+            type: "GET",
+            url: "{{ path('zm_store_store_sign') }}",
+            dataType: 'json',
+            success: function(result) {
+                if ( result.flag == 1) {
+                    $('.sign-window').fadeIn();
+                    $('.mask').show();                      
+                } else{
+                    alert('您已签到!');   
+                }
+            }
+        })
+    });
+    
+    $('.close-window').click(function(){
+        $('.sign-window').fadeOut();
+        $('.mask').hide();
+        $('.sign-in').css({"width":"65px"});
+        $('.sign-in .sign-font').text("已签到");
+    });
+    // 取消订单
+    $(".cancel-order").click(function(){
+        var this_id = $(this).data("id");
+        var remarks=$(".remarks").val();
+
+        if ( confirm('你确定要取消吗？') ) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('zm_store_index_action_ajax') }}",
+                dataType: 'json',
+                data:{
+                    id:this_id,
+                    type:0,
+                    remark:remarks
+                },
+                success: function(result) {
+
+                    if ( result.flag == 3) {
+                        alert("取消成功!");
+                        location.href=window.location.href;
+                        
+                    } else{
+                        alert('取消失败!');   
+                    }
+                }
+            })
+        }
+    });
+
+    // 接受订单
+    $(".completion").click(function(){
+        var this_id = $(this).data("id");
+        var remarks=$(".remarks").val();
+
+        if ( confirm('你确定接受订单吗？') ) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('zm_store_index_action_ajax') }}",
+                dataType: 'json',
+                data:{
+                    id:this_id,
+                    type:3,
+                    remark:remarks
+                },
+                success: function(result) {
+
+                    if ( result.flag == 1) {
+                        alert("接受订单成功!");
+                        location.href=window.location.href;
+                        
+                    } else{
+                        alert('接受订单失败!');   
+                    }
+                }
+            })
+        }
+    });
+    //自适应屏幕宽高
+    $(".kx-body").css({
+        "min-height":$(window).height()
+    })
+    $(window).resize(function(){
+        $(".kx-body").css({
+            "min-height":$(window).height()
+        })
+    });
+})
+</script>
+{% endblock %}

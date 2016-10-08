@@ -1,0 +1,131 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-店铺页{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container" style="overflow-x:hidden">
+	<!-- 头部 -->
+	<div class="kx-head">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img go-back-img"></div><span class="go-back-font">返回</span></a>
+		<div class="kx-head-right-font">{% if is_favorites == 1 %}<span class="kx-img collection-img already-collected"></span><span>已收藏</span>{% else %}<span class="kx-img collection-img"></span><span>收藏</span>{% endif %}</div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body font-heiti color-light-gray padding-b-100">
+		<div class="order-group bg-color-white">
+			<div class="order-list">
+				<img src="{{ webIp }}image/store/{{ store.image }}" class="head-portrait" />
+				<span class="order-detail-wrap">
+					<span class="kx-img order-house"></span>
+					<span class="margin-left-30" style="width:60%;display:inline-block;word-break: break-all;">{{ store.store_name }}</span><br/>
+					<span>店铺等级：<span class="color-orange">{{ store.level }}级</span></span><br/>
+					<span>累计被预约{{ store.order_num }}次</span>
+				</span>	
+			</div>
+			<div class="horizontal-line"></div>
+			<div class="repair-font">
+				<span>营业时间：{{ store.start_time |date('H:i') }} - {{ store.end_time |date('H:i') }}</span>
+			</div>
+			<div class="gray-block"></div>
+			<div class="repair-wrap">
+				<div class="repair-font">
+					<span>维修分类：{% for item in appliance %}{{ item.appliance_name }} &nbsp;{% endfor %}</span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="repair-font">
+					<span>特约维修品牌：{% if special is empty %}暂无签约品牌 {% else %}{% for item in special %}{{ item.manufacturer_name }} &nbsp;{% endfor %}{% endif %}</span>
+				</div>
+				<div class="horizontal-line"></div>
+				<div class="repair-font">
+					<span>店铺地址：{{ store.res_province_name }}{{ store.res_city_name }}{{ store.res_district_name }}{{ store.address }}</span>
+				</div>
+			</div>
+			<div class="gray-block"></div>
+			{% if review[0] is defined %}
+			<div class="repair-wrap">
+				<div class="repair-font">
+					<a href="{{ path('zm_member_store_review',{'store_id':store.store_id}) }}"><span class="font-color-balck">相关评价({{ review_total }})</span>
+					<span class="shop-ratings">店铺评分:{{ review[0].evaluation |round(4) }}</span>
+					<span class="kx-img arrow-right pull-right"></span></a>
+				</div>
+				<div class="repair-font">
+					<div class="rating-content mar-top-12">{{ review[0].content }}</div>
+					<span class="shop-ratings mar-top-12">{{ review[0].date_added |date('Y/m/d') }}</span>
+				</div>
+			</div>
+			{% endif %}
+			<div class="horizontal-line"></div>
+		</div>
+		<br>
+		<div class="assess-btn-wrap">
+			<button class="btn assess-btn">免费预约</button>
+		</div>
+		<br>
+	</div>
+	<!-- 正文结束-->
+	</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+	$(function(){
+		$('.assess-btn').click(function(){
+			var id = {{ store.store_id }};
+			var this_url=window.location.href;
+            var url = "{{ path('zm_member_order_action',{'store_id':'storeid'}) }}?from_url="+this_url;
+            url = url.replace('storeid',id);
+			location.href=url;
+		});
+		//收藏
+		$('.collection-img').click(function(){
+			var flagstar = $('.collection-img').hasClass('already-collected');  
+
+			var type;
+			var id = {{ store.store_id }};
+			if(flagstar==false){
+				type = 1; //添加收藏
+				$('.collection-img').addClass('already-collected');
+				$('.collection-img').next().text("已收藏");
+			}
+			if(flagstar==true){
+				type = 2; //取消收藏
+				$('.collection-img').removeClass('already-collected');
+				$('.collection-img').next().text("收藏");
+			}
+			var url = "{{ path('zm_member_favorites_actionajax',{'id':'Id','type':'types'}) }}";
+			url = url.replace('Id',id);
+			url = url.replace('types',type);
+			$.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                success: function(result) {
+                	if ( result.code == 1) {
+                        //confirm(result.content);
+                        $('.collection-img').addClass('already-collected');
+						$('.collection-img').next().text("已收藏");
+                    } else{
+                        //confirm(result.content);
+                    	$('.collection-img').removeClass('already-collected');
+						$('.collection-img').next().text("收藏");
+                    }
+                    alert(result.message);
+                }
+            })
+			
+		});
+
+	})
+</script>
+{% endblock %}

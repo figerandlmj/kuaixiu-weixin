@@ -1,0 +1,300 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-我的信息{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmmember/css/mobile-select-area.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmmember/css/mobiscroll.custom-2.16.1.min.css') }}" />
+{% endblock %}
+
+
+{% block body %}  
+<div class="kx-container" style="overflow-x:hidden">
+	<form id="addressform" action="" method="post">
+		<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">个人信息</div>
+		</div>
+		<!-- 头部结束 -->
+		<!-- 正文 -->
+		<div class="kx-body over-flow" style="padding-bottom:30px;">
+			<!-- banner -->
+			<div class="personal-banner"></div>
+			<div class="person-head"><img src="{{ webIp }}image/member/avatar/{{ data.avatar }}" /></div>
+			<div class="person-wrap">
+				<p>{{ data.real_name }}</p>
+				<p>积分：{{ data.points }}</p>
+			</div>
+			<!-- banner-end-->
+			<div class="data-list" style="overflow-x:hidden;">
+				<ul>
+					<li>
+						<span class="real-value">真实姓名</span>
+						<input class="user-value checkname" type="text" placeholder="请输入您的真实姓名" name="real_name" value="{{ data.real_name }}" />
+					</li>
+					<div class="horizontal-line"></div>
+					<li>
+						<span class="real-value">用户性别</span>
+						<div class="user-value">
+							<select id="gender" name="sex">
+							    <option value="1" {% if data.sex ==1 %}selected="selected"{% endif %}>男</option>
+							    <option value="2" {% if data.sex ==2 %}selected="selected"{% endif %}>女</option>
+							</select> 
+						</div>
+						<span id="gender" class="kx-img arrow-right"></span>
+					</li>
+					<div class="horizontal-line"></div>
+					<li>
+						<span class="real-value">联系方式</span>
+						<input class="user-value checkphone" type="text" placeholder="请输入您的联系方式" name="contact_way" value="{{ data.contact_way }}" />
+					</li>
+					<div class="horizontal-line"></div>
+					<li>
+						<span class="real-value">所在地区</span>
+						<input readonly="readonly"  id="zoneBTN" class="newChooseCity user-value" style="border:none" type="text" placeholder="请选择区域" value="{{ data.rp_name }}{{ data.rc_name }}{{ data.rd_name }}"/>
+						<input class="pro-id" type="hidden" name="res_province_id" value="{{ data.res_province_id }}" />
+                		<input class="city-id" type="hidden" name="res_city_id" value="{{ data.res_city_id }}" />
+                		<input class="district-id" type="hidden" name="res_district_id" value="{{ data.res_district_id }}" />
+						<span  class="kx-img arrow-right"></span>
+					</li>
+					
+					<div class="horizontal-line"></div>
+					<li>
+						<span class="real-value">详细地址</span>
+						<input class="user-value checkaddress" type="text" placeholder="请输入您的详细地址" name="address" value="{{ data.address }}" />
+					</li>
+					<div class="horizontal-line err"></div>
+				</ul>
+			</div>
+		</div>
+		<!-- button -->
+		<div style="margin-top:40px;overflow-x:hidden" class="register-next"><input style="color:#fff" type="submit" value="确定保存" class="btn login-out-btn register-next-btn"/></div> 
+		<!-- end button -->
+		<!-- 正文结束-->
+	</form>
+</div>
+<!-- 弹框-显示省市区 -->
+<div style="display:none" class="cityAlertBOX">
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="pro-name f28 col333">
+        <input  type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="city-name f28 col333">
+        <input class="city-id" type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="district-name f28 col333">
+        <input class="district-id" type="hidden" value="" />
+    </div>
+    <ul class="provinceContain">
+        {% for item in province_list %}
+        <li data-id="{{ item.id }}" class="provinceBOX">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    <ul class="cityContain"></ul>
+    <ul class="districtContain"></ul>
+</div>
+<!-- 头像 -->
+{#<div style="height:468px" class="set-alert img-alert">
+    <form action=" " method="post" enctype="multipart/form-data">
+        <div class="alert-title">上传头像</div>
+        <div class="img-content">
+            <div class="img-list photobox">
+                <div class="photo-icon">
+                    <div class="photo-img"></div>
+                    <input class="photo-file" type="file" name="avatar" id="doc"  accept="image/*;capture=camera" />
+                </div>
+                <span class="imgwords">相册</span>
+            </div>
+            <div id="dd" style='margin: 0px auto;width:180px;height:180px;border-radius: 100px;' > <img style="border:0 !important;border-radius: 100px;width:180px;height:180px;" id="comment-img1" src="{{ asset('bundles/zmmember/images/setpic.png') }}"  /> </div>
+        </div>
+        <div class="btn-box">
+            <a href="javascript:;" class="btn-cancel">取消</a>
+            <input class="sexsubmit btn-sure" type="submit" value="确定" />
+        </div>
+    </form>
+</div>#}
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" href="{{ asset('bundles/zmmember/js/zepto.min.js') }}"></script>
+<script type="text/javascript" href="{{ asset('bundles/zmmember/js/dialog.js') }}"></script>
+<script type="text/javascript" href="{{ asset('bundles/zmmember/js/mobile-select-area.js') }}" ></script>
+<script src="js/mobiscroll.custom-2.16.1.min.js" type="text/javascript"></script>
+<script>
+    $(function () {
+		var selectArea = new MobileSelectArea();
+		selectArea.init({trigger:'#txt_area',value:$('#hd_area').val(),data:'data.json'});
+
+    	$('#gender').mobiscroll().select({
+        theme: 'mobiscroll',
+        display: 'bottom',
+        minWidth: 320});
+  
+});
+</script>
+<script>
+  //检查电话号码格式checkphone
+    var mobilephone = /^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/;
+    $(".checkphone").blur(function(event) {
+        var phone = $(this).val();
+        
+        var errorMsg = '手机号格式不正确';
+        $(".form-tips").remove();
+        if(!mobilephone.exec(phone)){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg+'</p>');            
+        }
+    });
+
+    $('.kx-head-right-font input').click(function(){
+        
+        var errorMsg1 = '请选择所在地区';
+        var errorMsg2 = '手机号格式不正确';
+        var errorMsg3 = '请填写姓名';
+        var errorMsg4 = '请填写详细地址';
+        
+
+        $(".form-tips").remove();
+        
+        //手机号
+        var phone = $('.checkphone').val();
+        if(!mobilephone.exec(phone)){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg2+'</p>');            
+        }
+        //姓名
+        var name = $('.checkname').val();
+        if(name == ""){
+            $(".horizontal-line").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg3+'</p>');            
+        }
+        //详细地址
+        var address = $('.checkaddress').val();
+        if(address == ""){
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg4+'</p>');            
+        }
+        //地区
+        var p = $('.pro-id').val();
+        var c = $('.city-id').val();
+        var d = $('.district-id').val();
+        if(p == "" &&c =="" &&d==""){
+            var flag = 0;
+            $(".err").after('<p style="width:100%;height:60px;line-height:60px;font-size:28px;color:#ff4800;" class="form-tips">'+errorMsg1+'</p>'); 
+        }
+        //提交
+        if(mobilephone.exec(phone) && flag != 0 && name != 0 && address != 0){
+            $('#addressform').submit();
+        }
+
+    })
+ 
+
+    //点击-省弹框出现
+    $('#zoneBTN').click(function(){
+        $('.cityAlertBOX').show();
+        //重新初始化
+        $('.provinceContain').show();
+        $('.cityContain').empty();
+        $('.districtContain').empty();
+        $('.pro-name').empty();
+        $('.city-name').empty();
+        $('.district-name').empty();
+        $('.pro-name').hide();
+        $('.city-name').hide();
+        $('.district-name').hide();
+    })
+
+    //省点击后，动态获取市的数据
+    $('.provinceContain li').click(function(){
+        
+        var pid = $(this).data("id");
+        var pname = $(this).text();
+        var url= "{{ path('zm_member_getCityAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", pid);
+
+        $('.pro-name').show();
+        $('.pro-name').text(pname);
+        $('.pro-id').val(pid);
+        
+        $('.provinceContain').hide();
+        $('.cityContain').empty();
+        $('.cityContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var city_option = "<li id='origin_city_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".cityContain").append(city_option);
+                }
+                
+
+            }
+        })
+
+    })
+    //市点击后，动态获取区的数据
+    $('.cityContain').on("click","li",function(){
+        
+        var cid = $(this).data("id");
+        var cname = $(this).text();
+        var url= "{{ path('zm_member_getDistrictAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", cid);
+
+        $('.city-name').show();
+        $('.city-name').text(cname);
+        $('.city-id').val(cid);
+        
+        $('.cityContain').hide();
+        $('.districtContain').empty();
+        $('.districtContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var district_option = "<li id='origin_district_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".districtContain").append(district_option);
+                }
+                
+            }
+        })
+
+    })
+    //区点击后，显示省市区的的数据和id
+    $('.districtContain').on("click","li",function(){
+        
+        var did = $(this).data("id");
+        var dname = $(this).text();
+         
+        $('.district-name').show();
+        $('.district-name').text(dname);
+        $('.district-id').val(did);
+        
+        $('.districtContain').hide();
+        //弹框消失
+        $('.cityAlertBOX').hide();
+        var p = $('.pro-name').text();
+        var c = $('.city-name').text();
+        var d = $('.district-name').text();
+        var allname = p+c+d;
+        $('.newChooseCity').val(allname);
+
+    }) 
+</script>
+<script type="text/javascript">
+    
+</script>
+{% endblock %}

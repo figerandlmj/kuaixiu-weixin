@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>店铺资质上传</title>
+	<link rel="stylesheet" type="text/css" href="css/kx-basic.css">
+</head>
+<body>
+	<div class="kx-container ">
+	<!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<br>
+			<div class="upload-pic-show" style="text-align:center;line-height:150px" id="upload-pic-show">
+				<div id="upload-font-gray" class="font-gray">请上传您的手持身份证照片</div>
+				<!-- <img src="images/personal-center.jpg"  height="150"> -->
+			</div>
+			<div class="padding-10-25p">
+				<div class="btn fr primary-btn width-full">
+				<input style="position:absolute;opacity:0;margin-left:-30px" type="file" id="file_input" >
+				<div class="kx-img upload2"></div>上传</div>
+			</div>
+			<div class="unload-instruction font-12 font-gray">
+				<p>实例</p>
+				<div class="kx-img-big identify-img mt-10"></div>
+				<p class="mt-10">1.上传图片保持清晰</p>
+				<p class="mt-10">2.上传图保持清晰图片保持清晰</p>
+				<p class="mt-10">3.上传图保持清晰图片保持清晰保持清晰保持清晰</p>
+			</div>
+		</div>
+	<!-- 正文结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+//上传图片并预览
+ 	var flag=0;
+	var input = document.getElementById("file_input");
+	var imageType = /image.*/;
+	var getOnloadFunc = function(aImg) {
+	return function(evt) {
+		aImg.src = evt.target.result;
+	};
+}
+	input.addEventListener("change", function(evt) {
+    for (var i = 0, numFiles = this.files.length; i < numFiles; i++) {
+        var file = this.files[i];
+        if (!file.type.match(imageType)) {
+            continue;
+        }
+	    var img = document.createElement("img");
+	    var width=$('.upload-pic-show').width();
+	    console.log(width);
+	    img.style.width=width+"px";
+	    img.style.height="150px";
+	    flag++;
+	    if(flag<=1){
+	    var _img=document.getElementById("upload-pic-show");
+	   $("#upload-font-gray").remove();
+	    _img.appendChild(img);
+	    }
+	    if(flag>1){
+	    	alert("照片已上传，重新上传，请点击照片删除");
+	    	return false;
+	    }
+	     img.onclick=function(){
+	     	if (confirm("删除照片？"))  {  
+				img.remove();
+				flag=0;
+				}  
+			else  { 
+				return false;
+					};
+	     	// img.style.display="none";
+	     }
+	    var reader = new FileReader();
+	    reader.onload = getOnloadFunc(img);
+	    reader.readAsDataURL(file);
+    }
+}, false);
+</script>
+</html>

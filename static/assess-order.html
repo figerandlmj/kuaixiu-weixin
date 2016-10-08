@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>订单评价</title>
+	<link rel="stylesheet" type="text/css" href="css/kuaixiu.css">
+</head>
+<body>
+	<div class="kx-container">
+	<!-- 头部 -->
+		<div class="kx-head">
+			<a href="index.html"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">订单评价</div>
+		</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+		<div class="kx-body padding-bottom-20 over-flow">
+			<div class="assess-order-title-wrap">
+				<span class="assess-order-title">我的订单</span>
+			</div>
+			<div class="order-group">
+			<div class="horizontal-line"></div>
+    			<div class="order-list">
+    				<span class="head-portrait"></span>
+    				<span class="order-detail-wrap">
+    					<p>格力冰箱特约维修服务中心</p>
+    					<p>订单号：1234456576</p>
+    					<span>维修品牌：格力</span>&nbsp;&nbsp;<span>维修产品：空调678</span>
+    				</span>
+    			</div>
+    			<div class="horizontal-line"></div>
+    			<div class="order-info">
+    				<span class="pull-left">服务方式：上门维修</span>
+    				<span class="pull-right">预约时间：2015-04-25</span>
+    			</div>
+    			<div class="horizontal-line"></div>
+    			<div class="assess-star">
+    				<div class="assess-list">
+    					<span class="pull-left">维修速度：</span>
+    					<div class="com-stars-list pull-right rating-star">
+ 							<a href="javascript:;" >0</a>
+ 							<a href="javascript:;" >1</a>
+ 							<a href="javascript:;" >2</a>
+ 							<a href="javascript:;" >3</a>
+ 							<a href="javascript:;" >4</a>
+ 							<input value="" type="hidden" id="goodLevel" />
+ 						</div>
+    				</div>
+    				<div class="assess-list">
+    					<span class="pull-left">服务态度：</span>
+    					<div class="com-stars-list pull-right rating-star">
+ 							<a href="javascript:;" >0</a>
+ 							<a href="javascript:;" >1</a>
+ 							<a href="javascript:;" >2</a>
+ 							<a href="javascript:;" >3</a>
+ 							<a href="javascript:;" >4</a>
+ 							<input value="" type="hidden" id="goodLevel" />
+ 						</div>
+    				</div>
+    				<div class="assess-list">
+    					<span class="pull-left">维修质量：</span>
+    					<div class="com-stars-list pull-right rating-star">
+ 							<a href="javascript:;" >0</a>
+ 							<a href="javascript:;" >1</a>
+ 							<a href="javascript:;" >2</a>
+ 							<a href="javascript:;" >3</a>
+ 							<a href="javascript:;" >4</a>
+ 							<input value="" type="hidden" id="goodLevel" />
+ 						</div>
+    				</div>
+    				<div class="assess-list">
+    					<span class="pull-left">服务价格：</span>
+    					<div class="com-stars-list pull-right rating-star">
+ 							<a href="javascript:;" >0</a>
+ 							<a href="javascript:;" >1</a>
+ 							<a href="javascript:;" >2</a>
+ 							<a href="javascript:;" >3</a>
+ 							<a href="javascript:;" >4</a>
+ 							<input value="" type="hidden" id="goodLevel" />
+ 						</div>
+    				</div>
+    			</div>
+    			<div class="horizontal-line"></div>
+    			<div class="assess-order-title-wrap">
+					<span class="assess-order-title">相关评价</span>
+				</div>
+				<div class="horizontal-line"></div>
+				<form id="assess-form" style="height:auto">
+					<textarea class="assess-text" placeholder="请输入相关评价内容"></textarea>
+					<div class="upload-img">
+						<div class="horizontal"></div>
+						<div class="vertical"></div>
+					</div>
+					<input class="upload-img-file" id="file_input" type="file">
+					<span class="upload-img-font">手机晒图</span>
+				</form>
+				<div class="horizontal-line"></div>
+				<div class="assess-btn-wrap">
+					<button class="btn assess-btn">提交评价</button>
+				</div>
+    		</div>
+		</div>
+	<!-- 正文结束-->
+	<!-- 脚部 -->
+		<div class="kx-foot">
+			<div class="kx-foot-content">
+				<ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="personal-center.html">个人中心</a></li>
+					<li><a href="my-order.html">我的订单</a></li>
+				</ul>
+				<div>@2015 家电快修网</div>
+			</div>
+		</div>
+	<!-- 脚部结束 -->
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script>
+//上传图片并预览
+	var input = document.getElementById("file_input");
+	var imageType = /image.*/;
+	var getOnloadFunc = function(aImg) {
+	return function(evt) {
+		aImg.src = evt.target.result;
+	};
+}
+	input.addEventListener("change", function(evt) {
+    for (var i = 0, numFiles = this.files.length; i < numFiles; i++) {
+        var file = this.files[i];
+        if (!file.type.match(imageType)) {
+            continue;
+        }
+
+	    var img = document.createElement("img");
+	    img.style.width="70px";
+	    img.style.height="70px";
+	    img.style.marginLeft="10px";
+	    img.id="upload-img-show";
+	    var _img=document.getElementById("assess-form");
+	    _img.appendChild(img);
+	     img.onclick=function(){
+	     	if (confirm("删除照片？"))  {  
+				img.style.display="none";
+				}  
+			else  { 
+				return false;
+					};
+	     	// img.style.display="none";
+	     }
+	    var reader = new FileReader();
+	    reader.onload = getOnloadFunc(img);
+	    reader.readAsDataURL(file);
+    }
+}, false);
+	
+	$(function(){
+		$('.rating-star a').click(function(){
+ 			var starindex = $(this).text();
+ 			console.log(starindex);
+ 		$('.rating-star').children('#goodLevel').val(starindex);
+ 		// alert($("#goodLevel").val());
+ 		});
+//星星
+ 		$('.rating-star').on('click', 'a', function () {
+ 		$('.rating-star').data('star',this.innerHTML);
+ 		}).on('mouseenter', 'a', function () {
+ 		setStar(this);
+ 		}).on('mouseleave', 'a', function () {
+ 			var $r_star = $('.rating-star');
+ 			var level = $r_star.data('star');
+ 			var $stars = $r_star.find('a');
+ 		if (level) {
+ 			setStar($stars[level]);
+ 		} else {
+ 			$stars.css('background-position', '-253px -25px');
+ 		}
+ 	});
+function setStar(star) {
+ 	var $this = $(star);
+ 	var level = $this.html();
+ 	var n;
+ if (level == '4') {
+ 	n = '-253px 0px';
+ } 
+ else if (level == '3') {
+ 	n = '-253px 0px';
+ } 
+ else if (level == '2') {
+ 	n = '-253px 0px';
+ } 
+ else if (level == '1') {
+ 	n = '-253px 0px';
+ } 
+ else {
+ 	n = '-253px 0px';
+ }
+ $this.prevAll().andSelf().css('background-position', n);
+ $this.nextAll().css('background-position', '-253px -25px');
+ }
+	})	
+$('.assess-btn').click(function(){
+	window.location.href="assess-success.html";
+});
+</script>
+</html>

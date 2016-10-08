@@ -1,0 +1,66 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-帮助与反馈{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="gray-block"></div>
+		<div class="kx-body bg-color-light-white" style="min-height:440px">
+			<form class="input-form padding-0" method="post">
+				<div class="input-area font-14">
+					<input placeholder="您的电子联系方式（电子邮箱/手机/QQ）" type="text" name="contact_way" class="contact_way">
+					<div class="horizontal-line"></div>
+					<textarea class="feedback-text" placeholder="感谢您的反馈，我们会聆听您的每条建议和意见" name="content"></textarea>
+				</div>
+				<div class="window-btn-wrap margin-10-20p">
+					<div class="btn primary-btn width-full">发送</div>
+				</div>
+			</form>
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+// 点击登陆
+$(function(){
+	$(".primary-btn").on("click",function(){
+		// $(".input-form").submit();
+		var contact_way=$(".contact_way").val();
+		var feedback_text=$(".feedback-text").val();
+		if(contact_way != '' && feedback_text != ''){
+			$.ajax({
+	            type: "POST",
+	            url: "{{ path('zm_store_store_feedback') }}",
+	            dataType: 'json',
+	            data:{
+	                contact_way:contact_way,
+	                content:feedback_text
+	            },
+	            success: function(result) {
+
+	                if ( result.flag == 1) {
+	                    alert("提交成功!");
+	                    location.href=window.location.href;
+	                    
+	                } else{
+	                    alert('提交失败!');   
+	                }
+	            }
+	        })
+		}else{
+			alert("请完善信息！")
+		}
+	})
+})
+</script>
+{% endblock %}
+

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>快修微信-注册第二步</title>
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmstore/css/kx-basic.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/zmstore/css/framework.css') }}">
+	<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+	<div class="kx-container font-14 ">
+	<!-- 正文开始 -->
+		<div class="must-order">
+			必填项
+		</div>
+		<div class="kx-body bg-color-light-white">
+			<form action="" method="post" enctype="multipart/form-data" class="submit-form">
+				{% if store_type == 1 %}
+				<div class="list-with-imgs font-12 ">
+					<div class="year-group">
+						技师昵称：
+						<input  type="text" name="store_name">
+						{% if error.store_name is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.store_name }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group ">
+						联系人：
+						<input  type="text" name="link_man">
+						{% if error.link_man is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.link_man }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+					联系方式：
+						<input  type="text" name="store_tel">
+						{% if error.store_tel is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.store_tel }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						个人详细地址：
+						<input  type="text" name="address">
+						{% if error.address is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.address }}</div>
+						{% endif %}
+						
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group select-appliance" style="cursor:pointer;">
+						维修范围
+						{% if error.appliance is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.appliance }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						身份证号：
+						<input  type="text" name="id_num">
+						{% if error.id_num is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.id_num }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group select-range" style="cursor:pointer;">
+						服务区域
+						{% if error.area is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.area }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					
+					<div class="horizontal-line"></div>
+					<div class="year-group upload-idcard" style="cursor:pointer;">
+						请上传手持身份证照片
+						{% if error.id_card is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.id_card }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					
+					<div class="horizontal-line"></div>
+					<div class="year-group upload-qualification" style="cursor:pointer;">
+						请上传技师证书
+						{% if error.qualification is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.qualification }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					
+					<div class="horizontal-line"></div>
+					<div class="order-title font-gray">选填项</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						邮箱：
+						<input  type="text" name="email">
+						{% if error.email is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.email }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						技术专长：
+						<input  type="text" name="competence">
+					</div>
+					<div class="horizontal-line"></div>
+				</div>
+				{%  endif %}
+				{% if store_type == 2 %}
+				<div class="list-with-imgs font-12">
+					<div class="year-group">
+						店铺名：
+						<input  type="text" name="store_name">
+						{% if error.store_name is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.store_name }}</div>
+						{% endif %}					
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group ">
+						负责人：
+						<input  type="text" name="link_man">
+						{% if error.link_man is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.link_man }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+					联系方式：
+						<input  type="text" name="store_tel">
+						{% if error.store_tel is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.store_tel }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						(法人/负责人)身份证号：
+						<input  type="text" name="id_num">
+						{% if error.id_num is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.id_num }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						营业执照号：
+						<input  type="text" name="business_number">
+						{% if error.business_number is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.business_number }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						详细地址：
+						<input  type="text" name="address">
+						{% if error.address is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.address }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group select-appliance" style="cursor:pointer;">
+						维修范围
+						{% if error.appliance is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.appliance }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					
+					<div class="horizontal-line"></div>
+					
+					<div class="year-group select-range" style="cursor:pointer;">
+						店铺所在区域
+						{% if error.area is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.area }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group upload-idcard" style="cursor:pointer;">
+						请上传手持身份证照片
+						{% if error.id_card is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.id_card }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					<div class="horizontal-line"></div>
+					
+					<div class="year-group upload-license" style="cursor:pointer;">
+						请上传营业执照
+						{% if error.business_license is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.business_license }}</div>
+						{% endif %}
+						<span class="kx-img arrow-right"></span>
+					</div>
+					
+					<div class="horizontal-line"></div>
+					<div class="order-title font-gray">选填项</div>
+					<div class="horizontal-line"></div>
+					<div class="year-group">
+						邮箱：
+						<input  type="text" name="email">
+						{% if error.email is defined %}
+						<div class="error-message" style="display:inline-block;">提示：{{ error.email }}</div>
+						{% endif %}
+					</div>
+					<div class="horizontal-line"></div>
+				</div>
+				{%  endif %}
+				<!-- 维修范围 -->
+					<div class="framework product-framework appliance-box">
+						<ul>
+							{% for item in appliance_list %}   
+							<li><input type="checkbox" name="appliances[]" value="{{ item.id }}"/>{{ item.appliance_name }}</li>
+							{% endfor %}							
+						</ul>
+						<div class="window-btn-wrap margin-10-20p">
+							<div class="btn primary-btn width-full box-btn">确定</div>
+						</div>
+					</div>
+				<!-- 维修范围 end-->
+				<!-- 营业执照 -->
+					<div class="framework product-framework license-box">
+						<ul> 
+							<li>
+								<img src =""  style="width:90px;height:50px;padding:4px;" id="ImgPh03" />
+								<input  type="file" name="business_license" id="inputstyle03" style=""/>
+							</li>						
+						</ul>
+						<div class="window-btn-wrap margin-10-20p">
+							<div class="btn primary-btn width-full box-btn">确定</div>
+						</div>
+					</div>					
+				<!-- 营业执照 end-->
+				<!-- 技师照片 -->
+					<div class="framework product-framework qualification-box">
+						<ul> 
+							<li>
+								<img src =""  style="width:90px;height:50px;padding:4px;" id="ImgPh02" />
+							    <input  type="file" name="qualification" id="inputstyle02" style=""/>
+							</li>							
+						</ul>
+						<div class="window-btn-wrap margin-10-20p">
+							<div class="btn primary-btn width-full box-btn">确定</div>
+						</div>
+					</div>
+				<!-- 技师照片 end-->
+				<!-- 服务区域 -->
+				<div class="framework product-framework range-box">
+					<ul> 
+						<li>
+							<select style="width:100px;height:32px;" class="address-openregion" name="res_province_id" value="">
+			                    <option value="0">-请选择-</option>
+			                    {% for item in province_list %}
+			                    <option value="{{ item.id }}">{{ item.name }}</option>
+			                    {% endfor %} 
+			                </select>
+						</li>	
+					</ul>
+					<div class="window-btn-wrap margin-10-20p">
+						<div class="btn primary-btn width-full box-btn">确定</div>
+					</div>
+				</div>
+				<!-- 服务区域 end-->
+				<!-- 身份证照片 -->
+				<div class="framework product-framework idcard-box">
+					<ul> 
+						<li>
+							<img src =""  style="width:90px;height:50px;padding:4px;" id="ImgPh01" />
+							<input  type="file" name="id_card" id="inputstyle01" style=""/>
+						</li>						
+					</ul>
+					<div class="window-btn-wrap margin-10-20p">
+						<div class="btn primary-btn width-full box-btn">确定</div>
+					</div>
+				</div>
+				<!-- 身份证照片 end-->
+				<div class="window-btn-wrap margin-10-20p">
+					<button class="btn primary-btn width-full submit-btn">提交审核</button>
+				</div>
+			</form>
+		</div>
+	<!-- 正文结束 -->
+	</div>
+	<!-- 提交弹窗 -->
+		<div class="sign-window">
+			<div class="sign-window-content-wrap padding-10-10">
+				<span class="kx-img window-img1"></span>
+				<span class="font-14 color-green submit-success">提交成功</span>
+				<p class="font-12 font-gray submit-info">
+				请保存好您注册的账号信息。
+我们的工作人员会在3个工作日内审核并电话通知您审核结果。</p>
+			</div>
+			<div class="window-btn-wrap">
+				<div class="btn primary-btn width-full close-window">确&nbsp;定</div>
+			</div>
+		</div>
+	<!-- 提交弹窗 end -->
+	</div>
+	<!-- 遮罩层 -->
+	<div class="mask" style="height:130%;"></div>
+	<!-- 遮罩层 end -->
+</body>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/jquery-2.1.4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/uploadPreview.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/zmstore/js/uploadPreview.js') }}"></script>
+<script type="text/javascript">
+//提交响应事件
+// $('.submit-btn').click(function(){
+// 	$('.sign-window').fadeIn();
+// 	$('.mask').show();
+// });
+// $('.close-window').click(function(){
+// 	$('.sign-window').fadeOut();
+// 	$('.mask').hide();
+// });
+
+$(function(){
+	// 点击提交审核
+	$(".submit-btn").on("click",function(){
+		var id_num=$("input[name='id_num']").val();
+		var store_tel=$("input[name='store_tel']").val();
+		var email=$("input[name='email']").val();
+		var id_num_reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+		var store_tel_reg = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+		var email_reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+
+		if(id_num_reg.test(id_num) == false){
+	       alert("身份证输入不合法");  
+	       return  false;
+	    }else if(store_tel_reg.test(store_tel) == false){
+	       alert("联系方式不正确");  
+	       return  false;
+	    }else if(email != '' && email_reg.test(email) == false){
+	       alert("邮箱格式不正确");  
+	       return  false;
+	    }else{
+	   	$(".submit-form").submit();
+	    }
+		
+	})
+	// 服务区域弹框
+	$(".select-range").on("click",function(){
+		$(".range-box").show();
+	})
+	// 关闭弹框
+	$(".box-btn").on("click",function(){
+		$(".range-box").hide();
+	})
+	// 选择服务区域
+	var chosetext = "<option value='0'>-请选择-</option>";
+	// 选择-出现市
+    $(document).on('change','.address-openregion',function(){
+        $(".address-opencity").remove();
+       $(".address-district").remove();
+
+        var id = $(".address-openregion").val(); 
+        var url= "{{ path('zm_member_getCityAjax', { 'id': 'text' }) }}";
+        url = url.replace("text", id);
+        $.ajax({
+            type:"get",
+            url:url,
+            data:{region:id},
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                //console.log(data);
+                
+                $(".address-openregion").after( "<select style='width:100px;height:32px;' class='address-opencity' name='res_city_id'></select>");
+                $(".address-opencity").append(chosetext);
+                
+                for(var i=0;i<length;i++){
+                    var  city_option = "<option id='origin_city_id_op"+data[i].id+"'value='"+data[i].id+"' >"+data[i].name+"</option>"
+                        $(".address-opencity").append(city_option);
+
+                    
+                }
+            }            
+        })
+    });    
+
+    // 选择-出现区
+    $(document).on('change','.address-opencity',function(){
+        $(".address-district").remove();
+
+        var id = $(".address-opencity").val(); 
+      
+        var url = "{{ path('zm_member_getDistrictAjax', { 'id': 'text' }) }}";
+        url = url.replace("text", id);
+        $.ajax({
+            type:"get",
+            url:url,
+            data:{city:id},
+            dataType:"json",
+            success:function(data){
+                    var length=data.length;
+                    //console.log(data);
+                    
+                    $(".address-opencity").after("<select style='width:100px;height:32px;' class='address-district' name='res_district_id' ></select>");
+                    $(".address-district").append(chosetext); 
+
+                    for(var i=0;i<length;i++){
+                        var  xian_option = "<option id='origin_xian_id_op"+data[i].id+"'value='"+data[i].id+"'>"+data[i].name+"</option>"
+                        $(".address-district").append(xian_option);
+
+                                          
+                    }                  
+                }            
+        })             
+    });
+	// 身份证照片
+	$(".upload-idcard").on("click",function(){
+		$(".idcard-box").show();
+		
+	})
+	// 上传身份证照片
+    $("#inputstyle01").uploadPreview({Img: "ImgPh01",Height:30, Width:30});
+	// 关闭弹框
+	$(".box-btn").on("click",function(){
+		$(".idcard-box").hide();
+	})
+	// 技师照片
+	$(".upload-qualification").on("click",function(){
+		$(".qualification-box").show();
+		
+	})
+	// 上传技师照片
+    $("#inputstyle02").uploadPreview({Img: "ImgPh02",Height:30, Width:30});
+	// 关闭弹框
+	$(".box-btn").on("click",function(){
+		$(".qualification-box").hide();
+	})
+	// 营业执照
+	$(".upload-license").on("click",function(){
+		$(".license-box").show();
+		
+	})
+	// 上传营业执照
+    $("#inputstyle03").uploadPreview({Img: "ImgPh03",Height:30, Width:30});
+	// 关闭弹框
+	$(".box-btn").on("click",function(){
+		$(".license-box").hide();
+	})
+	// 维修范围
+	$(".select-appliance").on("click",function(){
+		$(".appliance-box").show();
+		
+	})
+	// 关闭弹框
+	$(".box-btn").on("click",function(){
+		$(".appliance-box").hide();
+	})
+	//自适应屏幕宽高
+    $(".kx-body").css({
+        "min-height":$(window).height()
+    })
+    $(window).resize(function(){
+        $(".kx-body").css({
+            "min-height":$(window).height()
+        })
+    });
+
+})
+
+</script>
+</html>

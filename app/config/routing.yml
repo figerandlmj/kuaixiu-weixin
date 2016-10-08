@@ -1,0 +1,7 @@
+zm_store:
+    resource: "@ZMStoreBundle/Resources/config/routing.yml"
+    prefix:   /vendor
+
+zm_member:
+    resource: "@ZMMemberBundle/Resources/config/routing.yml"
+    prefix:   /

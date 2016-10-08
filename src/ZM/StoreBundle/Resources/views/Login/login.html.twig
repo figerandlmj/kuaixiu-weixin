@@ -1,0 +1,57 @@
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-登录{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="kx-body bg-color-blue">
+		<!-- banner -->
+			<div class="login-banner">
+				<span class="kx-img-big login-banner-img"></span>
+				<div class="white-radius">
+					<span class="font-color-blue">商户版</span>
+				</div>
+			</div>
+		<!-- banner end -->
+		<!-- login form -->
+			<form class="input-form" action="" method="post">
+				<div class="input-area">
+					<input class="font-14" placeholder="手机号" type="text" name="login_name">
+					<div class="horizontal-line"></div>
+					<input class="font-14" placeholder="密   码" type="password" name="password">
+				</div>
+				<a><div class="login-btn cursor-btn">登&nbsp;&nbsp;录</div></a>
+				<div class="login-below">
+					<span class="kx-img forgot-psw-img"></span>
+					<a class="font-14 ml-10" href="{{ path('zm_store_forget') }}" style="color:#fff">忘记密码</a>
+					<span class="kx-img register-new-img"></span>
+					<a href="{{ path('zm_store_register_one') }}" class="fr font-14 mt-2" style="color:#fff">注册新账户</a>
+				</div>
+				{% if error.content is not empty %}
+				<div class="error-message">提示：{{ error.content }}</div>
+				{% endif %}
+			</form>
+		<!-- login form end -->
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+// 点击登陆
+$(function(){
+	$(".login-btn").on("click",function(){
+		$(".input-form").submit();
+	})
+})
+</script>
+{% endblock %}
+

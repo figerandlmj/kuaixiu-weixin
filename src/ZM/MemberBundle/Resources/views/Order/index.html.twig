@@ -1,0 +1,162 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-订单{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %} 
+<div class="kx-container">
+	<!-- 头部 -->
+		<div class="kx-head">
+			<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+			<div class="kx-head-center-font">我的订单</div>
+		</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+		<div class="kx-body">
+			<div class="tab">
+  				<div class="tab-title">
+    				<ul>
+     					<li>
+         	 				<a href="{{ path('zm_member_order',{'status':1}) }}" class="kx-img tab-img pending {% if status == 1 %}pending-focused{% endif %}"></a>
+      					</li>
+      					<li>
+        					<a href="{{ path('zm_member_order',{'status':3}) }}" class="kx-img tab-img under-way {% if status == 3 %}under-way-focused{% endif %}"></a>
+      					</li>
+      					<li>
+        					<a href="{{ path('zm_member_order',{'status':2}) }}" class="kx-img tab-img finished {% if status == 2 %}finished-focused{% endif %}"></a>
+      					</li>
+    				</ul>
+  				</div>
+  				<div style="height:auto" class="tab-content">
+    				<div class="pending-content order-content">
+                        {% for item in data %}
+                        <div class="qorderlist">
+                            <div class="gray-block"></div>
+                            <div class="order-group">
+                                <a href="{{ path('zm_member_store_info',{'id':item.store_id}) }}" class="order-list">
+                                    <img src="{{ webIp }}image/store/{{ item.image }}" class="head-portrait" /> 
+                                    <span class="order-detail-wrap">
+                                        <span>{{ item.store_name }}</span><br/>
+                                        <span>订单号：{{ item.order_sn }}</span><br/>
+                                        <span>维修品牌：{{ item.manufacturer_name }}</span>&nbsp;&nbsp;<span>维修产品：{{ item.appliance_name }}</span>
+                                    </span>
+                                </a>
+                                <div class="horizontal-line"></div>
+                                <div class="connection-wrap">
+                                    <a href="tel:{% if item.store_tel != "" %}{{ item.store_tel }}{% elseif item.phone != "" %}{{ item.phone }}{% endif %}"><span class="kx-img phone-img"></span></a>
+                                    <span class="connection-ways">电话联系</span>
+                                    {% if item.status == 1 %}
+                                    <a data-id="{{ item.id }}" href="javascript:;" class="qcancel"><div class="btn  order-btn">取消订单</div></a>
+                                    {% elseif item.status == 2 and item.is_review == 0 %}
+                                    <a href="{{ path('zm_member_order_review',{'id':item.id}) }}"><div class="btn order-btn">订单评价</div></a>
+                                    {% elseif item.status == 2 and item.is_review == 1 %}
+                                    <a href="javascript:;"><div style="border:none" class="btn order-btn">评价成功</div></a>
+                                    {#{% elseif item.status == 3 %}
+                                    <a data-id="{{ item.id }}" href="javascript:;" class="qsure"><div class="btn order-btn">确认完成</div></a>#}
+                                    {% elseif item.status == 3 %}
+                                    <a data-id="{{ item.id }}" href="{{ path('zm_member_complain_action',{'maintenance_id':item.id}) }}"><div class="btn order-btn">投诉商家</div></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+    					{% endfor %}
+    				</div>
+ 				</div>
+			</div>
+
+		</div>
+        <!-- 分页 -->
+            {% autoescape false %}  
+            <div class="pages-container">
+                {{ render|raw }}    
+            </div>
+            {% endautoescape %}  
+            <!--END 分页 -->
+	</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+$(function(){
+    //li点击事件
+    var status = {{ status }}; //1,2,3
+    var status_index = 0;
+    if(status == 1){ //待处理
+        status_index = 0;
+    }
+    if(status == 3){ //进行中
+        status_index = 1;
+    }
+    if(status == 2){ //已完成
+        status_index = 2;
+    }
+    
+    $('.tab-title li').eq(status_index).addClass('order-li-border-bottom').siblings().removeClass("order-li-border-bottom");
+    $('.tab-title li').eq(status_index).find(".tab-img").addClass("pending-focused");
+    $('.tab-title li').eq(status_index).siblings().find(".tab-img").removeClass("under-way-focused");
+    $('.tab-title li').eq(status_index).siblings().find(".tab-img").removeClass("finished-focused");
+    $(".order-content").eq(0).show().siblings().hide();
+     
+
+    //取消
+    $('.qcancel').click(function(){
+        if (  confirm('你确定要取消订单吗？') ){
+            var id = $(this).data('id');
+            var url = "{{ path('zm_member_order_cancel',{'id':'Id'}) }}";
+            url = url.replace('Id',id);
+            var parent = $(this).parents(".qorderlist");
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                success: function(result) {
+                    if ( result.code == 1) {
+                        confirm(result.message);
+                        parent.remove();
+                    } else{
+                        confirm(result.message);
+                    }
+                }
+            })
+           
+        } 
+    })
+    
+    //确认
+    $('.qsure').click(function(){
+        if (  confirm('你确定要确认订单吗？') ){
+        
+            var id = $(this).data('id');
+            var url = "{{ path('zm_member_order_complete',{'id':'Id'}) }}";
+            url = url.replace('Id',id);
+            var parent = $(this).parents(".qorderlist");
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                success: function(result) {
+                    if ( result.code == 1) {
+                        confirm(result.message);
+                        parent.remove();
+                    } else{
+                        confirm(result.message);
+                    }
+                }
+            })
+            
+        } 
+    })
+ 
+})
+</script>
+{% endblock %}

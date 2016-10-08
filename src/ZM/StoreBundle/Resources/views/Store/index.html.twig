@@ -1,0 +1,147 @@
+
+{% extends '::sh_base.html.twig' %}
+
+{% block title %}快修微信-我的{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+    {% block body %}
+    <!-- 正文开始 -->
+		<div class="kx-body bg-color-light-white " style="min-height:300px">
+		<div class="bottom-navigation-content bg-color-light-white">
+			<img class="personal-center-top" src="{{ asset('bundles/zmstore/images/personal-center.jpg') }}">
+			<div class="person-head-wrap color-light-blue">
+				<div class="person-head">
+					{% if store.image is empty %}
+					<img class="" src="{{ asset('bundles/zmstore/images/person_img.png') }}" width="50px" height="50px">
+					{% else %}
+					<img class="" src="{{ webIp }}image/store/{{ store.image }}" width="50px" height="50px">
+					{% endif %}
+				</div>
+				<div class="person-head-right font-white">
+					<p>{{ store.store_name }}</p>
+					<div class="kx-img people-img fl mt-10"></div>
+					<div class="mt-10 ml-10 font-12">{{ store.phone }}</div>
+				</div>
+			</div>
+			<div class="store-info-wrap">
+				<ul>
+					<li>
+						<p class="p1">{% if evaluation.price is empty %}0{% else %}{{ evaluation.price }}{% endif %}</p>
+						<p class="p2">技术水平</p>
+					</li>
+					<li>
+						<p class="p1">{% if evaluation.price is empty %}0{% else %}{{ evaluation.velocity }}{% endif %}</p>
+						<p class="p2">维修速度</p>
+					</li>
+					<li>
+						<p class="p1">{% if evaluation.price is empty %}0{% else %}{{ evaluation.attitude }}{% endif %}</p>
+						<p class="p2">服务态度</p>
+					</li>
+					<li>
+						<p class="p1">{% if evaluation.price is empty %}0{% else %}{{ evaluation.quality }}{% endif %}</p>
+						<p class="p2">维修质量</p>
+					</li>
+				</ul>
+			</div>	
+			<div class="info-3 font-12">
+				<ul>
+					<a href="{{ path('zm_store_store_score',{'type':1}) }}">
+						<li>
+							<div class="kx-img jf-img"></div>
+							<div class="info-3-in">
+								<span class="font-gray">积分</span>
+								<span class="color-orange-red">{{ store.score }}</span>
+							</div>
+						</li>
+					</a>
+					<a href="{{ path('zm_store_store_level') }}">
+						<li>
+							<div class="kx-img level-img"></div>
+							<div class="info-3-in">
+								<span class="font-gray">等级</span>
+								<span class="color-orange-red">{{ store.level }}</span>
+							</div>
+						</li>
+					</a>
+					<li>
+						<div class="kx-img comment-img"></div>
+						<div class="info-3-in">
+							<span class="font-gray">总评</span>
+							<span class="color-orange-red">{{ store.grade }}分</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="gray-block"></div>
+			<div class="list-with-imgs">
+				<ul>
+					<a href="{{ path('zm_store_store_info') }}">
+						<li>
+							<span class="kx-img personal-info my-shop"></span>
+							<span class="my-data-font">我的店铺信息</span>
+							<span class="kx-img arrow-right"></span>
+						</li>
+					</a>
+					<div class="horizontal-line"></div>
+					<a href="{{ path('zm_store_complain') }}">
+						<li>
+							<span class="kx-img personal-info complain-manage"></span>
+							<span class="my-data-font">投诉管理</span>
+							<span class="kx-img arrow-right"></span>
+						</li>
+					</a>
+					<div class="gray-block"></div>
+					<a href="{{ path('zm_store_store_feedback') }}">
+						<li>
+							<span class="kx-img personal-info help-feedback"></span>
+							<span class="my-data-font">帮助与反馈</span>
+							<span class="kx-img arrow-right"></span>
+						</li>
+					</a>
+					<div class="horizontal-line"></div>
+					<a href="{{ path('zm_store_store_aboutus') }}">
+						<li>
+							<span class="kx-img personal-info about-us"></span>
+							<span class="my-data-font">关于我们</span>
+							<span class="kx-img arrow-right"></span>
+						</li>
+					</a>
+					<div class="gray-block"></div>
+					<a href="{{ path('zm_store_logout') }}">
+						<li>
+							<span class="kx-img personal-info login-out"></span>
+							<span class="my-data-font">退出登录</span>
+							<span class="kx-img arrow-right"></span>
+						</li>
+					</a>
+					<div class="horizontal-line"></div>
+				</ul>
+			</div>
+		</div>
+		<!-- 个人中心 end -->
+		
+		</div>
+	<!-- 正文结束 -->
+    {% endblock %}
+
+	{% block footer %}
+	{{ parent() }}
+	{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+$(function(){
+	//导航高亮
+    var flag = 3;
+    $(".banner_li a").each(function(){
+        if ($(this).data("flag")== flag) {          
+            $(this).find("li").addClass("blue-my-img");
+        }
+    })
+})
+</script>
+{% endblock %}

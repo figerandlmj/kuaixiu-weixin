@@ -1,0 +1,343 @@
+{% extends '::qbase.html.twig' %}
+
+
+{% block title %}快修微信-搜索{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+<div class="kx-container">
+	<!-- 头部 -->
+	<div class="kx-head fixed">
+		<a href="{{ path('zm_member_index') }}"><div class="kx-img kx-head-home-img"></div></a>
+		<div class="header-center">
+			<form id="head-search" action="" method="get">
+				<div class="head-search">
+					<span class="kx-img search-img"></span>
+					<input class="search-input" type="text" placeholder="请输入店铺名" name="store_name" value="" />
+				</div>
+			</form>
+		</div>
+		<div id="zoneBTN" class="kx-head-right-font"><span class="kx-img location-img"></span><span id="position" class="pull-right">{{ app.session.get('member_city_name') }}</span></div>
+	</div>
+	<!-- 头部结束 -->
+	<!-- 正文 -->
+	<div class="kx-body padding-top-50 over-flow" style="padding-bottom:30px;">
+	<!-- 分类筛选 -->
+		<div class="slide-menu-wrap font-color-light-gray">
+			<!--title 选择  -->
+			<div class="home-appliance slide-menu-title ">
+				<span class="slide-name">家电</span>
+				<span class="kx-img arrows arrow-up"></span>
+			</div>
+			<div class="area-sorting slide-menu-title">
+				<span class="slide-name ">区域</span>
+				<span class="kx-img arrows arrow-up"></span>
+			</div>
+			<div class="intelligent-sorting slide-menu-title">
+				<span class="slide-name">默认排序</span>
+				<span class="kx-img arrows arrow-up"></span>
+			</div>
+			<!-- end title选择 -->
+			<!-- 分类显示-->
+			<div class="classify">
+			<!-- 家电排序 -->
+			<div class="slide-menu-list home">
+				<ul>
+					{% for item in appliance_list %}
+					<li class="selected">
+						<a style="color:#8d8d8d !important;display: block;width: 100%;" href="{{ path('zm_member_index_search') }}?appliance_id={{ item.id }}{% if filter.store_name %}&store_name={{filter.store_name}}{% endif %}{% if filter.res_district_id %}&res_district_id={{filter.res_district_id}}{% endif %}{% if filter.order %}&order={{filter.order}}{% endif %}">
+							{#<img src="{{ webIp }}image/appliance/{{ item.image }}" class="slide-img" />#}
+							<span class="margin-left-30">{{ item.appliance_name }}</span>
+						</a>
+					</li>
+					<div class="horizontal-dot-line"></div>
+					{% endfor %}
+				</ul>
+			</div>
+			<!-- end 家电排序 -->
+			<!-- 区域选择 -->
+			<div class="slide-menu-list area">
+				<ul class="area-list searchlistfirst">
+				</ul>
+			</div>
+			<!-- end 区域选择 -->
+			<!-- 默认排序 -->
+			<div class="slide-menu-list intelligence">
+				<ul>
+					<li class="selected">
+						<a style="color:#8d8d8d !important;display: block;width: 100%;" href="{{ url }}" class="mar-left-10" >默认排序</a>
+					</li>
+					<div class="horizontal-dot-line"></div>
+					<li>
+						<a style="color:#8d8d8d !important;display: block;width: 100%;" href="{{ url }}&is_near=1" class="mar-left-10">离我最近</a>
+					</li>
+					<li>
+						<a style="color:#8d8d8d !important;display: block;width: 100%;" href="{{ url }}&order=order_num" class="mar-left-10">维修量</a>
+					</li>
+					<div class="horizontal-dot-line"></div>
+					<li>
+						<a style="color:#8d8d8d !important;display: block;width: 100%;" href="{{ url }}&order=grade" class="mar-left-10">好评量</a>
+					</li>
+				</ul>
+			</div>
+			<!-- end 默认排序 -->
+			</div>
+			<!-- end 分类显示 -->
+		</div>
+		<!-- end 分类筛选 -->
+		<div class="order-group padding-top-50">
+			{% for key,item in data %}
+			<a href="{{ path('zm_member_store_info',{'id':item.id}) }}">
+				<div class="order-list ">
+					<img src="{{ webIp }}image/store/{{ item.image }}" class="head-portrait" /> 
+					<span class="order-detail-wrap" style="display:inline-block;">
+	                    <p class="font-size-16">{{ item.store_name }}</p>
+	                    <div class="shop-collection-wrap font-color-light-gray">
+	                    	<p>店铺星级 {% if item.level == 1 %}一{% elseif item.level == 2 %}二{% elseif item.level == 3 %}三{% elseif item.level == 4 %}四{% elseif item.level == 5 %}五{% elseif item.level == 6 %}六{% elseif item.level == 7 %}七{% endif %}星</p>
+	                        <p>好评度 {{ item.grade }}</p>
+	                        <p>累计完成订单 {{ item.order_num }}次</p>
+	                    </div>
+	                </span>
+				</div>
+			</a>
+			<div class="horizontal-line"></div>
+			{% endfor %}
+		</div>
+
+		<!-- 分页 -->
+       	{% autoescape false %}  
+        <div class="pages-container">
+            {{ render|raw }}    
+        </div>
+        {% endautoescape %}  
+        <!--END 分页 -->
+	</div>
+	<!-- 正文结束-->
+</div>
+<!-- 弹框-显示省市区 -->
+<div style="display:none" class="cityAlertBOX">
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="pro-name f28 col333">
+        <input  type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="city-name f28 col333">
+        <input class="city-id" type="hidden" value="" />
+    </div>
+    <div style="display:none;border:1px solid #d8d8d8;padding:10px;background:#f0f0f0" class="district-name f28 col333">
+        <input class="district-id" type="hidden" value="" />
+    </div>
+    <ul class="provinceContain">
+        {% for item in province_list %}
+        <li data-id="{{ item.id }}" class="provinceBOX">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+    <ul class="cityContain"></ul>
+    <ul class="districtContain"></ul>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+$(function(){
+		var cid = {{ city_id }};
+         
+        var url= "{{ path('zm_member_getDistrictAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", cid);
+
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                 
+                for(var i=0;i<length;i++){
+                    var district_option = "<li class='mar-left-10'><a style='color:#8d8d8d !important;display:block;width:100%' href='{{ path('zm_member_index_search') }}?res_district_id="+ data[i].id +"{% if filter.store_name %}&store_name={{filter.store_name}}{% endif %}{% if filter.appliance_id %}&appliance_id={{filter.appliance_id}}{% endif %}{% if filter.order %}&order={{filter.order}}{% endif %}'>"+data[i].name+"</a></li>";
+                    $(".searchlistfirst").append(district_option);
+                }
+                
+            }
+        })
+
+
+})
+</script>
+<script>
+	//城市名
+	var city = $('#position').text();
+	//console.log(city);
+	var length = city.length;
+	//console.log(length);
+	var num;
+	if(length ==3){
+		num=2;
+	}
+	if(length ==4){
+		num=3;
+	}
+	if(length ==5){
+		num=4;
+	}
+	if(length >5){
+		num=4;
+	}
+
+	city = city.slice(0,num); 
+    $('#position').text(city);   
+
+	//title 点击事件
+	var flag=0;
+	$("#area-detail-1").show();
+	$('.slide-menu-title').click(function(){
+		flag++;
+		if(flag==1){
+			var index=$(this).index();
+			// console.log(index);
+			$(".slide-menu-list").eq(index).slideDown().siblings().hide();
+			$(this).find(".arrows").removeClass("arrow-up").addClass("arrow-down");
+		}
+		if(flag==2){
+			var index=$(this).index();
+			// console.log(index);
+			$(".slide-menu-list").eq(index).slideUp().siblings().hide();
+			$(this).siblings().find(".arrows").removeClass("arrow-down").addClass("arrow-up");
+			$(this).find(".arrows").removeClass("arrow-down").addClass("arrow-up");
+			flag=0;
+		}
+	});
+	$('.slide-menu-list li').hover(function(){
+		$(this).addClass("selected").siblings().removeClass('selected');
+	});
+//家电列表	
+	$('.home li').click(function(){
+		$(this).addClass("selected");
+		$(this).siblings().removeClass('selected');
+		var txt=$(this).find(".margin-left-30").text();
+		$('.home-appliance .slide-name').text(txt);
+		$('.slide-menu-list').slideUp();
+		$(".home-appliance .arrows").removeClass("arrow-down");
+		$(".home-appliance .arrows").addClass("arrow-up");flag=0;
+		// alert(txt);
+	});
+//排序列表
+	$('.intelligence li').click(function(){
+		$(this).addClass("selected");
+		$(this).siblings().removeClass('selected');
+		var txt=$(this).find(".mar-left-10").text();
+		$('.intelligent-sorting .slide-name').text(txt);
+		$('.slide-menu-list').slideUp();
+		$(".intelligent-sorting .arrows").removeClass("arrow-down");
+		$(".intelligent-sorting .arrows").addClass("arrow-up");flag=0;
+		// alert(txt);
+	});
+	//区域li的hover事件
+	$('.area-detail li').click(function(){
+		$(this).addClass("selected");
+		$(this).siblings().removeClass('selected');
+		$('.slide-menu-list').slideUp();
+		$(".area-sorting .arrows").removeClass("arrow-down");
+		$(".area-sorting .arrows").addClass("arrow-up");flag=0;
+	});
+	$('.area-list li').hover(function(){
+		$(this).addClass("selected");
+		$(this).siblings().removeClass('selected');
+		var index=$(this).index();
+		var i=index/2;
+		var txt=$(this).find(".mar-left-10").text();
+		$('.area-sorting .slide-name').text(txt);
+		$('.area-ul ul').eq(i).show().siblings().hide();
+	});
+
+	//头部-搜索 head-search
+	$('.search-input').blur(function(){
+		$('#head-search').submit();
+	})
+
+
+</script>
+<script type="text/javascript">
+	//点击-省弹框出现
+    $('#zoneBTN').click(function(){
+        $('.cityAlertBOX').show();
+        //重新初始化
+        $('.provinceContain').show();
+        $('.cityContain').empty();
+        $('.districtContain').empty();
+        $('.pro-name').empty();
+        $('.city-name').empty();
+        $('.district-name').empty();
+        $('.pro-name').hide();
+        $('.city-name').hide();
+        $('.district-name').hide();
+    })
+
+    //省点击后，动态获取市的数据
+    $('.provinceContain li').click(function(){
+
+        var pid = $(this).data("id");
+        var pname = $(this).text();
+        var url= "{{ path('zm_member_getCityAjax', {'id': 'ID'}) }}";
+        url = url.replace("ID", pid);
+
+        $('.pro-name').show();
+        $('.pro-name').text(pname);
+        $('.pro-id').val(pid);
+        
+        $('.provinceContain').hide();
+        $('.cityContain').empty();
+        $('.cityContain').show();
+        
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            success:function(data){
+                var length=data.length;
+                // console.log(data);
+                for(var i=0;i<length;i++){
+                    var city_option = "<li id='origin_city_id_op"+data[i].id+"'data-id='"+data[i].id+"' >"+data[i].name+"</li>";
+                    $(".cityContain").append(city_option);
+                }
+
+            }
+        })
+
+    })
+    //市点击后，动态获取区的数据
+    $('.cityContain').on("click","li",function(){
+        
+        var cid = $(this).data("id");
+        var cname = $(this).text();
+        var url= "{{ path('zm_member_index') }}";
+        
+        $('.city-name').show();
+        $('.city-name').text(cname);
+        $('.city-id').val(cid);
+        
+        $('.cityContain').hide();
+        $('.cityAlertBOX').hide();
+        var cururl = window.location.href;
+        window:location.href = cururl;
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"json",
+            data:{
+            	city_id:cid
+            },
+            success:function(data){
+                
+            }
+        })
+
+    })
+</script>
+{% endblock %}
